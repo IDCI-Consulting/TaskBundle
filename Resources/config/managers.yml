@@ -1,0 +1,7 @@
+parameters:
+    idci_task.manager.task_configuration.class: IDCI\Bundle\TaskBundle\Manager\TaskConfigurationManager
+
+services:
+    idci_task.manager.task_configuration:
+        class:     %idci_task.manager.task_configuration.class%
+        arguments: [@doctrine.orm.entity_manager, @event_dispatcher]

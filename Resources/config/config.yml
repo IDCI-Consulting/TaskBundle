@@ -1,0 +1,58 @@
+imports:
+    - { resource: actions.yml }
+    - { resource: extract_rules.yml }
+
+# Old sound RabbitMQ
+
+monolog:
+    channels: ['idci_task.action']
+
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     "%rabbitmq_host%"
+            port:     "%rabbitmq_port%"
+            user:     "%rabbitmq_user%"
+            password: "%rabbitmq_password%"
+            vhost:    "/"
+            lazy:     "%rabbitmq_lazy%"
+    producers:
+        action:
+            connection:       "default"
+            exchange_options: {name: "action_exchange", type: "direct"}
+        extract_rule:
+            connection:       "default"
+            exchange_options: {name: "extract_rule_exchange", type: "direct"}
+        task:
+            connection:       "default"
+            exchange_options: {name: "task_exchange", type: "direct"}
+    consumers:
+        action:
+            connection:       "default"
+            exchange_options: {name: "action_exchange", type: "direct"}
+            queue_options:    {name: "action_queue"}
+            callback:         "idci_task.service.consumer.action"
+        extract_rule:
+            connection:       "default"
+            exchange_options: {name: "extract_rule_exchange", type: "direct"}
+            queue_options:    {name: "extract_rule_queue"}
+            callback:         "idci_task.service.consumer.extract_rule"
+        task:
+            connection:       "default"
+            exchange_options: {name: "task_exchange", type: "direct"}
+            queue_options:    {name: "task_queue"}
+            callback:         "idci_task.service.consumer.task"
+
+# Da Api client
+
+da_api_client:
+    api:
+        participation:
+            endpoint_root:  "%api.participation.endpoint_root%"
+            security_token: "%api.security_token%"
+            cache_enabled:  false
+
+        document:
+            endpoint_root:  "%api.document.endpoint_root%"
+            security_token: "%api.security_token%"
+            cache_enabled:  false

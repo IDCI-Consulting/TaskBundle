@@ -1,0 +1,43 @@
+{
+    "name": "idci/task-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony task bundle",
+    "keywords": ["bundle", "task"],
+    "homepage": "https://github.com/Tessi-IDCI/IDCITaskBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brahim Boukoufallah",
+            "email": "brahim.boukoufallah@idci-consulting.fr",
+            "homepage": "https://www.idci-consulting.fr"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Tessi-Tms/TmsLoggerBundle.git"
+        }
+    ],
+    "require": {
+        "php":                          ">=5.3.9",
+        "symfony/framework-bundle":     ">=2.3",
+        "twig/twig":                    "~1.0",
+        "doctrine/orm":                 "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle":     "~1.2",
+        "doctrine/mongodb":             "~1.1",
+        "doctrine/mongodb-odm":         "~1.0",
+        "doctrine/mongodb-odm-bundle":  "~3.0",
+        "friendsofsymfony/rest-bundle": "~1.5",
+        "php-amqplib/rabbitmq-bundle":  "~1.6",
+        "tms/logger-bundle":            "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.7",
+        "symfony/symfony": "^2.3"
+    },
+    "autoload": {
+        "psr-0": { "IDCI\\Bundle\\TaskBundle": "" }
+    },
+    "minimum-stability": "dev",
+    "target-dir": "IDCI/Bundle/TaskBundle"
+}

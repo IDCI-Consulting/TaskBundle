@@ -1,0 +1,6 @@
+idci_task:
+    extract_rules:
+        base:
+            description: "Base extract rule."
+            parameters:
+                rule: { form_type: textarea, options: { required: true } }

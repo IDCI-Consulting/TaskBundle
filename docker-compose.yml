@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+
+  node:
+    image: ${COMPANY_NAME}-${PROJECT_NAME}/node:${NODE_VERSION}
+    container_name: ${COMPANY_NAME}-${PROJECT_NAME}-node
+    build:
+      context: ./.docker/build/node
+      args:
+        - NODE_VERSION=${NODE_VERSION}
+    volumes:
+      - ./:/usr/src/app/
+
+  php:
+    image: ${COMPANY_NAME}-${PROJECT_NAME}/php:${PHP_VERSION}-fpm
+    container_name: ${COMPANY_NAME}-${PROJECT_NAME}-php
+    build:
+      context: ./.docker/build/php
+      dockerfile: Dockerfile-${PHP_VERSION}
+    volumes:
+      - ./:/var/www/html
+      - ${VOLUME_ROOT_PATH}/${COMPANY_NAME}/${PROJECT_NAME}/composer:/root/.composer

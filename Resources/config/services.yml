@@ -1,0 +1,127 @@
+services:
+
+    ## Registries ##
+    idci_task.extract_rule_registry:
+        class: IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry
+
+    idci_task.action_registry:
+        class: IDCI\Bundle\TaskBundle\Action\ActionRegistry
+
+    idci_task.configuration_registry:
+        class: IDCI\Bundle\TaskBundle\Config\ConfigurationRegistry
+
+    ## Extract rule ##
+    idci_task.extract_rule.base:
+        class: IDCI\Bundle\TaskBundle\ExtractRule\BaseExtractRule
+        public: false
+        tags:
+            - { name: "idci_task.extract_rule", alias: "base" }
+
+    ## Actions ##
+    idci_task.action.abstract:
+        abstract: true
+        calls:
+            - [setLogger, ['@monolog.logger.idci_task.action']]
+            - [setTaskLogProcessor, ['@idci_task.monolog.task_log_processor']]
+
+    ## Subscriber ##
+    idci_task.data_extracted_subscriber:
+        class: IDCI\Bundle\TaskBundle\Event\Subscriber\ExtractedDataSubscriber
+        arguments:
+            - "@old_sound_rabbit_mq.task_producer"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    idci_task.task_event_subscriber:
+        class: IDCI\Bundle\TaskBundle\Event\Subscriber\TaskEventSubscriber
+        arguments:
+            - "@old_sound_rabbit_mq.action_producer"
+            - "@doctrine.odm.mongodb.document_manager"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    ## RabbitMQ consumers
+    idci_task.service.consumer.action:
+        class: IDCI\Bundle\TaskBundle\RabbitMq\Consumer\ActionConsumer
+        arguments:
+            - "@doctrine.odm.mongodb.document_manager"
+            - "@idci_task.handler.action"
+
+    idci_task.service.consumer.extract_rule:
+        class: IDCI\Bundle\TaskBundle\RabbitMq\Consumer\ExtractRuleConsumer
+        arguments:
+            - "@idci_task.extract_rule_registry"
+            - "@idci_task.handler.extract_rule"
+            - "@idci_task.manager.task_configuration"
+
+    idci_task.service.consumer.task:
+        class: IDCI\Bundle\TaskBundle\RabbitMq\Consumer\TaskConsumer
+        arguments:
+            - "@idci_task.handler.task"
+            - "@idci_task.manager.task_configuration"
+
+    ## Processor ##
+    idci_task.processor.default:
+        class: IDCI\Bundle\TaskBundle\Processor\DefaultProcessor
+
+    idci_task.processor.rabbitmq:
+        class: IDCI\Bundle\TaskBundle\Processor\RabbitMqProcessor
+        arguments:
+            - "@old_sound_rabbit_mq.extract_rule_producer"
+            - "@old_sound_rabbit_mq.action_producer"
+            - "@idci_task.manager.task_configuration"
+            - "@doctrine.odm.mongodb.document_manager"
+
+    ## Handler ##
+    idci_task.handler.extract_rule:
+        class: IDCI\Bundle\TaskBundle\Handler\ExtractRuleHandler
+        arguments:
+            - "@idci_task.extract_rule_registry"
+            - "@event_dispatcher"
+
+    idci_task.handler.action:
+        class: IDCI\Bundle\TaskBundle\Handler\ActionHandler
+        arguments:
+            - "@idci_task.action_registry"
+            - "@event_dispatcher"
+            - "@idci_task.merger"
+            - "@old_sound_rabbit_mq.action_producer"
+            - "@idci_task.handler.workflow"
+
+    idci_task.handler.workflow:
+        class: IDCI\Bundle\TaskBundle\Handler\WorkflowHandler
+        arguments:
+            - "@idci_task.merger"
+
+    idci_task.handler.task:
+        class: IDCI\Bundle\TaskBundle\Handler\TaskHandler
+        arguments:
+            - "@doctrine.odm.mongodb.document_manager"
+            - "@event_dispatcher"
+
+    ## Configuration rule ##
+    idci_task.extract_rule_configuration_rule:
+        class: IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleConfigurationRule
+        arguments: ["@idci_task.extract_rule_registry"]
+        tags:
+            - {name: "idci_configuration_validator.configuration.rule", alias: "extract_rule"}
+
+    idci_task.action_configuration_rule:
+        class: IDCI\Bundle\TaskBundle\Action\ActionConfigurationRule
+        arguments: ["@idci_task.action_registry"]
+        tags:
+            - {name: "idci_configuration_validator.configuration.rule", alias: "action"}
+
+    ## Monolog Processor ##
+    idci_task.monolog.task_log_processor:
+        class: IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor
+        tags:
+            - { name: monolog.processor, method: processRecord, handler: mongo }
+
+    ## Twig ##
+    idci_task.twig_array_loader:
+        class:        "Twig_Loader_Array"
+
+    idci_task.merger:
+        class:        "%twig.class%"
+        arguments:    ["@idci_task.twig_array_loader"]
