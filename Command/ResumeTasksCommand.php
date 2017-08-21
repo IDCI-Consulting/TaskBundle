@@ -21,7 +21,7 @@ class ResumeTasksCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('idci:resume-tasks')
+            ->setName('idci-task:resume-tasks')
             ->setDescription('Rerun all errored tasks.')
             ->addOption(
                 'processor',

@@ -20,7 +20,7 @@ class StartTasksCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('idci:start')
+            ->setName('idci-task:start')
             ->setDescription('Starts tasks from enabled task configuration.')
             ->addOption(
                 'processor',
