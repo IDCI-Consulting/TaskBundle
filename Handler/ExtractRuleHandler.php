@@ -39,9 +39,10 @@ class ExtractRuleHandler
         $extractRuleConfiguration = json_decode($taskConfiguration->getExtractRule(), true);
 
         // Extract data
-        $extractedData = $this->registry->getRule($extractRuleConfiguration['extract_rule'])->extract(array(
-            'rule' => $extractRuleConfiguration['parameters'],
-        ));
+        $extractedData = $this->registry
+            ->getRule($extractRuleConfiguration['extract_rule'])
+            ->extract($extractRuleConfiguration['parameters'])
+        ;
 
         // Dispatch event with extractData and taskConfiguration
         $this->dispatcher->dispatch(
