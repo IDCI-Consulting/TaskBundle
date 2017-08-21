@@ -41,7 +41,7 @@ class ExtractRuleRegistry implements ExtractRuleRegistryInterface
         }
 
         if (!isset($this->extractRules[$alias])) {
-            throw new \InvalidArgumentException(sprintf('Could not load type "%s"', $alias));
+            throw new \InvalidArgumentException(sprintf('Could not load extract rule "%s"', $alias));
         }
 
         return $this->extractRules[$alias];
