@@ -19,7 +19,7 @@ class TaskConfigurationType extends AbstractType
 
         $builder
             ->add('name')
-            ->add('extractRule', 'textarea', array(
+            ->add('extractRule', 'extract_rule_editor', array(
                 'constraints' => array(
                     new IDCITaskConstraint\CheckJson(),
                     new CheckConfiguration(array(

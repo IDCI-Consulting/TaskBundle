@@ -129,3 +129,10 @@ services:
     idci_task.merger:
         class:        "%twig.class%"
         arguments:    ["@idci_task.twig_array_loader"]
+
+    ## FormType ##
+    form.type.idci_step.editor:
+       class: IDCI\Bundle\TaskBundle\Form\Type\ExtractRuleEditorType
+       tags:
+           - { name: form.type, alias: extract_rule_editor }
+           - { name: idci_asset_loader.asset_provider, alias: extract_rule_editor }
