@@ -35,7 +35,6 @@ class ExtractRuleHandler
      */
     public function execute(TaskConfiguration $taskConfiguration)
     {
-        $extractedData = array();
         $extractRuleConfiguration = json_decode($taskConfiguration->getExtractRule(), true);
 
         // Extract data
