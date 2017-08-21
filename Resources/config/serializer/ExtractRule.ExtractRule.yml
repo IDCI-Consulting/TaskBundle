@@ -1,0 +1,15 @@
+IDCI\Bundle\TaskBundle\ExtractRule\ExtractRule:
+    exclusion_policy: ALL
+
+    properties:
+        name:
+            expose: true
+
+        description:
+            expose: true
+
+        parameters:
+            expose: true
+
+        parent:
+            expose: true

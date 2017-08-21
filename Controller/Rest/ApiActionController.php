@@ -66,9 +66,9 @@ class ApiActionController extends FOSRestController
         }
 
         $view = View::create()->setFormat($_format);
-        $parameters = $registry->getAction($name)->getActionParameters();
+        $action = $this->get(sprintf('idci_task.action_configuration.%s', $name));
 
-        $view->setData($parameters);
+        $view->setData($action);
 
         return $this->handleView($view);
     }

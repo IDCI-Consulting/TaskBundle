@@ -80,6 +80,6 @@ class ExtractRuleCompilerPass implements CompilerPassInterface
      */
     protected function getDefinitionName($name)
     {
-        return sprintf('idci_task.extract_rule.%s', $name);
+        return sprintf('idci_task.extract_rule_configuration.%s', $name);
     }
 }

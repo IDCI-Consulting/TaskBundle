@@ -33,7 +33,7 @@ class ExtractRule
     /**
      * @var array
      */
-    protected $extractRuleParameters;
+    protected $parameters;
 
     /**
      * Constructor
@@ -45,7 +45,7 @@ class ExtractRule
         $this->name                  = $configuration['name'];
         $this->parent                = $configuration['parent'];
         $this->description           = $configuration['description'];
-        $this->extractRuleParameters = $configuration['parameters'];
+        $this->parameters = $configuration['parameters'];
     }
 
     /**
@@ -75,15 +75,15 @@ class ExtractRule
     /**
      * {@inheritdoc}
      */
-    public function getExtractRuleParameters()
+    public function getParameters()
     {
         if (null === $this->getParent()) {
-            return $this->extractRuleParameters;
+            return $this->parameters;
         }
 
         return array_replace_recursive(
-            $this->getParent()->getExtractRuleParameters(),
-            $this->extractRuleParameters
+            $this->getParent()->getParameters(),
+            $this->parameters
         );
     }
 }

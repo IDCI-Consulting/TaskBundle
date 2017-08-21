@@ -65,9 +65,9 @@ class ApiExtractRuleController extends FOSRestController
         }
 
         $view = View::create()->setFormat($_format);
-        $parameters = $registry->getRule($name)->getExtractRuleParameters();
+        $extractRule = $this->get(sprintf('idci_task.extract_rule_configuration.%s', $name));
 
-        $view->setData($parameters);
+        $view->setData($extractRule);
 
         return $this->handleView($view);
     }
