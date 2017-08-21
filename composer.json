@@ -29,6 +29,7 @@
         "doctrine/mongodb-odm-bundle":  "~3.0",
         "friendsofsymfony/rest-bundle": "~1.5",
         "php-amqplib/rabbitmq-bundle":  "~1.6",
+        "mtdowling/cron-expression":    "~1.2",
         "tms/logger-bundle":            "~1.0"
     },
     "require-dev": {
