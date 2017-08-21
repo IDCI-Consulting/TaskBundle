@@ -32,14 +32,19 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
     /**
      * Start tasks.
      *
-     * @param DataExtractedEvent $event
+     * @param DataExtractedEvent $dataExtractedEvent
      */
-    public function startTasks(DataExtractedEvent $event)
+    public function startTasks(DataExtractedEvent $dataExtractedEvent)
     {
-        foreach ($event->getData() as $data) {
+        $extractedData = is_array($dataExtractedEvent->getData())
+            ? $dataExtractedEvent->getData()
+            : array(json_decode(json_encode($dataExtractedEvent->getData()), true))
+        ;
+
+        foreach ($extractedData as $data) {
             $this->taskProducer->publish(serialize(array(
                 'data' => array('extracted_data' => $data),
-                'task_configuration_id' => $event->getTaskConfiguration()->getId()
+                'task_configuration_id' => $dataExtractedEvent->getTaskConfiguration()->getId()
             )));
         }
     }

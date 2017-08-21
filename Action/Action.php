@@ -28,14 +28,9 @@ class Action
     protected $description;
 
     /**
-     * @var boolean
-     */
-    protected $abstract;
-
-    /**
      * @var array
      */
-    protected $actionParameters;
+    protected $parameters;
 
     /**
      * Constructor
@@ -44,14 +39,16 @@ class Action
      */
     public function __construct(array $configuration)
     {
-        $this->name                 = $configuration['name'];
-        $this->parent               = $configuration['parent'];
-        $this->description          = $configuration['description'];
-        $this->actionParameters     = $configuration['parameters'];
+        $this->name        = $configuration['name'];
+        $this->parent      = $configuration['parent'];
+        $this->description = $configuration['description'];
+        $this->parameters  = $configuration['parameters'];
     }
 
     /**
-     * {@inheritDoc}
+     * Get name.
+     *
+     * @return string
      */
     public function getName()
     {
@@ -59,7 +56,9 @@ class Action
     }
 
     /**
-     * {@inheritDoc}
+     * Get parent.
+     *
+     * @return string
      */
     public function getParent()
     {
@@ -67,7 +66,9 @@ class Action
     }
 
     /**
-     * {@inheritDoc}
+     * Get description.
+     *
+     * @return string
      */
     public function getDescription()
     {
@@ -75,17 +76,19 @@ class Action
     }
 
     /**
-     * {@inheritdoc}
+     * Get action parameters.
+     *
+     * @return array
      */
-    public function getActionParameters()
+    public function getParameters()
     {
         if (null === $this->getParent()) {
-            return $this->actionParameters;
+            return $this->parameters;
         }
 
         return array_replace_recursive(
-            $this->getParent()->getActionParameters(),
-            $this->actionParameters
+            $this->getParent()->getParameters(),
+            $this->parameters
         );
     }
 }

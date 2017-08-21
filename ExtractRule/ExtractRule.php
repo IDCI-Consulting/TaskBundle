@@ -26,11 +26,6 @@ class ExtractRule
     protected $description;
 
     /**
-     * @var boolean
-     */
-    protected $abstract;
-
-    /**
      * @var array
      */
     protected $parameters;
@@ -42,14 +37,16 @@ class ExtractRule
      */
     public function __construct(array $configuration)
     {
-        $this->name                  = $configuration['name'];
-        $this->parent                = $configuration['parent'];
-        $this->description           = $configuration['description'];
-        $this->parameters = $configuration['parameters'];
+        $this->name        = $configuration['name'];
+        $this->parent      = $configuration['parent'];
+        $this->description = $configuration['description'];
+        $this->parameters  = $configuration['parameters'];
     }
 
     /**
-     * {@inheritDoc}
+     * Get name.
+     *
+     * @return string
      */
     public function getName()
     {
@@ -57,7 +54,9 @@ class ExtractRule
     }
 
     /**
-     * {@inheritDoc}
+     * Get parent.
+     *
+     * @return string
      */
     public function getParent()
     {
@@ -65,7 +64,9 @@ class ExtractRule
     }
 
     /**
-     * {@inheritDoc}
+     * Get description.
+     *
+     * @return string
      */
     public function getDescription()
     {
@@ -73,7 +74,9 @@ class ExtractRule
     }
 
     /**
-     * {@inheritdoc}
+     * Get parameters.
+     *
+     * @return array
      */
     public function getParameters()
     {
