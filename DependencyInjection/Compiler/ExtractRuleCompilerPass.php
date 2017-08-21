@@ -9,6 +9,7 @@ namespace IDCI\Bundle\TaskBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use IDCI\Bundle\TaskBundle\Exception\MissingExtractRuleParametersDefinitionException;
 use IDCI\Bundle\TaskBundle\Exception\UndefinedExtractRuleException;
 
@@ -45,25 +46,27 @@ class ExtractRuleCompilerPass implements CompilerPassInterface
         }
 
         foreach ($extractRules as $name => $configuration) {
-            $parent = null;
-            $serviceDefinition = $container->getDefinition($this->getDefinitionName($name));
+            $serviceDefinition = new DefinitionDecorator('idci_task.extract_rule_configuration');
 
             if (null !== $configuration['parent']) {
                 if (!$container->hasDefinition($this->getDefinitionName($configuration['parent']))) {
-                    throw new UndefinedExtractRuleException($configuration['parent']);
+                    throw new UndefinedServiceException($configuration['parent']);
                 }
 
-                $serviceDefinition->addMethodCall(
-                    'setParent',
-                    array(new Reference(
-                        $this->getDefinitionName($configuration['parent'])
-                    ))
+                $configuration['parent'] = new Reference(
+                    $this->getDefinitionName($configuration['parent'])
                 );
             }
 
-            $serviceDefinition->addMethodCall(
-                'setExtractRuleParameters',
-                array($configuration)
+            $configuration['name'] = $name;
+
+            $serviceDefinition->setAbstract(false);
+            $serviceDefinition->setPublic(true);
+            $serviceDefinition->replaceArgument(0, $configuration);
+
+            $container->setDefinition(
+                $this->getDefinitionName($name),
+                $serviceDefinition
             );
         }
     }

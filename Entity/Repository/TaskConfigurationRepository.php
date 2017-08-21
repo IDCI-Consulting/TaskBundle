@@ -8,12 +8,13 @@ namespace IDCI\Bundle\TaskBundle\Entity\Repository;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository;
 use IDCI\Bundle\RestBundle\Repository\AbstractEntityRepository;
 
 /**
  * TaskConfigurationRepository.
  */
-class TaskConfigurationRepository extends AbstractEntityRepository
+class TaskConfigurationRepository extends EntityRepository
 {
     /**
      * Find by query builder.

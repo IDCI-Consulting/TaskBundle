@@ -10,13 +10,6 @@ services:
     idci_task.configuration_registry:
         class: IDCI\Bundle\TaskBundle\Config\ConfigurationRegistry
 
-    ## Extract rule ##
-    idci_task.extract_rule.base:
-        class: IDCI\Bundle\TaskBundle\ExtractRule\BaseExtractRule
-        public: false
-        tags:
-            - { name: "idci_task.extract_rule", alias: "base" }
-
     ## Actions ##
     idci_task.action.abstract:
         abstract: true
@@ -111,6 +104,17 @@ services:
         arguments: ["@idci_task.action_registry"]
         tags:
             - {name: "idci_configuration_validator.configuration.rule", alias: "action"}
+
+    ## Configurations ##
+    idci_task.action_configuration:
+        class: IDCI\Bundle\TaskBundle\Action\Action
+        arguments: [null]
+        abstract: true
+
+    idci_task.extract_rule_configuration:
+        class: IDCI\Bundle\TaskBundle\ExtractRule\ExtractRule
+        arguments: [null]
+        abstract: true
 
     ## Monolog Processor ##
     idci_task.monolog.task_log_processor:

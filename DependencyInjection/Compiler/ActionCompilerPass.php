@@ -9,6 +9,7 @@ namespace IDCI\Bundle\TaskBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use IDCI\Bundle\TaskBundle\Exception\MissingActionParametersDefinitionException;
 use IDCI\Bundle\TaskBundle\Exception\UndefinedActionException;
 
@@ -45,25 +46,27 @@ class ActionCompilerPass implements CompilerPassInterface
         }
 
         foreach ($actions as $name => $configuration) {
-            $parent = null;
-            $serviceDefinition = $container->getDefinition($this->getDefinitionName($name));
+            $serviceDefinition = new DefinitionDecorator('idci_task.action_configuration');
 
             if (null !== $configuration['parent']) {
                 if (!$container->hasDefinition($this->getDefinitionName($configuration['parent']))) {
-                    throw new UndefinedActionException($configuration['parent']);
+                    throw new UndefinedServiceException($configuration['parent']);
                 }
 
-                $serviceDefinition->addMethodCall(
-                    'setParent',
-                    array(new Reference(
-                        $this->getDefinitionName($configuration['parent'])
-                    ))
+                $configuration['parent'] = new Reference(
+                    $this->getDefinitionName($configuration['parent'])
                 );
             }
 
-            $serviceDefinition->addMethodCall(
-                'setActionParameters',
-                array($configuration)
+            $configuration['name'] = $name;
+
+            $serviceDefinition->setAbstract(false);
+            $serviceDefinition->setPublic(true);
+            $serviceDefinition->replaceArgument(0, $configuration);
+
+            $container->setDefinition(
+                $this->getDefinitionName($name),
+                $serviceDefinition
             );
         }
     }
@@ -77,6 +80,6 @@ class ActionCompilerPass implements CompilerPassInterface
      */
     protected function getDefinitionName($name)
     {
-        return sprintf('idci_task.action.%s', $name);
+        return sprintf('idci_task.action_configuration.%s', $name);
     }
 }
