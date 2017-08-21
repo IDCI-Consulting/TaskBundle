@@ -17,9 +17,6 @@ abstract class AbstractAction implements ActionInterface
     /** @var array */
     protected $actionParameters = array();
 
-    /** @var ActionInterface */
-    protected $parent;
-
     /** @var LoggerInterface */
     protected $logger;
 
@@ -84,49 +81,6 @@ abstract class AbstractAction implements ActionInterface
         }
 
         return $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setActionParameters(array $parameters = array())
-    {
-        $this->actionParameters = $parameters;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getActionParameters()
-    {
-        if (null === $this->getParent()) {
-            return $this->actionParameters;
-        }
-
-        return array_replace_recursive(
-            $this->getParent()->getActionParameters(),
-            $this->actionParameters
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setParent(ActionInterface $parent)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return $this->parent;
     }
 
     /**

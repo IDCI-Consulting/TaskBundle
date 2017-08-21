@@ -47,7 +47,7 @@ class Action
         $this->name                 = $configuration['name'];
         $this->parent               = $configuration['parent'];
         $this->description          = $configuration['description'];
-        $this->actionParameters     = $configuration['extra_form_options'];
+        $this->actionParameters     = $configuration['parameters'];
     }
 
     /**

@@ -11,7 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractExtractRule implements ExtractRuleInterface
 {
     protected $extractRuleParameters = array();
-    protected $parent;
 
     /**
      * Do extract using extract rules parameters.
@@ -41,48 +40,5 @@ abstract class AbstractExtractRule implements ExtractRuleInterface
         $resolvedOptions = $resolver->resolve($options);
 
         return $this->doExtract($resolvedOptions);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExtractRuleParameters(array $parameters = array())
-    {
-        $this->extractRuleParameters = $parameters;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExtractRuleParameters()
-    {
-        if (null === $this->getParent()) {
-            return $this->extractRuleParameters;
-        }
-
-        return array_replace_recursive(
-            $this->getParent()->getExtractRuleParameters(),
-            $this->extractRuleParameters
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setParent(ExtractRuleInterface $parent)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return $this->parent;
     }
 }

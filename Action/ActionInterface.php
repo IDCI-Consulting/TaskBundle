@@ -24,38 +24,6 @@ interface ActionInterface
     public function execute(Task $task, array $parameters);
 
     /**
-     * Set the action parameters.
-     *
-     * @param array $parameters
-     *
-     * @return ActionInterface
-     */
-    public function setActionParameters(array $parameters = array());
-
-    /**
-     * Get the action parameters.
-     *
-     * @return array
-     */
-    public function getActionParameters();
-
-    /**
-     * Set the parent action.
-     *
-     * @param ActionInterface $parent
-     *
-     * @return ActionInterface
-     */
-    public function setParent(ActionInterface $parent);
-
-    /**
-    * Get the parent extract rule.
-    *
-    * @return ActionInterface
-    */
-    public function getParent();
-
-    /**
      * Set the logger.
      *
      * @return ActionInterface
