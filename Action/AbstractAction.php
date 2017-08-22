@@ -8,7 +8,6 @@ namespace IDCI\Bundle\TaskBundle\Action;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Psr\Log\LoggerInterface;
-use IDCI\Bundle\TaskBundle\Exception\InvalidActionDataException;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
@@ -72,13 +71,9 @@ abstract class AbstractAction implements ActionInterface
 
         $data = $this->doExecute($resolvedParameters);
 
-        try {
-            $resolver = new OptionsResolver();
-            $this->configureReturnedData($resolver);
-            $data = $resolver->resolve($data);
-        } catch (\Exception $e) {
-            throw new InvalidActionDataException(get_called_class());
-        }
+        $resolver = new OptionsResolver();
+        $this->configureReturnedData($resolver);
+        $data = $resolver->resolve($data);
 
         return $data;
     }
