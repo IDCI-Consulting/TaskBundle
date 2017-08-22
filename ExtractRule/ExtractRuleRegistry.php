@@ -41,7 +41,10 @@ class ExtractRuleRegistry implements ExtractRuleRegistryInterface
         }
 
         if (!isset($this->extractRules[$alias])) {
-            throw new \InvalidArgumentException(sprintf('Could not load extract rule "%s"', $alias));
+            throw new \InvalidArgumentException(sprintf('Could not load extract rule "%s". Available extract rules %s',
+                $alias,
+                implode(', ', array_keys($this->extractRules))
+            ));
         }
 
         return $this->extractRules[$alias];

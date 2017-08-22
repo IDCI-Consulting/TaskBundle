@@ -19,7 +19,7 @@ class DataExtractedEvent extends Event
      */
     protected $data;
 
-    public function __construct(TaskConfiguration $taskConfiguration, array $data)
+    public function __construct(TaskConfiguration $taskConfiguration, $data)
     {
         $this->taskConfiguration = $taskConfiguration;
         $this->data = $data;

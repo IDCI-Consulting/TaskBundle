@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('idci');
+        $rootNode = $treeBuilder->root('idci_task');
         $rootNode
             ->append($this->addActionsNode())
             ->append($this->addExtraRulesNode())

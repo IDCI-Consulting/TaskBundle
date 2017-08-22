@@ -25,8 +25,8 @@ class TaskHandler
     /**
      * Constructor.
      *
-     * @param ProducerInterface   $actionProducer
-     * @param ExtractRuleRegistry $registry
+     * @param DocumentManager          $documentManager,
+     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
         DocumentManager          $documentManager,
@@ -40,12 +40,12 @@ class TaskHandler
      * Execute a task.
      *
      * @param TaskConfiguration $taskConfiguration
-     * @param array             $extractData
+     * @param mixed             $extractData
      * @param array             $actionData
      */
     public function execute(
         TaskConfiguration $taskConfiguration,
-        array $extractedData = array(),
+        $extractedData = array(),
         array $actionData = array()
     ) {
         $task = self::createTask($taskConfiguration, $extractedData, $actionData);
@@ -66,6 +66,8 @@ class TaskHandler
      * @param TaskConfiguration $taskConfiguration
      * @param array             $extractData
      * @param array             $actionData
+     *
+     * @return Task
      */
     public static function createTask(
         TaskConfiguration $taskConfiguration,
