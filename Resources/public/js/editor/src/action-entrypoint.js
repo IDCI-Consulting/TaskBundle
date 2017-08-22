@@ -1,1 +1,3 @@
-console.log('action entrypoint');
+import {loadActionEditors} from './load-editors.js';
+
+loadActionEditors();

@@ -66,10 +66,36 @@
 /******/ ([
 /* 0 */,
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-console.log('action entrypoint');
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__load_editors_js__ = __webpack_require__(2);
+
+
+Object(__WEBPACK_IMPORTED_MODULE_0__load_editors_js__["a" /* loadActionEditors */])();
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return loadActionEditors; });
+/**
+ * Loads action editors from all HTML elements which have action-editor as class.
+ */
+function loadActionEditors() {
+  let actionEditors = document.querySelectorAll('.action-editor');
+
+  [].forEach.call(actionEditors, function (editor) {
+    // TODO: Import Vue components.
+    let editorComponentId = `action_editor_${editor.id}`;
+    console.log(editorComponentId);
+  });
+};
+
 
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=load-action-editor.js.map

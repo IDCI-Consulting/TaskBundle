@@ -69,6 +69,6 @@
 
 console.log('extract rule entrypoint');
 
-
 /***/ })
 /******/ ]);
+//# sourceMappingURL=load-extract-rule-editor.js.map

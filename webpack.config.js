@@ -12,14 +12,27 @@ module.exports = {
     chunkFilename: '[name].async.js',
     publicPath: "/bundles/idcitask/js/editor/dist/"
   },
+  devtool: 'source-map',
   externals: {
     jquery: 'jQuery'
   },
   module: {
     rules: [
       {
+        test: /\.js$/,
+        use: 'babel-loader'
+      },
+      {
         test: /\.vue$/,
-        use: 'vue-loader'
+        use: [
+          'vue-loader',
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['env']
+            }
+          }
+        ]
       },
       {
         test: /\.css$/,
