@@ -26,9 +26,7 @@ abstract class AbstractExtractRule implements ExtractRuleInterface
      *
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-    }
+    abstract protected function configureOptions(OptionsResolver $resolver);
 
     /**
      * {@inheritdoc}
