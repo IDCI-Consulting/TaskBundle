@@ -60,50 +60,46 @@ class ActionHandler
      * Execute the current task action.
      *
      * @param Task $task
-     *
-     * @return boolean
      */
     public function execute(Task $task)
     {
-        $isExecuted = false;
-        $action = $task->getConfiguration()->getAction($task->getCurrentAction()->getName());
+        $currentAction = $task->getConfiguration()->getAction($task->getCurrentAction()->getName());
 
-        if ($this->registry->hasAction($action['action'])) {
-            // Merge the data with action configuration
-            $parameters = $this->merge(
-                $action['parameters'],
-                $task->getData()->getExtractedData(),
-                $task->getData()->getActionData()
-            );
+        // Merge the data with action configuration
+        $parameters = $this->merge(
+            $currentAction['parameters'],
+            $task->getData()->getExtractedData(),
+            $task->getData()->getActionData()
+        );
 
-            // task running event.
+        // Task running event.
+        $this->dispatcher->dispatch(
+            TaskEvents::RUNNING,
+            new TaskEvent($task)
+        );
+
+        $currentActionData = $this->registry->getAction($currentAction['action'])->execute($task, $parameters);
+
+        if ($currentActionData['error']) {
             $this->dispatcher->dispatch(
-                TaskEvents::RUNNING,
+                TaskEvents::ERROR,
                 new TaskEvent($task)
             );
 
-            $data = $this->registry->getAction($action['action'])->execute($task, $parameters);
-
-            if (false === $data['error']) {
-                // Add new action data.
-                $actionData = array_merge($task->getData()->getActionData(), array($action['name'] => $data['data']));
-                $task->getData()->setActionData($actionData);
-            } else {
-                $this->dispatcher->dispatch(
-                    TaskEvents::ERROR,
-                    new TaskEvent($task)
-                );
-
-                return $isExecuted;
-            }
-
-            $this->dispatcher->dispatch(
-                TaskEvents::PASSED,
-                new TaskEvent($task)
-            );
-
-            $isExecuted = true;
+            return;
         }
+
+        // Add new action data
+        $actionData = array_merge(
+            $task->getData()->getActionData(),
+            array($currentAction['name'] => $currentActionData['data'])
+        );
+        $task->getData()->setActionData($actionData);
+
+        $this->dispatcher->dispatch(
+            TaskEvents::PASSED,
+            new TaskEvent($task)
+        );
 
         if (!$this->workflowHandler->isTaskFinished($task)) {
             $nextAction = $this->workflowHandler->getNextAction($task);
@@ -116,8 +112,6 @@ class ActionHandler
 
             $this->actionProducer->publish(serialize(array('task_id' => $task->getId())));
         }
-
-        return $isExecuted;
     }
 
     /**
