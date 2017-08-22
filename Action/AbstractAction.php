@@ -32,11 +32,11 @@ abstract class AbstractAction implements ActionInterface
     abstract public function doExecute(array $options);
 
     /**
-     * Set default parameters.
+     * Configure Options.
      *
      * @param OptionsResolver $resolver
      */
-    abstract protected function setDefaultParameters(OptionsResolver $resolver);
+    abstract protected function configureOptions(OptionsResolver $resolver);
 
     /**
      * Configure returned data.
@@ -66,7 +66,7 @@ abstract class AbstractAction implements ActionInterface
         $this->taskLogProcessor->setTask($task);
 
         $resolver = new OptionsResolver();
-        $this->setDefaultParameters($resolver);
+        $this->configureOptions($resolver);
         $resolvedParameters = $resolver->resolve($parameters);
 
         $data = $this->doExecute($resolvedParameters);
