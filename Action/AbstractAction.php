@@ -53,7 +53,6 @@ abstract class AbstractAction implements ActionInterface
             ))
             ->setDefined(array('error_message'))
             ->setAllowedTypes('error', array('bool'))
-            ->setAllowedTypes('data', array('null', 'array', 'string', 'bool'))
             ->setAllowedTypes('error_message', array('string'))
         ;
     }
