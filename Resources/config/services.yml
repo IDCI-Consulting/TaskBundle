@@ -116,7 +116,12 @@ services:
         arguments: [null]
         abstract: true
 
-    ## Monolog Processor ##
+    ## Monolog ##
+    mongolog:
+        class: Doctrine\MongoDB\Connection
+        factory_service: doctrine_mongodb.odm.log_connection
+        factory_method: getMongoClient
+
     idci_task.monolog.task_log_processor:
         class: IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor
         tags:
