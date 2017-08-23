@@ -8,10 +8,12 @@ namespace IDCI\Bundle\TaskBundle\Handler;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
+use Psr\Log\LoggerInterface;
 use IDCI\Bundle\TaskBundle\Action\ActionRegistry;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 use IDCI\Bundle\TaskBundle\Event\TaskEvents;
+use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
 /**
  * Class ActionHandler.
@@ -35,25 +37,39 @@ class ActionHandler
     /** @var WorkflowHandler */
     protected $workflowHandler;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
+    /** @var TaskLogProcessor */
+    protected $taskLogProcessor;
+
     /**
      * Constructor.
      *
      * @param ProducerInterface $actionProducer
      * @param ActionRegistry    $registry
      * @param \Twig_Environment $merger
+     * @param ProducerInterface $actionProducer
+     * @param WorkflowHandler   $workflowHandler
+     * @param LoggerInterface   $logger
+     * @param TaskLogProcessor  $taskLogProcessor
      */
     public function __construct(
         ActionRegistry           $registry,
         EventDispatcherInterface $dispatcher,
         \Twig_Environment        $merger,
         ProducerInterface        $actionProducer,
-        WorkflowHandler          $workflowHandler
+        WorkflowHandler          $workflowHandler,
+        LoggerInterface          $logger,
+        TaskLogProcessor         $taskLogProcessor
     ) {
         $this->registry = $registry;
         $this->dispatcher = $dispatcher;
         $this->merger = $merger;
         $this->actionProducer = $actionProducer;
         $this->workflowHandler = $workflowHandler;
+        $this->logger = $logger;
+        $this->taskLogProcessor = $taskLogProcessor;
     }
 
     /**
@@ -64,6 +80,7 @@ class ActionHandler
     public function execute(Task $task)
     {
         $currentAction = $task->getConfiguration()->getAction($task->getCurrentAction()->getName());
+
         // Merge the data with action configuration
         $parameters = $this->merge(
             $currentAction['parameters'],
@@ -80,10 +97,9 @@ class ActionHandler
         try {
             $currentActionData = $this->registry->getAction($currentAction['action'])->execute($task, $parameters);
         } catch(\Exception $e) {
-            $task->getData()->setActionData(array(
-                'data' => $task->getData(),
-                'error_message' => $e->getMessage()
-            ));
+            $this->taskLogProcessor->setTask($task);
+            $this->logger->error($e->getMessage());
+
             $this->dispatcher->dispatch(
                 TaskEvents::ERROR,
                 new TaskEvent($task)
@@ -96,7 +112,7 @@ class ActionHandler
         // Add new action data
         $actionData = array_merge(
             $task->getData()->getActionData(),
-            array($currentAction['name'] => $currentActionData['data'])
+            array($currentAction['name'] => $currentActionData)
         );
         $task->getData()->setActionData($actionData);
 
