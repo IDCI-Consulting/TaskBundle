@@ -41,7 +41,7 @@ class ActionRegistry implements ActionRegistryInterface
         }
 
         if (!isset($this->actions[$alias])) {
-            throw new \InvalidArgumentException(sprintf('Could not load action "%s". Available actions %s',
+            throw new \InvalidArgumentException(sprintf('Could not load action "%s". Available actions are %s',
                 $alias,
                 implode(', ', array_keys($this->actions))
             ));

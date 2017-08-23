@@ -8,7 +8,6 @@ namespace IDCI\Bundle\TaskBundle\Action;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Psr\Log\LoggerInterface;
-use IDCI\Bundle\TaskBundle\Exception\InvalidActionDataException;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
@@ -33,11 +32,11 @@ abstract class AbstractAction implements ActionInterface
     abstract public function doExecute(array $options);
 
     /**
-     * Set default parameters.
+     * Configure Options.
      *
      * @param OptionsResolver $resolver
      */
-    abstract protected function setDefaultParameters(OptionsResolver $resolver);
+    abstract protected function configureOptions(OptionsResolver $resolver);
 
     /**
      * Configure returned data.
@@ -54,7 +53,6 @@ abstract class AbstractAction implements ActionInterface
             ))
             ->setDefined(array('error_message'))
             ->setAllowedTypes('error', array('bool'))
-            ->setAllowedTypes('data', array('null', 'array', 'string', 'bool'))
             ->setAllowedTypes('error_message', array('string'))
         ;
     }
@@ -67,18 +65,14 @@ abstract class AbstractAction implements ActionInterface
         $this->taskLogProcessor->setTask($task);
 
         $resolver = new OptionsResolver();
-        $this->setDefaultParameters($resolver);
+        $this->configureOptions($resolver);
         $resolvedParameters = $resolver->resolve($parameters);
 
         $data = $this->doExecute($resolvedParameters);
 
-        try {
-            $resolver = new OptionsResolver();
-            $this->configureReturnedData($resolver);
-            $data = $resolver->resolve($data);
-        } catch (\Exception $e) {
-            throw new InvalidActionDataException(get_called_class());
-        }
+        $resolver = new OptionsResolver();
+        $this->configureReturnedData($resolver);
+        $data = $resolver->resolve($data);
 
         return $data;
     }
