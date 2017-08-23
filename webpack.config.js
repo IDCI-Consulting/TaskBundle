@@ -4,13 +4,22 @@ var path    = require('path');
 module.exports = {
   entry: {
     'load-extract-rule-editor': './Resources/public/js/editor/src/extract-rule-entrypoint.js',
-    'load-action-editor': './Resources/public/js/editor/src/action-entrypoint.js'
+    'load-workflow-editor': './Resources/public/js/editor/src/workflow-entrypoint.js'
   },
   output: {
     path: __dirname + '/Resources/public/js/editor/dist',
     filename: '[name].js',
     chunkFilename: '[name].async.js',
     publicPath: "/bundles/idcitask/js/editor/dist/"
+  },
+  resolve: {
+    alias: {
+      'vue': 'vue/dist/vue.esm.js',
+      'TaskBundle': path.resolve(
+        __dirname,
+        'Resources/public/js/editor/src/'
+      )
+    }
   },
   devtool: 'source-map',
   externals: {
@@ -20,19 +29,22 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: 'babel-loader'
+        enforce: 'pre',
+        use: 'eslint-loader'
+      },
+      {
+        test: /\.js$/,
+        exclude: [/load-editors\.js/, /app\.js/],
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015']
+          }
+        }]
       },
       {
         test: /\.vue$/,
-        use: [
-          'vue-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: ['env']
-            }
-          }
-        ]
+        use: 'vue-loader'
       },
       {
         test: /\.css$/,
