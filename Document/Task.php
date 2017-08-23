@@ -57,13 +57,6 @@ class Task
     private $actions;
 
     /**
-     * @var array
-     *
-     * @ODM\EmbedMany(targetDocument="TaskLog")
-     */
-    private $log;
-
-    /**
      * @var datetime
      *
      * @ODM\Field(type="date", name="created_at")
@@ -187,38 +180,6 @@ class Task
     public function getTaskConfigurationId()
     {
         return $this->taskConfigurationId;
-    }
-
-    /**
-     * Add log
-     *
-     * @param IDCI\Bundle\TaskBundle\Document\TaskLog $log
-     */
-    public function addLog(\IDCI\Bundle\TaskBundle\Document\TaskLog $log)
-    {
-        $this->log[] = $log;
-    }
-
-    /**
-     * Remove log
-     *
-     * @param IDCI\Bundle\TaskBundle\Document\TaskLog $log
-     */
-    public function removeLog(\IDCI\Bundle\TaskBundle\Document\TaskLog $log)
-    {
-        $this->log->removeElement($log);
-
-        return $this;
-    }
-
-    /**
-     * Get log
-     *
-     * @return \Doctrine\Common\Collections\Collection $log
-     */
-    public function getLog()
-    {
-        return $this->log;
     }
 
     /**

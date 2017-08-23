@@ -80,6 +80,8 @@ services:
             - "@idci_task.merger"
             - "@old_sound_rabbit_mq.action_producer"
             - "@idci_task.handler.workflow"
+            - '@monolog.logger.idci_task.action'
+            - '@idci_task.monolog.task_log_processor'
 
     idci_task.handler.workflow:
         class: IDCI\Bundle\TaskBundle\Handler\WorkflowHandler
