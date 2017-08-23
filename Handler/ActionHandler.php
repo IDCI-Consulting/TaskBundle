@@ -64,7 +64,6 @@ class ActionHandler
     public function execute(Task $task)
     {
         $currentAction = $task->getConfiguration()->getAction($task->getCurrentAction()->getName());
-
         // Merge the data with action configuration
         $parameters = $this->merge(
             $currentAction['parameters'],
@@ -78,9 +77,13 @@ class ActionHandler
             new TaskEvent($task)
         );
 
-        $currentActionData = $this->registry->getAction($currentAction['action'])->execute($task, $parameters);
-
-        if ($currentActionData['error']) {
+        try {
+            $currentActionData = $this->registry->getAction($currentAction['action'])->execute($task, $parameters);
+        } catch(\Exception $e) {
+            $task->getData()->setActionData(array(
+                'data' => $task->getData(),
+                'error_message' => $e->getMessage()
+            ));
             $this->dispatcher->dispatch(
                 TaskEvents::ERROR,
                 new TaskEvent($task)
@@ -88,6 +91,7 @@ class ActionHandler
 
             return;
         }
+
 
         // Add new action data
         $actionData = array_merge(
