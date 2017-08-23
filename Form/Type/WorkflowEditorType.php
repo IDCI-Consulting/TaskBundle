@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use IDCI\Bundle\ConfigurationValidatorBundle\Validator\Constraints\CheckConfiguration;
 use IDCI\Bundle\TaskBundle\Validator\Constraints as IDCITaskConstraint;
 
-class ActionEditorType extends AbstractType implements AssetProviderInterface
+class WorkflowEditorType extends AbstractType implements AssetProviderInterface
 {
     /**
      * @var AssetCollection
@@ -46,12 +46,12 @@ class ActionEditorType extends AbstractType implements AssetProviderInterface
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $this->assetCollection->add(new Asset('IDCITaskBundle:Form:action_configuration.html.twig', array(
+        $this->assetCollection->add(new Asset('IDCITaskBundle:Form:workflow_configuration.html.twig', array(
             'options' => $options,
             'form'    => $view
         ), 0));
 
-        $attrClass = 'action-editor';
+        $attrClass = 'workflow-editor';
 
         if (isset($options['attr']) && isset($options['attr']['class'])) {
             $attrClass .= ' ' . $options['attr']['class'];
@@ -87,7 +87,7 @@ class ActionEditorType extends AbstractType implements AssetProviderInterface
      */
     public function getBlockPrefix()
     {
-        return 'action_editor';
+        return 'workflow_editor';
     }
 
     /**

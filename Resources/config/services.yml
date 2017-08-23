@@ -142,8 +142,8 @@ services:
            - { name: form.type, alias: extract_rule_editor }
            - { name: idci_asset_loader.asset_provider, alias: extract_rule_editor }
 
-    form.type.idci_task.action.editor:
-        class: IDCI\Bundle\TaskBundle\Form\Type\ActionEditorType
+    form.type.idci_task.workflow.editor:
+        class: IDCI\Bundle\TaskBundle\Form\Type\WorkflowEditorType
         tags:
-            - { name: form.type, alias: action_editor }
-            - { name: idci_asset_loader.asset_provider, alias: action_editor }
+            - { name: form.type, alias: workflow_editor }
+            - { name: idci_asset_loader.asset_provider, alias: workflow_editor }

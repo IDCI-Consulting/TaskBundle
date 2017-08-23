@@ -27,7 +27,7 @@ class TaskConfigurationType extends AbstractType
                     )),
                 ),
             ))
-            ->add('workflow', 'action_editor', array(
+            ->add('workflow', 'workflow_editor', array(
                 'constraints' => array(
                     new IDCITaskConstraint\CheckJson(),
                     new CheckConfiguration(array(
