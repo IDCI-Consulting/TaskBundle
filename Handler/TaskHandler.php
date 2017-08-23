@@ -40,7 +40,7 @@ class TaskHandler
      * Execute a task.
      *
      * @param TaskConfiguration $taskConfiguration
-     * @param mixed             $extractData
+     * @param mixed             $extractedData
      * @param array             $actionData
      */
     public function execute(

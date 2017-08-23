@@ -108,13 +108,12 @@ class ActionHandler
             return;
         }
 
-
-        // Add new action data
-        $actionData = array_merge(
-            $task->getData()->getActionData(),
-            array($currentAction['name'] => $currentActionData)
+        $task->getData()->setActionData(
+            array_merge(
+                $task->getData()->getActionData(),
+                array($currentAction['name'] => $currentActionData)
+            )
         );
-        $task->getData()->setActionData($actionData);
 
         $this->dispatcher->dispatch(
             TaskEvents::PASSED,
