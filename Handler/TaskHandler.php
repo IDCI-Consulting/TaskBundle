@@ -64,7 +64,7 @@ class TaskHandler
      * Create a task.
      *
      * @param TaskConfiguration $taskConfiguration
-     * @param array             $extractedData
+     * @param mixed             $extractedData
      * @param array             $actionData
      *
      * @throws \Exception
@@ -73,7 +73,7 @@ class TaskHandler
      */
     public static function createTask(
         TaskConfiguration $taskConfiguration,
-        array $extractedData = array(),
+        $extractedData = array(),
         array $actionData = array()
     ) {
         $workflow = json_decode($taskConfiguration->getWorkflow(), true);
