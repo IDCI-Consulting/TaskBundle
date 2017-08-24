@@ -52,10 +52,6 @@ abstract class AbstractAction implements ActionInterface
 
         $data = $this->doExecute($resolvedParameters);
 
-        if (!is_array($data)) {
-            throw new \InvalidArgumentException(sprintf('The action %s must return an array', get_called_class()));
-        }
-
         return $data;
     }
 
