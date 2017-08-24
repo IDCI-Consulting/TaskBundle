@@ -38,7 +38,6 @@ class TaskConsumer implements ConsumerInterface
     {
         try {
             $options = unserialize($msg->getBody());
-
             $extractedData = array();
             $actionData = array();
 
@@ -55,7 +54,6 @@ class TaskConsumer implements ConsumerInterface
 
             $taskConfiguration = $this->taskConfigurationManager->findOneById($options['task_configuration_id']);
 
-            // $task = new Task($taskConfiguration, $options['data'])
             $this->taskHandler->execute($taskConfiguration, $extractedData, $actionData);
 
             return ConsumerInterface::MSG_ACK;
