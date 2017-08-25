@@ -2,10 +2,11 @@
     <div>
         <button @click="addActionComponent()" type="button">Add action</button>
         <action
-            v-for="(name, action, parameters) in actions"
-            name="name"
-            action="action"
-            parameters="parameters"
+            v-for="action in actions"
+            :name="action.name"
+            :key="action.name"
+            :action="action.action"
+            :parameters="action.parameters"
         >
         </action>
     </div>

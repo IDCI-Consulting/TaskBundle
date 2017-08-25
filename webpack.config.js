@@ -3,8 +3,8 @@ var path    = require('path');
 
 module.exports = {
   entry: {
-    'load-extract-rule-editor': './Resources/public/js/editor/src/extract-rule-entrypoint.js',
-    'load-workflow-editor': './Resources/public/js/editor/src/workflow-entrypoint.js'
+    'load-extract-rule-editor': './Resources/public/js/editor/src/extract-rule/entrypoint.js',
+    'load-workflow-editor': './Resources/public/js/editor/src/workflow/entrypoint.js'
   },
   output: {
     path: __dirname + '/Resources/public/js/editor/dist',
@@ -34,7 +34,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: [/load-editors\.js/, /app\.js/],
+        exclude: /load-editors\.js$/,
         use: [{
           loader: 'babel-loader',
           options: {

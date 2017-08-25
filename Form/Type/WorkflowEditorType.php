@@ -34,14 +34,6 @@ class WorkflowEditorType extends AbstractType implements AssetProviderInterface
     }
 
     /**
-     * {@inheritdox}.
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
