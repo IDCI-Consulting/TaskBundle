@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button @click="addActionComponent()" type="button">Add action</button>
+        <button @click="addAction()" type="button">Add action</button>
         <action
             v-for="action in actions"
             :name="action.name"
@@ -31,15 +31,25 @@ export default {
     },
 
     methods: {
+
         /**
          * Add action component
          */
-        addActionComponent: function () {
+        addAction: function () {
             this.actions.push({
                 name: '',
                 action: '',
                 parameters: []
             });
+        },
+
+        /**
+         * Remove action
+         *
+         * @param Object action.
+         */
+        removeAction: function (action) {
+            this.actions.splice(this.actions.indexOf(action), 1);
         }
     }
 }

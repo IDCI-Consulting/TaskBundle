@@ -164,36 +164,71 @@ var _loadEditors = __webpack_require__(2);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadWorkflowEditors", function() { return loadWorkflowEditors; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__utils_utils_js__);
+
+
 /**
  * Loads workflow editors from all HTML elements which have workflow-editor as class.
  */
 function loadWorkflowEditors() {
-  let actionEditors = document.querySelectorAll('.workflow-editor');
+  let workflowEditors = document.querySelectorAll('.workflow-editor');
 
-  [].forEach.call(actionEditors, function(element) {
-    __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 3)).then(function (app) {
-      let editorComponentId = 'action_editor_' + element.id;
+  [].forEach.call(workflowEditors, function(element) {
+    __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 4)).then(function (app) {
+      let configuration = window[element.getAttribute('data-workflow-configuration')];
+      configuration.componentId = 'action_editor_' + element.id;
 
       // Return if the component already exists.
-      if (document.getElementById(editorComponentId)) {
+      if (document.getElementById(configuration.componentId)) {
         return;
       }
 
       element.style.display = 'none';
 
-      // Insert the editor right after the current element
-      let editor = document.createElement('div');
-      editor.id = editorComponentId;
-      editor.innerHTML = '<action-editor></action-editor>';
+      // Insert the editor right after the element.
+      element.parentNode.insertBefore(
+        Object(__WEBPACK_IMPORTED_MODULE_0__utils_utils_js__["createDOMElement"])('div', configuration.componentId, '<action-editor></action-editor>'),
+        element.nextSibling
+      );
 
-      element.parentNode.insertBefore(editor, element.nextSibling);
-      app.triggerVueEditor('#' + editorComponentId);
+      app.triggerVueEditor('#' + configuration.componentId, configuration);
     });
   });
 };
 
 
 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * Create a DOM element.
+ *
+ * @param {string} type - The element type (div, span, p, etc)
+ * @param {string} id   - The element id
+ * @param {string} html - The HTML content
+ *
+ * @returns {Object}
+ */
+function createDOMElement(type, id, html) {
+  var element = document.createElement(type);
+
+  element.id = id;
+  element.innerHTML = html;
+
+  return element;
+};
+
+exports.createDOMElement = createDOMElement;
 
 /***/ })
 /******/ ]);
