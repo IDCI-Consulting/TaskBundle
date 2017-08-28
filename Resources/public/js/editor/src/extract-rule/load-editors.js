@@ -15,9 +15,7 @@ function loadEditors() {
         return;
       }
 
-      // Retrieve the textarea attributes and value
-      var formProperties = utils.createAttributeMapObject(element);
-      var configuration = window[formProperties['data-configuration-variable']];
+      var configuration = window[element.getAttribute('data-configuration-variable')];
 
       element.style.display = 'none';
 
