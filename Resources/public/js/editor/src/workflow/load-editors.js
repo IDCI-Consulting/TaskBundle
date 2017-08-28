@@ -1,5 +1,3 @@
-import {createDOMElement} from './utils/utils.js';
-
 /**
  * Loads editors from all HTML elements which have workflow-editor as class.
  */
@@ -11,9 +9,11 @@ function loadEditors() {
       const editorComponentId = 'workflow_editor_' + element.id;
 
       // Return if the component already exists.
-      if (document.getElementById(configuration.componentId)) {
+      if (document.getElementById(editorComponentId )) {
         return;
       }
+
+      var configuration = window[element.getAttribute('data-workflow-configuration')];
 
       element.style.display = 'none';
 
@@ -25,7 +25,7 @@ function loadEditors() {
       // Insert the editor right after the element.
       element.parentNode.insertBefore(editor, element.nextSibling);
 
-      app.triggerVueEditor('#' + configuration.componentId, configuration);
+      app.triggerVueEditor('#' + editorComponentId, configuration);
     });
   });
 };
