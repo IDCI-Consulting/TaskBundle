@@ -1,3 +1,5 @@
+import { utils } from 'vue-editor-commons';
+
 /**
  * Loads extract rule editors for all HTML elements that have extract-rule-editor as class.
  */
@@ -13,6 +15,10 @@ function loadEditors() {
         return;
       }
 
+      // Retrieve the textarea attributes and value
+      var formProperties = utils.createAttributeMapObject(element);
+      var configuration = window[formProperties['data-configuration-variable']];
+
       element.style.display = 'none';
 
       // Insert the editor right after the current element
@@ -21,7 +27,7 @@ function loadEditors() {
       editor.innerHTML = '<extract-rule-editor></extract-rule-editor>';
 
       element.parentNode.insertBefore(editor, element.nextSibling);
-      app.triggerVueEditor('#' + editorComponentId);
+      app.triggerVueEditor('#' + editorComponentId, configuration);
     });
   });
 };
