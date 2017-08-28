@@ -39,7 +39,7 @@ class ExtractRuleEditorType extends AbstractType implements AssetProviderInterfa
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
        $this->assetCollection->add(new Asset('IDCITaskBundle:Form:extract_rule_editor_assets.html.twig', array(), 0));
-       $this->assetCollection->add(new Asset('IDCITaskBundle:Form:extract_rule_configuration.html.twig', array(
+       $this->assetCollection->add(new Asset('IDCITaskBundle:Form:extract_rule_editor_configuration.html.twig', array(
            'options' => $options,
            'form'    => $view
        ), 1));
