@@ -54,7 +54,7 @@ class WorkflowEditorType extends AbstractType implements AssetProviderInterface
 
         // Add the name of the workflow configuration constant.
         // See IDCITaskBundle:Form:workflow_configuration.html.twig
-        $view->vars['attr']['data-workflow-configuration'] = sprintf('%s_configuration', $view->vars['id']);
+        $view->vars['attr']['data-configuration-variable'] = sprintf('%s_configuration', $view->vars['id']);
 
         return $view->vars;
     }

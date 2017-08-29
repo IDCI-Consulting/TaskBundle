@@ -17,7 +17,7 @@ let workflowEditorActions = {
    * @param {Object} store - The store.
    * @param {Object} payload  - The object with Vue Resource and the action name.
    */
-  setActionsParameters: function ($store, payload) {
+  setActionParameters: function ($store, payload) {
     workflowEditorActions.handleGetRequest($store.getters.getActionParametersUrl(payload.action), $store, payload.http, function (action) {
       $store.commit('setActionParameters', action);
     });

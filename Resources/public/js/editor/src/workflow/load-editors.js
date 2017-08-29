@@ -13,9 +13,9 @@ function loadEditors() {
         return;
       }
 
-      var configuration = window[element.getAttribute('data-workflow-configuration')];
+      var configuration = window[element.getAttribute('data-configuration-variable')];
 
-      element.style.display = 'none';
+//      element.style.display = 'none';
 
       // Insert the editor right after the current element
       var editor = document.createElement('div');

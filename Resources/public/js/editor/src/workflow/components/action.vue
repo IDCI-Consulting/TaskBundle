@@ -1,25 +1,44 @@
 <template>
     <div>
-        <input class="form-control" type="text" v-model="action.name"/>
-        <select
-            class="form-control"
-            v-model="action.action"
-            @changed="updateActionParameters(action.action)"
-        >
-            <option :value="action.actionName" v-for="action in actions">{{ action.actionName }}</option>
-        </select>
+        <div class="form-group">
+            <label>Name</label>
+            <div class="form-control-wrapper">
+                <input class="form-control" v-model="action.accessName" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Action</label>
+            <select
+                class="form-control"
+                v-model="action.actionName"
+                @change="getActionParameters(action.actionName)"
+            >
+                <option :value="actionConfiguration.name" v-for="actionConfiguration in actionList">{{ actionConfiguration.name }}</option>
+            </select>
+        </div>
+        <div class="form-group" v-if="action.parameters > 0">
+            <options :options="action.parameters"></options>
+        </div>
+        {{ action.parameters }}
         <button @click="removeAction" class="remove" type="button">X</button>
     </div>
 </template>
 
 <script>
+import options from '../../common/components/options.vue';
+import multiSelect from 'vue-multiselect';
 
 export default {
     props: ['action'],
 
+    components: {
+        options: options
+    },
+
     computed: {
-        actions: function () {
-            return this.$store.getters.getActionsList;
+        actionList: function () {
+            console.log('toto');
+            return this.$store.getters.getActions;
         }
     },
 
@@ -35,12 +54,13 @@ export default {
         },
 
         /**
-         * Update action parameters
+         * Update action parameters.
          *
          * @param {string} name - The action name.
          */
-        updateActionParameters: function (name) {
-            store.dispatch('setActionsParameters', this.$http, name);
+        getActionParameters: function (name) {
+            this.$store.dispatch('setActionParameters', { http: this.$http, action: name });
+            this.$set(this.action, 'parameters', this.$store.getters.getAction(name).parameters);
         }
     }
 }

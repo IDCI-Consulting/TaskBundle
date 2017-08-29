@@ -1,20 +1,12 @@
 <template>
     <div>
-        <button @click="addAction()" type="button">Add action</button>
-        <action
-            v-for="action in actions"
-            :name="action.name"
-            :key="action.name"
-            :action="action.action"
-            :parameters="action.parameters"
-        >
-        </action>
+        <new-action></new-action>
     </div>
 </template>
 
 <script>
 
-import action from './action.vue';
+import new-action from './new-action.vue';
 
 export default {
     props: {
@@ -27,21 +19,10 @@ export default {
     },
 
     components: {
-        action: action
+        'new-action': new-action
     },
 
     methods: {
-
-        /**
-         * Add action component
-         */
-        addAction: function () {
-            this.actions.push({
-                name: '',
-                action: '',
-                parameters: []
-            });
-        },
 
         /**
          * Remove action
@@ -54,3 +35,7 @@ export default {
     }
 }
 </script>
+
+<style>
+
+</style>

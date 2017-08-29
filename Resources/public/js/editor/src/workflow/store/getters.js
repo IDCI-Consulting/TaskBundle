@@ -14,21 +14,20 @@ export default {
     }
   },
 
-  getActionsList: function (state) {
+  getActionList: function (state) {
     return state.actions;
   },
 
-  getActionParameters: function (state) {
-    return function (action) {
-      return state.parameters[action];
-    }
-  },
-
-  getActionParameters: function (state) {
+  getAction: function (state) {
     return function (name) {
       return state.actions.find(function (element) {
         return element.name === name
-      }).parameters;
+      });
     }
+  },
+
+  getActionsConfiguration: function (state) {
+    return state.data.actions;
   }
+
 }

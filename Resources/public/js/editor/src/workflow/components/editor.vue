@@ -1,18 +1,19 @@
 <template>
     <div class="workflow-editor editor">
-        <actions :actions="actions" class="actions"></actions>
+        <new-action></new-action>
+        <actions-configuration></actions-configuration>
     </div>
 </template>
 
 <script>
 
-import actions from './actions.vue';
+import newAction from './new-action.vue';
+import actionsConfiguration from './actions-configuration.vue';
 
 export default {
-    props: ['actions'],
-
     components: {
-        actions: actions
+        'new-action': newAction,
+        'actions-configuration': actionsConfiguration
     }
 }
 </script>
