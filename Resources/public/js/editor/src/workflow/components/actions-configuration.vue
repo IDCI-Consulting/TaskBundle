@@ -1,14 +1,12 @@
 <template>
 
     <div>
-        <div v-for="(action, index) in actionsConfiguration" :key="action.name">
-            <new-action-configuration
+        <div v-for="(action, index) in actionsConfiguration" :key="index">
+            <action-configuration
               :key="index"
-              :actionName="action.action"
-              :accessName="action.name"
-              :parameters="action.parameters"
+              :index="index"
               @remove="removeAction(action, index)"
-            ></new-action-configuration>
+            ></action-configuration>
         </div>
     </div>
 
@@ -16,7 +14,7 @@
 
 <script>
 
-import newActionConfiguration from './new-action-configuration.vue';
+import actionConfiguration from './action-configuration.vue';
 
 export default {
 
@@ -29,7 +27,7 @@ export default {
     },
 
     components: {
-        'new-action-configuration': newActionConfiguration
+        'action-configuration': actionConfiguration
     },
 
     methods: {

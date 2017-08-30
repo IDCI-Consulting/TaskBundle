@@ -1,3 +1,5 @@
+import {utils} from 'vue-editor-commons';
+
 /**
  * Loads editors from all HTML elements which have workflow-editor as class.
  */
@@ -14,6 +16,7 @@ function loadEditors() {
       }
 
       var configuration = window[element.getAttribute('data-configuration-variable')];
+      configuration.form = utils.createAttributeMapObject(element);
 
 //      element.style.display = 'none';
 

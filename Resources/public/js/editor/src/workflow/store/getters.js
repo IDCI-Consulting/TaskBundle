@@ -28,6 +28,15 @@ export default {
 
   getActionsConfiguration: function (state) {
     return state.data.actions;
-  }
+  },
 
+  getActionConfiguration: function (state) {
+    return function (index) {
+      return state.data.actions[index];
+    }
+  },
+
+  getWorkflowConfiguration: function (state) {
+    return state.data.workflow;
+  }
 }

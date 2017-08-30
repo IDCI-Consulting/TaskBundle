@@ -5,7 +5,7 @@
             <button @click.prevent="remove" aria-label="Close" class="close">
                 <span aria-hidden="true">×</span>
             </button>
-            <strong>{{ actionName }}</strong>
+            <strong>{{ action.action }}</strong>
             <div class="options extra-form-inputs-required">
                 <div class="form-group">
                     <label>name</label>
@@ -14,11 +14,12 @@
                 <div class="form-group">
                     <label>parameters</label>
                     <parameter
-                        v-for="(parameterOptions, parameterName) in getActionParameters(actionName)"
+                        v-for="(parameterOption, parameterName) in getActionParameters(action.action)"
                         :key="parameterName"
                         :name="parameterName"
-                        :options="parameterOptions"
-                        :parameters="parameters"
+                        :option="parameterOption"
+                        :value="action.parameters[parameterName]"
+                        @parameterupdated="updateParameter"
                     ></parameter>
                 </div>
             </div>
@@ -33,28 +34,32 @@ import parameter from '../../common/components/parameter.vue';
 
 export default {
 
-    props: ['actionName', 'accessName', 'parameters'],
+    props: ['index'],
 
     data: function () {
         return {
-            actionAccessName: this.name,
-            actionParameters: this.parameters
+            actionAccessName: null
         };
     },
 
     computed: {
-        id: function () {
-            return 'path_event_action_' + generateUniqueId();
-        },
-        configuredActions: function () {
-            return this.$store.getters.getConfiguredActions;
+        action: function () {
+            let action = this.$store.getters.getActionConfiguration(this.index);
+            this.actionAccessName = action.name;
+
+            return action;
         }
     },
 
     watch: {
-        actionName: {
-            handler: function (actionName) {
-                this.$emit('updateName', actionName);
+        actionAccessName: {
+            handler: function (newActionName) {
+                let payload = {
+                    actionIndex: this.index,
+                    name: newActionName
+                }
+
+                this.$store.commit('updateActionName', payload);
             }
         }
     },
@@ -64,6 +69,14 @@ export default {
     },
 
     methods: {
+        updateParameter: function (parameter) {
+            let payload = {
+                actionIndex: this.index,
+                parameter: parameter
+            };
+
+            this.$store.commit('updateParameter', payload);
+        },
 
         /**
          * Check if the path event action type has a configuration
@@ -82,7 +95,11 @@ export default {
         getActionParameters: function (actionName) {
             let action = this.$store.getters.getAction(actionName);
 
-            return action.parameters;
+            if (null != action) {
+                return action.parameters;
+            }
+
+            return {};
         },
 
         /**
@@ -99,19 +116,8 @@ export default {
          */
         updateOption: function (option) {
             this.$emit('updateOption', option);
-        },
-
-        /**
-         * Get the parameters for an action
-         *
-         * @param key
-         */
-        getParameterValue: function (key) {
-            if (typeof this.parameters !== 'undefined') {
-                return this.parameters[key];
-            }
         }
-  }
+    }
 };
 
 </script>
