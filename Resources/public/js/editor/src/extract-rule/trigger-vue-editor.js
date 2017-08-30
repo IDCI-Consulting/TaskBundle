@@ -16,8 +16,10 @@ import {
  * Trigger the extract rule Vue editor.
  *
  * @param {(string|Object)} element - The DOM element to trigger the editor
+ * @param {Object} configuration - Object containing the editor configuration (api url, etc)
+ * @param {Object} formProperties - Object containing the properties of the default form
  */
-function triggerVueEditor(element, configuration) {
+function triggerVueEditor(element, configuration, formProperties) {
 
   Vue.use(Vuex);
   Vue.use(VueResource);
@@ -29,9 +31,10 @@ function triggerVueEditor(element, configuration) {
   var extractRuleEditorStore = new Vuex.Store({
     state: {
       configuration: configuration,
-      extractRules: [],
+      formProperties: formProperties,
+      extractRuleList: [],
       apiCache: {},
-      data: {}
+      usedExtractRule: {}
     },
     getters: Object.assign(extractRuleEditorGetters, commonGetters),
     mutations: Object.assign(extractRuleEditorMutations, commonMutations),

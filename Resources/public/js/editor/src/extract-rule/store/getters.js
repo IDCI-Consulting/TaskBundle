@@ -6,18 +6,28 @@ export default {
    * @param state
    * @returns string
    */
-  getExtractRulesApiUrl: function (state) {
+   getExtractRuleListApiUrl: function (state) {
     return state.configuration.api_url.get_extract_rules;
   },
 
   /**
-   * Get the extract rules
+   * Get the extract rule list
    *
    * @param state
    * @returns []
    */
-  getExtractRules: function (state) {
-    return state.extractRules;
+  getExtractRuleList: function (state) {
+    return state.extractRuleList;
   },
+
+  /**
+   * Get the used extract rule
+   *
+   * @param state
+   * @returns {Object}
+   */
+  getUsedExtractRule: function (state) {
+    return state.usedExtractRule;
+  }
 
 };

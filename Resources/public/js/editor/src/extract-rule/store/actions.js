@@ -7,9 +7,9 @@ var extractRuleEditorActions = {
    * @param $http
    */
    setExtractRules: function ($store, $http) {
-    var url = $store.getters.getExtractRulesApiUrl;
-    extractRuleEditorActions.handleGetRequest(url, $store, $http, function (extractRules) {
-      $store.commit('setExtractRules', extractRules);
+    var url = $store.getters.getExtractRuleListApiUrl;
+    extractRuleEditorActions.handleGetRequest(url, $store, $http, function (extractRuleList) {
+      $store.commit('setExtractRuleList', extractRuleList);
     });
   }
 

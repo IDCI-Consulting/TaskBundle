@@ -1,40 +1,28 @@
 <template>
+
     <div class="extract-rule-editor editor">
-      <multiselect
-        v-model="selectedExtractRule"
-        :options="extractRules"
-        label="name"
-        key="name"
-        selectLabel=""
-        placeholder="Select an extract rule">
-      </multiselect>
+      <extract-rule-list></extract-rule-list>
     </div>
+
 </template>
 
 <script>
 
-import 'TaskBundle/common/styles/multiselect.css';
-import multiselect from 'vue-multiselect'
+import extractRuleListComponent from './extract-rule-list.vue';
 
 export default {
 
-  props: ['index'],
-
-  components: { 'multiselect': multiselect },
-
   data: function () {
     return {
-      selectedExtractRule: null
+      textarea: this.$store.state.formProperties
     };
   },
 
-  computed: {
-    extractRules: function () {
-      var extractRules = this.$store.getters.getExtractRules;
+  components: { 'extract-rule-list': extractRuleListComponent },
 
-      this.selectedExtractRule = extractRules[0];
-
-      return extractRules;
+  created: function () {
+    if ('' !== this.textarea.value) {
+      this.$store.commit('initializeUsedExtractRule', this.textarea.value);
     }
   }
 
