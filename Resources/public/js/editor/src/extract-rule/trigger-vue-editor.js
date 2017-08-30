@@ -53,6 +53,9 @@ function triggerVueEditor(element, configuration, formProperties) {
      */
     beforeCreate: function () {
       extractRuleEditorStore.dispatch('setExtractRules', this.$http);
+    },
+    created: function () {
+      this.$store.commit('initializeUsedExtractRule');
     }
   });
 

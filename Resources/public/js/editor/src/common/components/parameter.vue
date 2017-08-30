@@ -5,7 +5,7 @@
           :is="option.component_name"
           :option="option"
           :name="name"
-          :value="getParameterValue(name)"
+          :value="value"
           @changed="updateParameter"
         ></component>
     </div>
@@ -24,7 +24,7 @@ import {
 } from 'vue-editor-commons';
 
 export default {
-    props: ['name', 'option', 'parameters'],
+    props: ['name', 'option', 'value'],
 
     components: {
         'component-checkbox': checkBoxComponent,
@@ -37,18 +37,7 @@ export default {
 
     methods: {
         updateParameter: function (parameter) {
-            this.$emit('parameterupdated', parameter);
-        },
-
-        /**
-         * Get the parameters for an action
-         *
-         * @param key
-         */
-        getParameterValue: function (key) {
-            if (typeof this.parameters !== 'undefined') {
-                return this.parameters[key];
-            }
+            this.$emit('change', parameter);
         }
     }
 };

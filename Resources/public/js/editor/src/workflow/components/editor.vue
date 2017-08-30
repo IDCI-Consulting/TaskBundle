@@ -1,7 +1,8 @@
 <template>
     <div class="workflow-editor editor">
-        <new-action></new-action>
-        <actions-configuration></actions-configuration>
+        <!--<new-action></new-action>
+        <actions-configuration></actions-configuration>-->
+        ok
     </div>
 </template>
 

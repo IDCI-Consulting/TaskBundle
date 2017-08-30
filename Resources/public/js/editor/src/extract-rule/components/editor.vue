@@ -2,6 +2,7 @@
 
     <div class="extract-rule-editor editor">
       <extract-rule-list></extract-rule-list>
+      <extract-rule-configuration></extract-rule-configuration>
     </div>
 
 </template>
@@ -9,23 +10,13 @@
 <script>
 
 import extractRuleListComponent from './extract-rule-list.vue';
+import extractRuleConfigurationComponent from './extract-rule-configuration.vue';
 
 export default {
-
-  data: function () {
-    return {
-      textarea: this.$store.state.formProperties
-    };
-  },
-
-  components: { 'extract-rule-list': extractRuleListComponent },
-
-  created: function () {
-    if ('' !== this.textarea.value) {
-      this.$store.commit('initializeUsedExtractRule', this.textarea.value);
-    }
+  components: {
+    'extract-rule-list': extractRuleListComponent,
+    'extract-rule-configuration': extractRuleConfigurationComponent
   }
-
 };
 
 </script>

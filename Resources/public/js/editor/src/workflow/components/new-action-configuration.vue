@@ -18,7 +18,7 @@
                         :key="parameterName"
                         :name="parameterName"
                         :options="parameterOptions"
-                        :parameters="parameters"
+                        :value="parameters[parameterName]"
                     ></parameter>
                 </div>
             </div>
