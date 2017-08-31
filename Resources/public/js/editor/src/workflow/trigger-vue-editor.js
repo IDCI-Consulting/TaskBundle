@@ -28,7 +28,11 @@ function triggerVueEditor(element, configuration) {
       apiCache: {},
       data: {
         actions: [],
-        workflow: {}
+        workflow: {
+          name: "",
+          first_action_name: "",
+          actions: {}
+        }
       }
     },
 

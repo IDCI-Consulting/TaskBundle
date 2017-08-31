@@ -7,8 +7,16 @@ export default {
    * @param {Object} state - The state.
    */
   initializeWorkflowData: function (state) {
-    if ('' != state.configuration.form.value) {
-      state.data = JSON.parse(state.configuration.form.value);
+    let formValue = JSON.parse(state.configuration.form.value);
+    let initialStateData = state.data;
+
+    if (null != state.configuration.form.value) {
+      state.data = formValue;
+    }
+
+    // If the parsed object is empty; restore initial state data.
+    if (Object.keys(formValue).length <= 0) {
+      state.data = initialStateData;
     }
   },
 
@@ -56,6 +64,7 @@ export default {
    */
   addAction: function (state, payload) {
     state.data.actions.push(payload);
+
     this.commit('updateRawField');
   },
 
@@ -103,6 +112,125 @@ export default {
     }
   },
 
+  /**
+   * Update workflow name.
+   *
+   * @param {Object} state - The state.
+   * @param {string} name  - The workflow name.
+   */
+  updateWorkflowName: function (state, name) {
+    state.data.workflow.name = name;
+
+    this.commit('updateRawField');
+  },
+
+  /**
+   * Update first action name.
+   *
+   * @param {Object} state - The state.
+   * @param {string} name  - The first action name.
+   */
+  updateFirstActionName: function (state, name) {
+    state.data.workflow.first_action_name = name;
+
+    this.commit('updateRawField');
+  },
+
+  /**
+   * Add an action to the flow
+   *
+   * @param {Object} state - The state.
+   * @param {Object} payload - the payload.
+   */
+  addActionToFlow: function (state, payload) {
+    let action = {
+      next: payload.next,
+      default_next: payload.default_next
+    };
+
+    Vue.set(state.data.workflow.actions, payload.selectedName, action);
+
+    this.commit('updateRawField');
+  },
+
+  /**
+   * Remove an action to the flow
+   *
+   * @param {Object} state - The state.
+   * @param {string} actionName - The action name.
+   */
+  removeActionToFlow: function (state, actionName) {
+    Vue.delete(state.data.workflow.actions, actionName);
+
+    this.commit('updateRawField');
+  },
+  /**
+   * Add a next action to selected action in the flow.
+   *
+   * @param {Object} state - The state.
+   * @param {Object} payload - the payload.
+   */
+  addNextAction: function (state, payload) {
+    let nextAction = {
+      name: payload.actionName,
+      condition: payload.condition
+    };
+
+    state.data.workflow.actions[payload.selectedName].next.push(nextAction);
+
+    this.commit('updateRawField');
+  },
+
+  /**
+   * Remove the configured next action in the flow.
+   *
+   * @param {Object} state - The state.
+   * @param {Object} payload - The payload that contains the index of the next action & the action where the next action is configured.
+   */
+  removeNextAction: function (state, payload) {
+    state.data.workflow.actions[payload.action].next.splice(payload.index, 1);
+
+    this.commit('updateRawField');
+  },
+
+
+  /**
+   * Update next action name.
+   *
+   * @param {Object} state - The state.
+   * @param {Object} payload - The payload.
+   */
+  updateNextActionName: function (state, payload) {
+    Vue.set(
+      state.data.workflow.actions[payload.action].next[payload.index],
+      'name',
+      payload.name
+    );
+
+    this.commit('updateRawField');
+  },
+
+  /**
+   * Update next action condition.
+   *
+   * @param {Object} state - The state.
+   * @param {Object} payload - The payload.
+   */
+  updateNextActionCondition: function (state, payload) {
+    Vue.set(
+      state.data.workflow.actions[payload.action].next[payload.index],
+      'condition',
+      payload.condition
+    );
+
+    this.commit('updateRawField');
+  },
+
+  /**
+   * Update the form field hidden.
+   *
+   * @param {Object} state - The state.
+   */
   updateRawField: function (state) {
     let raw = JSON.stringify(state.data, null, 4);
 

@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		2: 0
+/******/ 		3: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -2218,6 +2218,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * Loads extract rule editors for all HTML elements that have extract-rule-editor as class.
  */
 function loadEditors() {
+
   var extractRuleEditors = document.querySelectorAll('.extract-rule-editor');
 
   [].forEach.call(extractRuleEditors, function(element) {
@@ -2233,7 +2234,7 @@ function loadEditors() {
       var formProperties = __WEBPACK_IMPORTED_MODULE_0_vue_editor_commons__["utils"].createAttributeMapObject(element);
       var configuration = window[formProperties['data-configuration-variable']];
 
-//      element.style.display = 'none';
+      //element.style.display = 'none';
 
       // Insert the editor right after the current element
       var editor = document.createElement('div');
@@ -2241,7 +2242,7 @@ function loadEditors() {
       editor.innerHTML = '<extract-rule-editor></extract-rule-editor>';
 
       element.parentNode.insertBefore(editor, element.nextSibling);
-      app.triggerVueEditor('#' + editorComponentId, configuration);
+      app.triggerVueEditor('#' + editorComponentId, configuration, formProperties);
     });
   });
 };

@@ -69,6 +69,11 @@ export default {
     },
 
     methods: {
+        /**
+         * Update parameter
+         *
+         * @param {Object} parameter - the parameter object.
+         */
         updateParameter: function (parameter) {
             let payload = {
                 actionIndex: this.index,
