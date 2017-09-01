@@ -1,6 +1,6 @@
 <template>
 
-    <div class="collapsed-block parameters">
+    <div v-if="parameters" class="collapsed-block parameters">
         <a role="button" data-toggle="collapse" :href="'#'+ id" class="collapsed">
             Parameters
             <span class="toggle">
