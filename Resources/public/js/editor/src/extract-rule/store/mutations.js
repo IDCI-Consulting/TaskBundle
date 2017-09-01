@@ -92,7 +92,13 @@ var mutations = {
    * @returns []
    */
   initializeUsedExtractRule: function (state) {
-    state.usedExtractRule = JSON.parse(state.formProperties.value);
+    let defaultConf = {
+      extract_rule: null,
+      parameters: {}
+    };
+    let existingConf = JSON.parse(state.formProperties.value);
+
+    Vue.set(state, 'usedExtractRule', Object.assign(defaultConf, existingConf));
   },
 
   /**
