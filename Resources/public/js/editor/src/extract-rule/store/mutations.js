@@ -96,9 +96,13 @@ export default {
       service: null,
       parameters: {}
     };
-    let existingConf = JSON.parse(state.formProperties.value);
 
-    Vue.set(state, 'usedExtractRule', Object.assign(defaultConf, existingConf));
+    if ('' !== state.formProperties.value) {
+      let existingConf = JSON.parse(state.formProperties.value);
+      Vue.set(state, 'usedExtractRule', Object.assign(defaultConf, existingConf));
+    } else {
+      Vue.set(state, 'usedExtractRule', defaultConf);
+    }
   },
 
   /**
