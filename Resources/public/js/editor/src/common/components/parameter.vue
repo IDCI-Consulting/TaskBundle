@@ -6,6 +6,7 @@
           :option="option"
           :name="name"
           :value="value"
+          :required-star="requiredStar"
           @changed="updateParameter"
         ></component>
     </div>
@@ -24,7 +25,8 @@ import {
 } from 'vue-editor-commons';
 
 export default {
-    props: ['name', 'option', 'value'],
+
+    props: ['name', 'option', 'value', 'required-star'],
 
     components: {
         'component-checkbox': checkBoxComponent,

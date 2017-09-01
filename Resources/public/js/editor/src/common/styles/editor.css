@@ -1,3 +1,9 @@
 .editor div.parameters .form-group .form-control-wrapper textarea {
   min-width: inherit;
 }
+
+.editor span.required-star {
+  color: #c9302c;
+  font-weight: bold;
+  font-size: 20px;
+}

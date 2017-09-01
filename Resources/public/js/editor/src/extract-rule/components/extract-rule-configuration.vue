@@ -14,8 +14,9 @@
                 :key="name"
                 :name="name"
                 :option="option"
-                @change="updateParameterValue"
                 :value="usedParameters[name]"
+                :required-star="true"
+                @change="updateParameterValue"
             ></parameter>
         </div>
     </div>

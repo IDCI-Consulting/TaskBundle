@@ -2280,8 +2280,8 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.18:
-  version "1.3.19"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.19.tgz#73d97b0e8b05aa776cedf3cdce7fdc0538037675"
+  version "1.3.20"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.20.tgz#2eedd5ccbae7ddc557f68ad1fce9c172e915e4e5"
 
 elliptic@^6.0.0:
   version "6.4.0"
@@ -7355,8 +7355,8 @@ vue-cli@^2.8.2:
     webpack-merge "^2.3.1"
 
 vue-editor-commons@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/vue-editor-commons/-/vue-editor-commons-1.0.6.tgz#9ca0fd0c1826349667c247c3b29c161c8bb39c0a"
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/vue-editor-commons/-/vue-editor-commons-1.0.8.tgz#cfd19bba59f2fc1a6b673a90659b64a4242371c6"
 
 vue-hot-reload-api@^2.0.1, vue-hot-reload-api@^2.1.0:
   version "2.1.0"
