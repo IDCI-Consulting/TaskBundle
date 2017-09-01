@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-var mutations = {
+export default {
 
   /**
    * Set the extract rule list
@@ -44,7 +44,7 @@ var mutations = {
   updateUsedExtractRuleName: function (state, extractRuleName) {
     state.usedExtractRule.extract_rule = extractRuleName;
 
-    mutations.updateInitialTextareaValue(state);
+    this.commit('updateInitialTextareaValue');
   },
 
   /**
@@ -60,7 +60,7 @@ var mutations = {
       parameter.value
     );
 
-    mutations.updateInitialTextareaValue(state);
+    this.commit('updateInitialTextareaValue');
   },
 
   /**
@@ -82,7 +82,7 @@ var mutations = {
       }
     }
 
-    mutations.updateInitialTextareaValue(state);
+    this.commit('updateInitialTextareaValue');
   },
 
   /**
@@ -113,5 +113,3 @@ var mutations = {
   }
 
 };
-
-export default mutations;
