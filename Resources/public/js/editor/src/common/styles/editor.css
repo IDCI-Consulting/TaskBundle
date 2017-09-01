@@ -1,0 +1,3 @@
+.editor div.parameters .form-group .form-control-wrapper textarea {
+  min-width: inherit;
+}

@@ -5,7 +5,9 @@
         v-model="selectedExtractRule"
         :options="extractRuleNameList"
         :allow-empty="false"
-        placeholder="Select an extract rule">
+        deselect-label="Selected"
+        select-label=""
+        placeholder="Select an extract rule service">
       </multiselect>
     </div>
 
@@ -59,3 +61,9 @@ export default {
 };
 
 </script>
+
+<style>
+  .editor.extract-rule-editor div.parameters .form-group .form-control-wrapper textarea {
+    min-height: 60px;
+  }
+</style>

@@ -1,28 +1,41 @@
 <template>
 
-  <div class="form-group">
-      <label>parameters</label>
-      <parameter
-          v-for="(option, name) in parameters"
-          :key="name"
-          :name="name"
-          :option="option"
-          @change="updateParameterValue"
-          :value="usedParameters[name]"
-      ></parameter>
-  </div>
+    <div class="collapsed-block parameters">
+        <a role="button" data-toggle="collapse" :href="'#'+ id" class="collapsed">
+            Parameters
+            <span class="toggle">
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              <i class="fa fa-minus-circle" aria-hidden="true"></i>
+            </span>
+        </a>
+        <div :id="id" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" :aria-controls="id">
+            <parameter
+                v-for="(option, name) in parameters"
+                :key="name"
+                :name="name"
+                :option="option"
+                @change="updateParameterValue"
+                :value="usedParameters[name]"
+            ></parameter>
+        </div>
+    </div>
 
 </template>
 
 <script>
 
 import parameterComponent from'TaskBundle/common/components/parameter.vue';
+import { utils } from 'vue-editor-commons';
+import 'TaskBundle/common/styles/collapsed-block.css';
 
 export default {
 
   components: { 'parameter': parameterComponent },
 
   computed: {
+    id: function () {
+      return 'extract_rule_parameters' + utils.generateUniqueId();
+    },
     parameters: function () {
       let usedExtractRule = this.$store.getters.getUsedExtractRule;
       let parameters = this

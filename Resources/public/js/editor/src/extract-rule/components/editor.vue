@@ -11,6 +11,7 @@
 
 import extractRuleListComponent from './extract-rule-list.vue';
 import extractRuleConfigurationComponent from './extract-rule-configuration.vue';
+import 'TaskBundle/common/styles/editor.css';
 
 export default {
   components: {
