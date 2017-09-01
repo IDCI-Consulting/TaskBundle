@@ -38,7 +38,7 @@ class ExtractRuleHandlerTest extends TestCase
         $this->taskConfiguration = new TaskConfiguration();
         $this->taskConfiguration
             ->setName('configuration 1')
-            ->setExtractRule('{"extract_rule": "api_participations","parameters": {"id": "58da7cc43aaa0609008b4569"}}')
+            ->setExtractRule('{"service": "api_participations","parameters": {"id": "58da7cc43aaa0609008b4569"}}')
             ->setWorkflow('
                 {
                     "actions": [{
@@ -100,7 +100,7 @@ class ExtractRuleHandlerTest extends TestCase
     {
         $extractRule = array(
             'rule' => array(
-                'extract_rule' => 'api_participations',
+                'service' => 'api_participations',
                 'parameters' => array(
                     'id' => '58da7cc43aaa0609008b4569',
                 ),
@@ -128,7 +128,7 @@ class ExtractRuleHandlerTest extends TestCase
         $this->extractRuleRegistry
             ->expects($this->once())
             ->method('getRule')
-            ->with($this->equalTo($extractRule['rule']['extract_rule']))
+            ->with($this->equalTo($extractRule['rule']['service']))
             ->will($this->returnValue($this->extractRule))
         ;
 

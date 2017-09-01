@@ -17,12 +17,12 @@ export default {
    * @returns string
    */
   getExtractRuleParametersApiUrl: function (state) {
-    return function (name) {
+    return function (serviceName) {
       return state
         .configuration
         .api_url
         .get_extract_rules_parameters
-        .replace('XNAME', name)
+        .replace('XNAME', serviceName)
       ;
     }
   },
@@ -54,9 +54,9 @@ export default {
    * @returns {Object}
    */
   getExtractRuleParameters: function (state, getters) {
-    return function (extractRuleName) {
+    return function (extractRuleServiceName) {
       let extractRule = getters.getExtractRuleList.find(function (element) {
-        return element.name === extractRuleName;
+        return element.name === extractRuleServiceName;
       });
 
       if (null != extractRule) {

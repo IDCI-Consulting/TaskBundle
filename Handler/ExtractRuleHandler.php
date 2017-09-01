@@ -39,7 +39,7 @@ class ExtractRuleHandler
 
         // Extract data
         $extractedData = $this->registry
-            ->getRule($extractRuleConfiguration['extract_rule'])
+            ->getRule($extractRuleConfiguration['service'])
             ->extract($extractRuleConfiguration['parameters'])
         ;
 

@@ -2,8 +2,8 @@
 
     <div>
       <multiselect
-        v-model="selectedExtractRule"
-        :options="extractRuleNameList"
+        v-model="selectedExtractRuleService"
+        :options="extractRuleServiceList"
         :allow-empty="false"
         deselect-label="Selected"
         select-label=""
@@ -24,32 +24,32 @@ export default {
 
   data: function () {
     return {
-      selectedExtractRule: null
+      selectedExtractRuleService: null
     };
   },
 
   created: function () {
-    this.selectedExtractRule = this.$store.getters.getUsedExtractRule.extract_rule;
+    this.selectedExtractRuleService = this.$store.getters.getUsedExtractRule.service;
   },
 
   watch: {
-    selectedExtractRule: function (newSelectedExtractRuleName) {
+    selectedExtractRuleService: function (newSelectedExtractRuleService) {
       // Fetch the parameters via the api
-      if (null != newSelectedExtractRuleName) {
+      if (null != newSelectedExtractRuleService) {
           this.$store.dispatch('setExtractRuleParameters', {
             http: this.$http,
-            extractRuleName: newSelectedExtractRuleName
+            extractRuleName: newSelectedExtractRuleService
           }).then(() => {
             this.$store.commit('cleanUsedParameters');
           });
       }
       // Update the data object
-      this.$store.commit('updateUsedExtractRuleName', newSelectedExtractRuleName);
+      this.$store.commit('updateUsedExtractRuleService', newSelectedExtractRuleService);
     }
   },
 
   computed: {
-    extractRuleNameList: function () {
+    extractRuleServiceList: function () {
       return this.$store.getters.getExtractRuleList.map(
         function (element) {
           return element.name;

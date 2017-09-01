@@ -36,13 +36,13 @@ export default {
   },
 
   /**
-   * Update the used extract rule name
+   * Update the used extract rule service
    *
    * @param state
    * @param {Object[]} extractRules
    */
-  updateUsedExtractRuleName: function (state, extractRuleName) {
-    state.usedExtractRule.extract_rule = extractRuleName;
+  updateUsedExtractRuleService: function (state, extractRuleService) {
+    state.usedExtractRule.service = extractRuleService;
 
     this.commit('updateInitialTextareaValue');
   },
@@ -73,7 +73,7 @@ export default {
     let usedParameters = state.usedExtractRule.parameters;
 
     let allParameters = state.extractRuleList.find(function (element) {
-      return element.name === state.usedExtractRule.extract_rule;
+      return element.name === state.usedExtractRule.service;
     }).parameters;
 
     for (let usedParameterName in usedParameters) {
@@ -93,7 +93,7 @@ export default {
    */
   initializeUsedExtractRule: function (state) {
     let defaultConf = {
-      extract_rule: null,
+      service: null,
       parameters: {}
     };
     let existingConf = JSON.parse(state.formProperties.value);

@@ -42,7 +42,7 @@ export default {
       let parameters = this
         .$store
         .getters
-        .getExtractRuleParameters(usedExtractRule.extract_rule)
+        .getExtractRuleParameters(usedExtractRule.service)
       ;
 
       return parameters;
