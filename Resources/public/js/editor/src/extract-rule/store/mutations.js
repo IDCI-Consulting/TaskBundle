@@ -17,13 +17,70 @@ var mutations = {
   },
 
   /**
-   * Update the used extract rule
+   * Set the parameters for an extract rule
+   *
+   * @param state
+   * @param {Object} payload
+   */
+  setExtractRuleParameters: function (state, payload) {
+    let parameters = payload.extractRuleParameters;
+    for (let key in parameters) {
+      parameters[key].component_name = 'component-' + parameters[key].form_type;
+    }
+
+    let extractRule = state.extractRuleList.find(function(element) {
+      return element.name === payload.extractRuleName;
+    });
+
+    Vue.set(extractRule, 'parameters', payload.extractRuleParameters);
+  },
+
+  /**
+   * Update the used extract rule name
    *
    * @param state
    * @param {Object[]} extractRules
    */
-  updateUsedExtractRule: function (state, extractRuleName) {
+  updateUsedExtractRuleName: function (state, extractRuleName) {
     state.usedExtractRule.extract_rule = extractRuleName;
+
+    mutations.updateInitialTextareaValue(state);
+  },
+
+  /**
+   * Update a used extract rule parameter
+   *
+   * @param state
+   * @param {Object[]} extractRules
+   */
+  updateUsedExtractRuleParameter: function (state, parameter) {
+    Vue.set(
+      state.usedExtractRule.parameters,
+      parameter.name,
+      parameter.value
+    );
+
+    mutations.updateInitialTextareaValue(state);
+  },
+
+  /**
+   * Clean the parameters after the extract rule was changed
+   *
+   * @param state
+   * @param {Object[]} extractRules
+   */
+  cleanUsedParameters: function (state, parameter) {
+    let usedParameters = state.usedExtractRule.parameters;
+
+    let allParameters = state.extractRuleList.find(function (element) {
+      return element.name === state.usedExtractRule.extract_rule;
+    }).parameters;
+
+    for (let usedParameterName in usedParameters) {
+      if (typeof allParameters[usedParameterName] === 'undefined') {
+        Vue.delete(state.usedExtractRule.parameters, usedParameterName);
+      }
+    }
 
     mutations.updateInitialTextareaValue(state);
   },
@@ -34,8 +91,8 @@ var mutations = {
    * @param state
    * @returns []
    */
-  initializeUsedExtractRule: function (state, extractRule) {
-    state.usedExtractRule = JSON.parse(extractRule);
+  initializeUsedExtractRule: function (state) {
+    state.usedExtractRule = JSON.parse(state.formProperties.value);
   },
 
   /**

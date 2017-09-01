@@ -19,7 +19,7 @@
                         :name="parameterName"
                         :option="parameterOption"
                         :value="action.parameters[parameterName]"
-                        @parameterupdated="updateParameter"
+                        @change="updateParameter"
                     ></parameter>
                 </div>
             </div>

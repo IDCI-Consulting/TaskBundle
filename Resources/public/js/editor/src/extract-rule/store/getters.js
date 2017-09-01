@@ -6,8 +6,25 @@ export default {
    * @param state
    * @returns string
    */
-   getExtractRuleListApiUrl: function (state) {
+  getExtractRuleListApiUrl: function (state) {
     return state.configuration.api_url.get_extract_rules;
+  },
+
+  /**
+   * Get the url of the api to retrieve extract rules parameters
+   *
+   * @param state
+   * @returns string
+   */
+  getExtractRuleParametersApiUrl: function (state) {
+    return function (name) {
+      return state
+        .configuration
+        .api_url
+        .get_extract_rules_parameters
+        .replace('XNAME', name)
+      ;
+    }
   },
 
   /**
@@ -28,6 +45,25 @@ export default {
    */
   getUsedExtractRule: function (state) {
     return state.usedExtractRule;
+  },
+
+  /**
+   * Get the extract rule parameters for the given extract rule name
+   *
+   * @param state
+   * @returns {Object}
+   */
+  getExtractRuleParameters: function (state, getters) {
+    return function (extractRuleName) {
+      let extractRule = getters.getExtractRuleList.find(function (element) {
+        return element.name === extractRuleName;
+      });
+
+      if (null != extractRule) {
+        return extractRule.parameters;
+      }
+    }
+
   }
 
 };

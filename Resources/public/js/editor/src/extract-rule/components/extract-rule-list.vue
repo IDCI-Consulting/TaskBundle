@@ -3,7 +3,7 @@
     <div>
       <multiselect
         v-model="selectedExtractRule"
-        :options="extractRuleList"
+        :options="extractRuleNameList"
         :allow-empty="false"
         placeholder="Select an extract rule">
       </multiselect>
@@ -14,7 +14,7 @@
 <script>
 
 import 'TaskBundle/common/styles/multiselect.css';
-import multiselect from 'vue-multiselect'
+import multiselect from 'vue-multiselect';
 
 export default {
 
@@ -27,18 +27,27 @@ export default {
   },
 
   created: function () {
-    console.log(this.$store.getters.getUsedExtractRule.extract_rule);
     this.selectedExtractRule = this.$store.getters.getUsedExtractRule.extract_rule;
   },
 
   watch: {
-    selectedExtractRule: function (newSelectedExtractRule) {
-      this.$store.commit('updateUsedExtractRule', newSelectedExtractRule);
+    selectedExtractRule: function (newSelectedExtractRuleName) {
+      // Fetch the parameters via the api
+      if (null != newSelectedExtractRuleName) {
+          this.$store.dispatch('setExtractRuleParameters', {
+            http: this.$http,
+            extractRuleName: newSelectedExtractRuleName
+          }).then(() => {
+            this.$store.commit('cleanUsedParameters');
+          });
+      }
+      // Update the data object
+      this.$store.commit('updateUsedExtractRuleName', newSelectedExtractRuleName);
     }
   },
 
   computed: {
-    extractRuleList: function () {
+    extractRuleNameList: function () {
       return this.$store.getters.getExtractRuleList.map(
         function (element) {
           return element.name;

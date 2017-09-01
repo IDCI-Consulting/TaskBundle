@@ -37,7 +37,7 @@ export default {
 
     methods: {
         updateParameter: function (parameter) {
-            this.$emit('parameterupdated', parameter);
+            this.$emit('change', parameter);
         }
     }
 };
