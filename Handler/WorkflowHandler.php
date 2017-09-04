@@ -7,7 +7,9 @@ use IDCI\Bundle\TaskBundle\Document\Action;
 
 class WorkflowHandler
 {
-    /** @var \Twig_Environment */
+    /**
+     * @var \Twig_Environment
+     */
     protected $merger;
 
     /**

@@ -20,27 +20,39 @@ use IDCI\Bundle\TaskBundle\Event\TaskEvents;
  */
 class ActionHandler
 {
-    /** @var ActionRegistry */
+    /**
+     * @var ActionRegistry
+     */
     protected $registry;
 
-    /** @var EventDispatcherInterface */
+    /**
+     * @var EventDispatcherInterface
+     */
     protected $dispatcher;
 
-    /** @var \Twig_Environment */
+    /**
+     * @var \Twig_Environment
+     */
     protected $merger;
 
-    /** @var ProducerInterface */
+    /**
+     * @var ProducerInterface
+     */
     protected $actionProducer;
 
-    /** @var WorkflowHandler */
+    /**
+     * @var WorkflowHandler
+     */
     protected $workflowHandler;
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param ProducerInterface $actionProducer
-     * @param ActionRegistry    $registry
-     * @param \Twig_Environment $merger
+     * @param ActionRegistry           $registry
+     * @param EventDispatcherInterface $dispatcher
+     * @param \Twig_Environment        $merger
+     * @param ProducerInterface        $actionProducer
+     * @param WorkflowHandler          $workflowHandler
      */
     public function __construct(
         ActionRegistry           $registry,

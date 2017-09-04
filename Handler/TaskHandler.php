@@ -16,10 +16,14 @@ use IDCI\Bundle\TaskBundle\Event\TaskEvents;
 
 class TaskHandler
 {
-    /** @var DocumentManager */
+    /**
+     * @var DocumentManager
+     */
     protected $documentManager;
 
-    /** @var EventDispatcherInterface */
+    /**
+     * @var EventDispatcherInterface
+     */
     protected $dispatcher;
 
     /**
@@ -40,7 +44,7 @@ class TaskHandler
      * Execute a task.
      *
      * @param TaskConfiguration $taskConfiguration
-     * @param mixed             $extractData
+     * @param mixed             $extractedData
      * @param array             $actionData
      */
     public function execute(
@@ -64,7 +68,7 @@ class TaskHandler
      * Create a task.
      *
      * @param TaskConfiguration $taskConfiguration
-     * @param array             $extractData
+     * @param array             $extractedData
      * @param array             $actionData
      *
      * @return Task

@@ -14,12 +14,22 @@ use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 
 class TaskEventSubscriber implements EventSubscriberInterface
 {
-    /** @var ProducerInterface */
+    /**
+     * @var ProducerInterface
+     */
     protected $actionProducer;
 
-    /** @var DocumentManager */
+    /**
+     * @var DocumentManager
+     */
     protected $documentManager;
 
+    /**
+     * Constructor
+     *
+     * @param ProducerInterface $actionProducer
+     * @param DocumentManager $documentManager
+     */
     public function __construct(ProducerInterface $actionProducer, DocumentManager $documentManager)
     {
         $this->actionProducer = $actionProducer;
@@ -61,7 +71,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * On pending event
+     * On pending event.
      *
      * @param TaskEvent $event
      */
@@ -71,7 +81,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * On running event
+     * On running event.
      *
      * @param TaskEvent $event
      */
@@ -81,7 +91,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * On passed event
+     * On passed event.
      *
      * @param TaskEvent $event
      */
@@ -91,7 +101,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * On error event
+     * On error event.
      *
      * @param TaskEvent $event
      */

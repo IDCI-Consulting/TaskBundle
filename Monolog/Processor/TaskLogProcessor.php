@@ -6,7 +6,9 @@ use IDCI\Bundle\TaskBundle\Document\Task;
 
 class TaskLogProcessor
 {
-    /** @var Task */
+    /**
+     * @var Task
+     */
     private $task;
 
     /**

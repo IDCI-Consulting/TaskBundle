@@ -20,6 +20,9 @@ class ExtractRuleEditorType extends AbstractType implements AssetProviderInterfa
      */
     private $assetCollection;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->assetCollection = new AssetCollection();
