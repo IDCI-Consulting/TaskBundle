@@ -1,17 +1,22 @@
 <template>
 
-  <div>
-    <multiselect
-      v-model="selectedAction"
-      :options="actionList"
-      label="name"
-      key="name"
-      selectLabel=""
-      placeholder="Select an action">
-    </multiselect>
-    <button @click.prevent="createAction" type="button" class="btn btn-default" aria-label="Create">
-      Add
-    </button>
+  <div class="row">
+    <div class="col-md-10">
+        <multiselect
+          v-model="selectedAction"
+          :options="actionList"
+          label="name"
+          key="name"
+          selectLabel=""
+          placeholder="Select an action service"
+        >
+        </multiselect>
+    </div>
+    <div class="col-md-2">
+        <button @click.prevent="createAction" type="button" class="btn btn-default" aria-label="Create">
+            Add
+        </button>
+    </div>
   </div>
 
 </template>

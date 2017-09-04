@@ -1,7 +1,10 @@
 <template>
     <div class="workflow-editor editor">
+        <h3>Action settings</h3>
         <new-action></new-action>
         <actions-configuration></actions-configuration>
+
+        <h3>Workflow setting</h3>
         <workflow></workflow>
     </div>
 </template>

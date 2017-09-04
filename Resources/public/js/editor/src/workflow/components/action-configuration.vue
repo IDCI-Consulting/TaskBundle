@@ -1,27 +1,31 @@
 <template>
 
-    <div class="collapsed-block">
-        <div>
-            <button @click.prevent="remove" aria-label="Close" class="close">
-                <span aria-hidden="true">×</span>
-            </button>
-            <strong>{{ action.action }}</strong>
-            <div class="options extra-form-inputs-required">
-                <div class="form-group">
-                    <label>name</label>
-                    <input class="form-control" v-model="actionAccessName" type="text"/>
-                </div>
-                <div class="form-group">
-                    <label>parameters</label>
-                    <parameter
-                        v-for="(parameterOption, parameterName) in getActionParameters(action.action)"
-                        :key="parameterName"
-                        :name="parameterName"
-                        :option="parameterOption"
-                        :value="action.parameters[parameterName]"
-                        @change="updateParameter"
-                    ></parameter>
-                </div>
+    <div class="configuration-box parameters">
+        <button @click.prevent="remove" aria-label="Close" class="close">
+            <span aria-hidden="true">×</span>
+        </button>
+        <h5>Chosed service: <strong>{{ action.action }}</strong></h5>
+        <div class="collapsed-block">
+            <div class="form-group">
+                <label>name</label>
+                <input class="form-control" v-model="actionAccessName" type="text"/>
+            </div>
+            <a role="button" data-toggle="collapse" :href="'#'+ id" class="collapsed">
+                Parameters
+                <span class="toggle">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                </span>
+            </a>
+            <div :id="id" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" :aria-controls="id">
+                <parameter
+                 v-for="(parameterOption, parameterName) in parameters"
+                 :key="parameterName"
+                 :name="parameterName"
+                 :option="parameterOption"
+                 :value="action.parameters[parameterName]"
+                 @change="updateParameter"
+                 ></parameter>
             </div>
         </div>
     </div>
@@ -31,6 +35,9 @@
 <script>
 
 import parameter from '../../common/components/parameter.vue';
+import { utils } from 'vue-editor-commons';
+import 'TaskBundle/common/styles/collapsed-block.css';
+import 'TaskBundle/common/styles/editor.css';
 
 export default {
 
@@ -43,11 +50,19 @@ export default {
     },
 
     computed: {
+        id: function () {
+            return 'action_parameters' + utils.generateUniqueId();
+        },
+
         action: function () {
             let action = this.$store.getters.getActionConfiguration(this.index);
             this.actionAccessName = action.name;
 
             return action;
+        },
+
+        parameters: function () {
+            return this.getActionParameters(this.action.action);
         }
     },
 
