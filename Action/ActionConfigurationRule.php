@@ -46,7 +46,7 @@ class ActionConfigurationRule implements ConfigurationInterface
                     ->children()
                         ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('first_action_name')->isRequired()->cannotBeEmpty()->end()
-                        ->arrayNode('flow')
+                        ->arrayNode('flows')
                             ->useAttributeAsKey('action_name')
                             ->isRequired()
                             ->prototype('array')
