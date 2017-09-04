@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-10">
         <multiselect
-          v-model="selectedAction"
+          v-model="selectedActionService"
           :options="actionList"
           label="name"
           key="name"
@@ -31,7 +31,7 @@ export default {
 
   data: function () {
     return {
-      selectedAction: null,
+      selectedActionService: null,
       errorMessage: ''
     };
   },
@@ -43,9 +43,8 @@ export default {
   computed: {
     actionList: function () {
       let actionList = this.$store.getters.getActionList;
-
-      if (null === this.selectedAction && actionList.length > 0) {
-        this.selectedAction = actionList[0];
+      if (null === this.selectedActionService && actionList.length > 0) {
+        this.selectedActionService = actionList[0];
       }
 
       return actionList;
@@ -57,7 +56,7 @@ export default {
       try {
         let payload = {
           name: '',
-          action: this.selectedAction.name,
+          service: this.selectedActionService.name,
           parameters: {}
         };
 
@@ -69,10 +68,10 @@ export default {
   },
 
   watch: {
-      selectedAction: {
-          handler: function (selectedAction) {
-              if (null != selectedAction) {
-                  this.$store.dispatch('setActionParameters', { http: this.$http, action: selectedAction.name });
+      selectedActionService: {
+          handler: function (selectedActionService) {
+              if (null != selectedActionService) {
+                  this.$store.dispatch('setActionParameters', { http: this.$http, service: selectedActionService.name });
               }
           }
       }

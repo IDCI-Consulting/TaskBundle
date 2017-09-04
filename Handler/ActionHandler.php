@@ -8,10 +8,12 @@ namespace IDCI\Bundle\TaskBundle\Handler;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
+use Psr\Log\LoggerInterface;
 use IDCI\Bundle\TaskBundle\Action\ActionRegistry;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 use IDCI\Bundle\TaskBundle\Event\TaskEvents;
+use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
 /**
  * Class ActionHandler.
@@ -20,40 +22,64 @@ use IDCI\Bundle\TaskBundle\Event\TaskEvents;
  */
 class ActionHandler
 {
-    /** @var ActionRegistry */
+    /**
+     * @var ActionRegistry
+     */
     protected $registry;
 
-    /** @var EventDispatcherInterface */
+    /**
+     * @var EventDispatcherInterface
+     */
     protected $dispatcher;
 
-    /** @var \Twig_Environment */
+    /**
+     * @var \Twig_Environment
+     */
     protected $merger;
 
-    /** @var ProducerInterface */
+    /**
+     * @var ProducerInterface
+     */
     protected $actionProducer;
 
-    /** @var WorkflowHandler */
+    /**
+     * @var WorkflowHandler
+     */
     protected $workflowHandler;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
+    /** @var TaskLogProcessor */
+    protected $taskLogProcessor;
+
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param ProducerInterface $actionProducer
-     * @param ActionRegistry    $registry
-     * @param \Twig_Environment $merger
+     * @param ActionRegistry           $registry
+     * @param EventDispatcherInterface $dispatcher
+     * @param \Twig_Environment        $merger
+     * @param ProducerInterface        $actionProducer
+     * @param WorkflowHandler          $workflowHandler
+     * @param LoggerInterface          $logger
+     * @param TaskLogProcessor         $taskLogProcessor
      */
     public function __construct(
         ActionRegistry           $registry,
         EventDispatcherInterface $dispatcher,
         \Twig_Environment        $merger,
         ProducerInterface        $actionProducer,
-        WorkflowHandler          $workflowHandler
+        WorkflowHandler          $workflowHandler,
+        LoggerInterface          $logger,
+        TaskLogProcessor         $taskLogProcessor
     ) {
         $this->registry = $registry;
         $this->dispatcher = $dispatcher;
         $this->merger = $merger;
         $this->actionProducer = $actionProducer;
         $this->workflowHandler = $workflowHandler;
+        $this->logger = $logger;
+        $this->taskLogProcessor = $taskLogProcessor;
     }
 
     /**
@@ -78,9 +104,12 @@ class ActionHandler
             new TaskEvent($task)
         );
 
-        $currentActionData = $this->registry->getAction($currentAction['action'])->execute($task, $parameters);
+        try {
+            $currentActionData = $this->registry->getAction($currentAction['service'])->execute($task, $parameters);
+        } catch(\Exception $e) {
+            $this->taskLogProcessor->setTask($task);
+            $this->logger->error($e->getMessage());
 
-        if ($currentActionData['error']) {
             $this->dispatcher->dispatch(
                 TaskEvents::ERROR,
                 new TaskEvent($task)
@@ -89,12 +118,12 @@ class ActionHandler
             return;
         }
 
-        // Add new action data
-        $actionData = array_merge(
-            $task->getData()->getActionData(),
-            array($currentAction['name'] => $currentActionData['data'])
+        $task->getData()->setActionData(
+            array_merge(
+                $task->getData()->getActionData(),
+                array($currentAction['name'] => $currentActionData)
+            )
         );
-        $task->getData()->setActionData($actionData);
 
         $this->dispatcher->dispatch(
             TaskEvents::PASSED,

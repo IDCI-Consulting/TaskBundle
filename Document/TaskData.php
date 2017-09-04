@@ -26,12 +26,15 @@ class TaskData
     /**
      * Set extractedData
      *
-     * @param hash $extractedData
+     * @param array $extractedData
      * @return $this
      */
     public function setExtractedData($extractedData)
     {
-        $this->extractedData = $extractedData;
+        $this->extractedData = is_array($extractedData)
+            ? $extractedData
+            : json_decode(json_encode($extractedData), true)
+        ;
 
         return $this;
     }
@@ -39,7 +42,7 @@ class TaskData
     /**
      * Get extractedData
      *
-     * @return hash $extractedData
+     * @return array $extractedData
      */
     public function getExtractedData()
     {
@@ -49,12 +52,15 @@ class TaskData
     /**
      * Set actionData
      *
-     * @param hash $actionData
+     * @param array $actionData
      * @return $this
      */
     public function setActionData($actionData)
     {
-        $this->actionData = $actionData;
+        $this->actionData = is_array($actionData)
+            ? $actionData
+            : json_decode(json_encode($actionData), true)
+        ;
 
         return $this;
     }
@@ -62,7 +68,7 @@ class TaskData
     /**
      * Get actionData
      *
-     * @return hash $actionData
+     * @return array $actionData
      */
     public function getActionData()
     {

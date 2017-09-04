@@ -34,14 +34,20 @@ class ActionConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $msg)
     {
-        $options = unserialize($msg->getBody());
+        try {
+            $options = unserialize($msg->getBody());
 
-        $this->documentManager->clear(Task::class);
+            $this->documentManager->clear(Task::class);
 
-        $task = $this->documentManager->getRepository('IDCITaskBundle:Task')->find($options['task_id']);
+            $task = $this->documentManager->getRepository('IDCITaskBundle:Task')->find($options['task_id']);
 
-        $this->actionHandler->execute($task);
+            $this->actionHandler->execute($task);
 
-        return ConsumerInterface::MSG_ACK;
+            return ConsumerInterface::MSG_ACK;
+        } catch (\Exception $e) {
+            echo sprintf("The message was rejected with the following message: %s\n", $e->getMessage());
+
+            return ConsumerInterface::MSG_REJECT;
+        }
     }
 }

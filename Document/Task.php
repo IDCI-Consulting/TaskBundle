@@ -6,8 +6,8 @@
 
 namespace IDCI\Bundle\TaskBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
 
 /**
  * @ODM\Document(
@@ -57,21 +57,14 @@ class Task
     private $actions;
 
     /**
-     * @var array
-     *
-     * @ODM\EmbedMany(targetDocument="TaskLog")
-     */
-    private $log;
-
-    /**
-     * @var datetime
+     * @var \Datetime
      *
      * @ODM\Field(type="date", name="created_at")
      */
     private $createdAt;
 
     /**
-     * @var datetime
+     * @var \Datetime
      *
      * @ODM\Field(type="date", name="updated_at")
      */
@@ -82,21 +75,20 @@ class Task
      */
     public function __construct()
     {
-        $this->log = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
+        $date = new \DateTime('now');
+        $this->createdAt = $date;
+        $this->updatedAt = $date;
+        $this->actions = new ArrayCollection();
     }
 
     /**
-     * On pre persist
+     * To string
      *
-     * @ODM\PrePersist()
+     * @return string
      */
-    public function onPrePresist()
+    public function __toString()
     {
-        $date = new \DateTime('now');
-
-        $this->createdAt = $date;
-        $this->updatedAt = $date;
+        return sprintf('[%s]', $this->id);
     }
 
     /**
@@ -113,7 +105,7 @@ class Task
     /**
      * Get id
      *
-     * @return id $id
+     * @return string $id
      */
     public function getId()
     {
@@ -123,7 +115,7 @@ class Task
     /**
      * Set configuration
      *
-     * @param hash $configuration
+     * @param array $configuration
      * @return $this
      */
     public function setConfiguration($configuration)
@@ -136,7 +128,7 @@ class Task
     /**
      * Get configuration
      *
-     * @return hash $configuration
+     * @return array $configuration
      */
     public function getConfiguration()
     {
@@ -146,10 +138,10 @@ class Task
     /**
      * Set data
      *
-     * @param IDCI\Bundle\TaskBundle\Document\TaskData $data
+     * @param TaskData $data
      * @return $this
      */
-    public function setData(\IDCI\Bundle\TaskBundle\Document\TaskData $data)
+    public function setData(TaskData $data)
     {
         $this->data = $data;
 
@@ -159,7 +151,7 @@ class Task
     /**
      * Get data
      *
-     * @return IDCI\Bundle\TaskBundle\Document\TaskData $data
+     * @return TaskData $data
      */
     public function getData()
     {
@@ -169,7 +161,7 @@ class Task
     /**
      * Set task configuration id.
      *
-     * @param int $id
+     * @param string $taskConfigurationId
      * @return $this
      */
     public function setTaskConfigurationId($taskConfigurationId)
@@ -190,50 +182,18 @@ class Task
     }
 
     /**
-     * Add log
-     *
-     * @param IDCI\Bundle\TaskBundle\Document\TaskLog $log
-     */
-    public function addLog(\IDCI\Bundle\TaskBundle\Document\TaskLog $log)
-    {
-        $this->log[] = $log;
-    }
-
-    /**
-     * Remove log
-     *
-     * @param IDCI\Bundle\TaskBundle\Document\TaskLog $log
-     */
-    public function removeLog(\IDCI\Bundle\TaskBundle\Document\TaskLog $log)
-    {
-        $this->log->removeElement($log);
-
-        return $this;
-    }
-
-    /**
-     * Get log
-     *
-     * @return \Doctrine\Common\Collections\Collection $log
-     */
-    public function getLog()
-    {
-        return $this->log;
-    }
-
-    /**
      * Add action
      * Insert the action in first position to build the mongo query more easily.
      *
-     * @param IDCI\Bundle\TaskBundle\Document\Action $action
+     * @param Action $action
      * @return $this
      */
-    public function addAction(\IDCI\Bundle\TaskBundle\Document\Action $action)
+    public function addAction(Action $action)
     {
         $actions = $this->actions->toArray();
         array_unshift($actions, $action);
 
-        $this->actions = new \Doctrine\Common\Collections\ArrayCollection($actions);
+        $this->actions = new ArrayCollection($actions);
 
         return $this;
     }
@@ -241,10 +201,10 @@ class Task
     /**
      * Remove action
      *
-     * @param IDCI\Bundle\TaskBundle\Document\Action $action
+     * @param Action $action
      * @return $this
      */
-    public function removeAction(\IDCI\Bundle\TaskBundle\Document\Action $action)
+    public function removeAction(Action $action)
     {
         $this->actions->removeElement($action);
 
@@ -254,7 +214,7 @@ class Task
     /**
      * Get actions
      *
-     * @return \Doctrine\Common\Collections\Collection $actions
+     * @return ArrayCollection $actions
      */
     public function getActions()
     {
@@ -282,32 +242,9 @@ class Task
     }
 
     /**
-     * To string
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return sprintf('[%s]', $this->id);
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param date $createdAt
-     * @return $this
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
      * Get createdAt
      *
-     * @return date $createdAt
+     * @return \Datetime $createdAt
      */
     public function getCreatedAt()
     {
@@ -315,22 +252,9 @@ class Task
     }
 
     /**
-     * Set updatedAt
-     *
-     * @param date $updatedAt
-     * @return $this
-     */
-    public function setUpdatedAt(\DateTime $updatedAt = null)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
      * Get updatedAt
      *
-     * @return date $updatedAt
+     * @return \Datetime $updatedAt
      */
     public function getUpdatedAt()
     {

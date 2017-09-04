@@ -20,6 +20,9 @@ class WorkflowEditorType extends AbstractType implements AssetProviderInterface
      */
     private $assetCollection;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->assetCollection = new AssetCollection();

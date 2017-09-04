@@ -74,7 +74,7 @@ class TaskLog
     /**
      * Get id
      *
-     * @return id $id
+     * @return string $id
      */
     public function getId()
     {
@@ -82,39 +82,13 @@ class TaskLog
     }
 
     /**
-     * Set datetime
-     *
-     * @param date $datetime
-     * @return $this
-     */
-    public function setDatetime($datetime)
-    {
-        $this->datetime = $datetime;
-
-        return $this;
-    }
-
-    /**
      * Get datetime
      *
-     * @return date $datetime
+     * @return \Datetime $datetime
      */
     public function getDatetime()
     {
         return $this->datetime;
-    }
-
-    /**
-     * Set message
-     *
-     * @param string $message
-     * @return $this
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-
-        return $this;
     }
 
     /**
@@ -128,42 +102,6 @@ class TaskLog
     }
 
     /**
-     * Set context
-     *
-     * @param hash $context
-     * @return $this
-     */
-    public function setContext($context)
-    {
-        $this->context = $context;
-
-        return $this;
-    }
-
-    /**
-     * Get context
-     *
-     * @return hash $context
-     */
-    public function getContext()
-    {
-        return $this->context;
-    }
-
-    /**
-     * Set level
-     *
-     * @param int $level
-     * @return $this
-     */
-    public function setLevel($level)
-    {
-        $this->level = $level;
-
-        return $this;
-    }
-
-    /**
      * Get level
      *
      * @return int $level
@@ -171,19 +109,6 @@ class TaskLog
     public function getLevel()
     {
         return $this->level;
-    }
-
-    /**
-     * Set level name
-     *
-     * @param int $levelName
-     * @return $this
-     */
-    public function setLevelName($levelName)
-    {
-        $this->levelName = $levelName;
-
-        return $this;
     }
 
     /**
@@ -197,19 +122,6 @@ class TaskLog
     }
 
     /**
-     * Set channel
-     *
-     * @param string $channel
-     * @return $this
-     */
-    public function setChannel($channel)
-    {
-        $this->channel = $channel;
-
-        return $this;
-    }
-
-    /**
      * Get channel
      *
      * @return string $channel
@@ -220,25 +132,32 @@ class TaskLog
     }
 
     /**
-     * Set extra
-     *
-     * @param hash $extra
-     * @return $this
-     */
-    public function setExtra($extra)
-    {
-        $this->extra = $extra;
-
-        return $this;
-    }
-
-    /**
      * Get extra
      *
-     * @return hash $extra
+     * @return array $extra
      */
     public function getExtra()
     {
         return $this->extra;
+    }
+
+    /**
+     * Get action name
+     *
+     * @return string
+     */
+    public function getActionName()
+    {
+        return $this->context['action_name'];
+    }
+
+    /**
+     * Get the task identifier
+     *
+     * @return string
+     */
+    public function getTaskId()
+    {
+        return $this->context['task_id'];
     }
 }

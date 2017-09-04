@@ -43,7 +43,7 @@ export default {
             console.log(workflowConfiguration);
 
             if (null != workflowConfiguration) {
-                return workflowConfiguration.actions;
+                return workflowConfiguration.flows;
             }
         },
 

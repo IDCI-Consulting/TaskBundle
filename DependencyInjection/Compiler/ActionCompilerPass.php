@@ -50,7 +50,7 @@ class ActionCompilerPass implements CompilerPassInterface
 
             if (null !== $configuration['parent']) {
                 if (!$container->hasDefinition($this->getDefinitionName($configuration['parent']))) {
-                    throw new UndefinedServiceException($configuration['parent']);
+                    throw new UndefinedActionException($configuration['parent']);
                 }
 
                 $configuration['parent'] = new Reference(

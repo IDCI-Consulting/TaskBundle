@@ -40,64 +40,20 @@ export default {
          * @return {}
          */
         getActionParameters: function (actionName) {
-            let action = this.$store.getters.getAction(actionName);
-
-            return action.parameters;
+            return this.$store.getters.getAction(actionName).parameters;
         },
 
         /**
-         * Check if a form event contains path event actions
+         * Remove an action
          *
-         * @param formEvent
-         */
-        formEventHasActions: function (formEvent) {
-            return this.pathEventActions && this.pathEventActions[formEvent.name];
-        },
-
-        /**
-         * Remove a path event action
-         *
-         * @param formEvent
-         * @param actionIndex
+         * @param action
+         * @param index
          */
         removeAction: function (action, index) {
             this.$store.commit('removeAction', {
                 actionIndex: index
             });
-        },
-
-        /**
-         * Update the name of a path event action
-         *
-         * @param name
-         * @param formEvent
-         * @param actionIndex
-         */
-        updatePathEventActionName: function (name, formEvent, actionIndex) {
-            this.$store.commit('updatePathEventActionName', {
-                pathIndex: this.index,
-                formEventName: formEvent.name,
-                actionIndex: actionIndex,
-                actionName: name
-            });
-        },
-
-        /**
-         * Update an option of a path event action
-         *
-         * @param option
-         * @param formEvent
-         * @param actionIndex
-         */
-        updatePathEventActionOption: function (option, formEvent, actionIndex) {
-            this.$store.commit('updatePathEventActionOption', {
-                pathIndex: this.index,
-                formEventName: formEvent.name,
-                actionIndex: actionIndex,
-                option: option
-            });
         }
-
   }
 };
 

@@ -36,27 +36,31 @@ class TaskConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $msg)
     {
-        $options = unserialize($msg->getBody());
+        try {
+            $options = unserialize($msg->getBody());
+            $extractedData = array();
+            $actionData = array();
 
-        $extractedData = array();
-        $actionData = array();
+            if (array_key_exists('extracted_data', $options['data'])) {
+                $extractedData = $options['data']['extracted_data'];
+            }
 
-        if (array_key_exists('extracted_data', $options['data'])) {
-            $extractedData = $options['data']['extracted_data'];
+            if (array_key_exists('action_data', $options['data'])) {
+                $actionData = $options['data']['action_data'];
+            }
+
+            // Force clear cache otherwise it loads the unchanged taskConfiguration
+            $this->taskConfigurationManager->getEntityManager()->clear($this->taskConfigurationManager->getEntityClass());
+
+            $taskConfiguration = $this->taskConfigurationManager->findOneById($options['task_configuration_id']);
+
+            $this->taskHandler->execute($taskConfiguration, $extractedData, $actionData);
+
+            return ConsumerInterface::MSG_ACK;
+        } catch (\Exception $e) {
+            echo sprintf("The message was rejected with the following message: %s\n", $e->getMessage());
+
+            return ConsumerInterface::MSG_REJECT;
         }
-
-        if (array_key_exists('action_data', $options['data'])) {
-            $actionData = $options['data']['action_data'];
-        }
-
-        // Force clear cache otherwise it loads the unchanged taskConfiguration
-        $this->taskConfigurationManager->getEntityManager()->clear($this->taskConfigurationManager->getEntityClass());
-
-        $taskConfiguration = $this->taskConfigurationManager->findOneById($options['task_configuration_id']);
-
-        // $task = new Task($taskConfiguration, $options['data'])
-        $this->taskHandler->execute($taskConfiguration, $extractedData, $actionData);
-
-        return ConsumerInterface::MSG_ACK;
     }
 }

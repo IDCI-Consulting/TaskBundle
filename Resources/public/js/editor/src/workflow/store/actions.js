@@ -11,17 +11,17 @@ let workflowEditorActions = {
     });
   },
 
-  /*
+  /**
    * Set the action parameters retrieved from the API.
    *
    * @param {Object} store - The store.
    * @param {Object} payload  - The object with Vue Resource and the action name.
    */
   setActionParameters: function ($store, payload) {
-    workflowEditorActions.handleGetRequest($store.getters.getActionParametersUrl(payload.action), $store, payload.http, function (action) {
+    workflowEditorActions.handleGetRequest($store.getters.getActionParametersUrl(payload.service), $store, payload.http, function (action) {
       $store.commit('setActionParameters', action);
     });
   }
-}
+};
 
 export default workflowEditorActions;

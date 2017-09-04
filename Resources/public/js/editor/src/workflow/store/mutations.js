@@ -148,7 +148,7 @@ export default {
       default_next: payload.default_next
     };
 
-    Vue.set(state.data.workflow.actions, payload.selectedName, action);
+    Vue.set(state.data.workflow.flows, payload.selectedName, action);
 
     this.commit('updateRawField');
   },
@@ -160,7 +160,7 @@ export default {
    * @param {string} actionName - The action name.
    */
   removeActionToFlow: function (state, actionName) {
-    Vue.delete(state.data.workflow.actions, actionName);
+    Vue.delete(state.data.workflow.flows, actionName);
 
     this.commit('updateRawField');
   },
@@ -176,7 +176,7 @@ export default {
       condition: payload.condition
     };
 
-    state.data.workflow.actions[payload.previousAction].next.push(nextAction);
+    state.data.workflow.flows[payload.previousAction].next.push(nextAction);
 
     this.commit('updateRawField');
   },
@@ -189,7 +189,7 @@ export default {
    */
   removeNextAction: function (state, payload) {
     Vue.delete(
-        state.data.workflow.actions[payload.previousAction].next,
+        state.data.workflow.flows[payload.previousAction].next,
         payload.index
     );
 
@@ -204,7 +204,7 @@ export default {
    */
   updateDefaultNextAction: function (state, payload) {
     Vue.set(
-        state.data.workflow.actions[payload.previousAction],
+        state.data.workflow.flows[payload.previousAction],
         'default_next',
         payload.defaultNext
     );
@@ -220,7 +220,7 @@ export default {
    */
   updateNextActionName: function (state, payload) {
     Vue.set(
-      state.data.workflow.actions[payload.action].next[payload.index],
+      state.data.workflow.flows[payload.action].next[payload.index],
       'name',
       payload.name
     );
@@ -236,7 +236,7 @@ export default {
    */
   updateNextActionCondition: function (state, payload) {
     Vue.set(
-      state.data.workflow.actions[payload.previousAction].next[payload.index],
+      state.data.workflow.flows[payload.previousAction].next[payload.index],
       'condition',
       payload.condition
     );

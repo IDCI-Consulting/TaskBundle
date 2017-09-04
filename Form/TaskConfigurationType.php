@@ -15,8 +15,6 @@ class TaskConfigurationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $task = $builder->getData();
-
         $builder
             ->add('name')
             ->add('extractRule', 'extract_rule_editor', array(

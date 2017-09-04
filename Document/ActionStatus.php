@@ -26,7 +26,8 @@ class ActionStatus
     /**
      * Set date
      *
-     * @param date $date
+     * @param \Datetime $date
+     *
      * @return $this
      */
     public function setDate(\DateTime $date)
@@ -39,7 +40,7 @@ class ActionStatus
     /**
      * Get date
      *
-     * @return date $date
+     * @return \Datetime $date
      */
     public function getDate()
     {
@@ -50,6 +51,7 @@ class ActionStatus
      * Set status
      *
      * @param string $status
+     *
      * @return $this
      */
     public function setStatus($status)

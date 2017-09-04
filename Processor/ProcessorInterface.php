@@ -8,7 +8,7 @@ use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
 interface ProcessorInterface
 {
     /**
-     * @param TaskConfiguration $task
+     * @param TaskConfiguration $taskConfiguration
      */
     public function start(TaskConfiguration $taskConfiguration);
 
