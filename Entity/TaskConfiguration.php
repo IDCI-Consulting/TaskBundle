@@ -93,6 +93,9 @@ class TaskConfiguration implements LoggableInterface
     public function __construct()
     {
         $this->extractRule = $this->actions = '{}';
+        $now = new \DateTime();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
     }
 
     /**
@@ -109,30 +112,13 @@ class TaskConfiguration implements LoggableInterface
     }
 
     /**
-     * On create.
-     *
-     * @ORM\PrePersist()
-     */
-    public function onCreate()
-    {
-        $now = new \DateTime();
-        $this
-            ->setCreatedAt($now)
-            ->setUpdatedAt($now)
-        ;
-    }
-
-    /**
      * On update.
      *
      * @ORM\PreUpdate()
      */
     public function onUpdate()
     {
-        $now = new \DateTime();
-        $this
-            ->setUpdatedAt($now)
-        ;
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -163,7 +149,7 @@ class TaskConfiguration implements LoggableInterface
      *
      * @param string $name
      *
-     * @return Task
+     * @return TaskConfiguration
      */
     public function setName($name)
     {
@@ -187,7 +173,7 @@ class TaskConfiguration implements LoggableInterface
      *
      * @param string $extractRule
      *
-     * @return Task
+     * @return TaskConfiguration
      */
     public function setExtractRule($extractRule)
     {
@@ -209,7 +195,7 @@ class TaskConfiguration implements LoggableInterface
     /**
      * Set workflow.
      *
-     * @param string $actions
+     * @param string $workflow
      *
      * @return TaskConfiguration
      */
@@ -235,7 +221,7 @@ class TaskConfiguration implements LoggableInterface
      *
      * @param bool $enable
      *
-     * @return Task
+     * @return TaskConfiguration
      */
     public function setEnable($enable)
     {
@@ -265,20 +251,6 @@ class TaskConfiguration implements LoggableInterface
     }
 
     /**
-     * Set createdAt.
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Task
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
      * Get updatedAt.
      *
      * @return \DateTime
@@ -286,20 +258,6 @@ class TaskConfiguration implements LoggableInterface
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * Set updatedAt.
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return Task
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     /**
@@ -317,7 +275,7 @@ class TaskConfiguration implements LoggableInterface
      *
      * @param string $cronExpression
      *
-     * @return Task
+     * @return TaskConfiguration
      */
     public function setCronExpression($cronExpression)
     {

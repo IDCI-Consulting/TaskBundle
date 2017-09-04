@@ -27,7 +27,7 @@ class Configuration
     /**
      * Set workflow
      *
-     * @param hash $workflow
+     * @param array $workflow
      * @return $this
      */
     public function setWorkflow($workflow)
@@ -40,7 +40,7 @@ class Configuration
     /**
      * Get workflow
      *
-     * @return hash $workflow
+     * @return array $workflow
      */
     public function getWorkflow()
     {
@@ -50,7 +50,7 @@ class Configuration
     /**
      * Set actions
      *
-     * @param hash $actions
+     * @param array $actions
      * @return $this
      */
     public function setActions($actions)
@@ -63,7 +63,7 @@ class Configuration
     /**
      * Get actions
      *
-     * @return hash $actions
+     * @return array $actions
      */
     public function getActions()
     {
