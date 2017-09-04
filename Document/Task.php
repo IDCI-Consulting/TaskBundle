@@ -57,13 +57,6 @@ class Task
     private $actions;
 
     /**
-     * @var array
-     *
-     * @ODM\EmbedMany(targetDocument="TaskLog")
-     */
-    private $log;
-
-    /**
      * @var \Datetime
      *
      * @ODM\Field(type="date", name="created_at")
@@ -85,7 +78,6 @@ class Task
         $date = new \DateTime('now');
         $this->createdAt = $date;
         $this->updatedAt = $date;
-        $this->log = new ArrayCollection();
         $this->actions = new ArrayCollection();
     }
 
@@ -187,40 +179,6 @@ class Task
     public function getTaskConfigurationId()
     {
         return $this->taskConfigurationId;
-    }
-
-    /**
-     * Add log
-     *
-     * @param TaskLog $log
-     */
-    public function addLog(TaskLog $log)
-    {
-        $this->log[] = $log;
-    }
-
-    /**
-     * Remove log
-     *
-     * @param TaskLog $log
-     *
-     * @return Task
-     */
-    public function removeLog(TaskLog $log)
-    {
-        $this->log->removeElement($log);
-
-        return $this;
-    }
-
-    /**
-     * Get log
-     *
-     * @return ArrayCollection $log
-     */
-    public function getLog()
-    {
-        return $this->log;
     }
 
     /**

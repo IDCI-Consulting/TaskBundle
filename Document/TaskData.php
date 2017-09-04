@@ -31,7 +31,10 @@ class TaskData
      */
     public function setExtractedData($extractedData)
     {
-        $this->extractedData = $extractedData;
+        $this->extractedData = is_array($extractedData)
+            ? $extractedData
+            : json_decode(json_encode($extractedData), true)
+        ;
 
         return $this;
     }
@@ -54,7 +57,10 @@ class TaskData
      */
     public function setActionData($actionData)
     {
-        $this->actionData = $actionData;
+        $this->actionData = is_array($actionData)
+            ? $actionData
+            : json_decode(json_encode($actionData), true)
+        ;
 
         return $this;
     }

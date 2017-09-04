@@ -68,24 +68,33 @@ class TaskHandler
      * Create a task.
      *
      * @param TaskConfiguration $taskConfiguration
-     * @param array             $extractedData
+     * @param mixed             $extractedData
      * @param array             $actionData
+     *
+     * @throws \Exception
      *
      * @return Task
      */
     public static function createTask(
         TaskConfiguration $taskConfiguration,
-        array $extractedData = array(),
+        $extractedData = array(),
         array $actionData = array()
     ) {
         $workflow = json_decode($taskConfiguration->getWorkflow(), true);
+
+        if (!is_array($workflow)) {
+            throw new \Exception(sprintf(
+                'Invalid json for the task configuration %d : %s',
+                $taskConfiguration->getId(),
+                json_last_error_msg()
+            ));
+        }
 
         $taskData = new TaskData();
         $taskData
             ->setExtractedData($extractedData)
             ->setActionData($actionData)
         ;
-
 
         $configuration = new Configuration();
         $configuration

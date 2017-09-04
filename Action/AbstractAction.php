@@ -6,6 +6,7 @@
 
 namespace IDCI\Bundle\TaskBundle\Action;
 
+use IDCI\Bundle\TaskBundle\Exception\InvalidActionDataException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Psr\Log\LoggerInterface;
 use IDCI\Bundle\TaskBundle\Document\Task;
@@ -39,25 +40,6 @@ abstract class AbstractAction implements ActionInterface
     abstract protected function configureOptions(OptionsResolver $resolver);
 
     /**
-     * Configure returned data.
-     *
-     * @param OptionsResolver $resolver
-     */
-    public function configureReturnedData(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setRequired(array('error'))
-            ->setDefaults(array(
-                'data' => null,
-                'error_message' => '',
-            ))
-            ->setDefined(array('error_message'))
-            ->setAllowedTypes('error', array('bool'))
-            ->setAllowedTypes('error_message', array('string'))
-        ;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function execute(Task $task, array $parameters)
@@ -69,10 +51,6 @@ abstract class AbstractAction implements ActionInterface
         $resolvedParameters = $resolver->resolve($parameters);
 
         $data = $this->doExecute($resolvedParameters);
-
-        $resolver = new OptionsResolver();
-        $this->configureReturnedData($resolver);
-        $data = $resolver->resolve($data);
 
         return $data;
     }

@@ -50,13 +50,19 @@ class ExtractRuleConsumer implements ConsumerInterface
     {
         $options = unserialize($msg->getBody());
 
-        // Force clear cache otherwise it loads the unchanged taskConfiguration
-        $this->taskConfigurationManager->getEntityManager()->clear($this->taskConfigurationManager->getEntityClass());
+        try {
+            // Force clear cache otherwise it loads the unchanged taskConfiguration
+            $this->taskConfigurationManager->getEntityManager()->clear($this->taskConfigurationManager->getEntityClass());
 
-        $taskConfiguration = $this->taskConfigurationManager->findOneById($options['task_configuration_id']);
+            $taskConfiguration = $this->taskConfigurationManager->findOneById($options['task_configuration_id']);
 
-        $this->extractRuleHandler->execute($taskConfiguration);
+            $this->extractRuleHandler->execute($taskConfiguration);
 
-        return ConsumerInterface::MSG_ACK;
+            return ConsumerInterface::MSG_ACK;
+        } catch (\Exception $e) {
+            echo sprintf("The message was rejected with the following message: %s\n", $e->getMessage());
+
+            return ConsumerInterface::MSG_REJECT;
+        }
     }
 }

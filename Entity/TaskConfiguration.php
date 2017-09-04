@@ -33,7 +33,7 @@ class TaskConfiguration implements LoggableInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=100)
+     * @ORM\Column(name="name", unique=true, type="string", length=100)
      */
     private $name;
 

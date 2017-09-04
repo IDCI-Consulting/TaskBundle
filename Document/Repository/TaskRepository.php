@@ -22,4 +22,20 @@ class TaskRepository extends DocumentRepository
             ->execute()
         ;
     }
+
+    /**
+     * Find passed tasks.
+     *
+     * @return array
+     */
+    public function findPassedTasks()
+    {
+        return $this
+            ->createQueryBuilder()
+            ->field("actions.0.statuses.0.status")
+            ->equals(TaskEvents::PASSED)
+            ->getQuery()
+            ->execute()
+        ;
+    }
 }
