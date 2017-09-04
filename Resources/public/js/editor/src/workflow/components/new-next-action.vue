@@ -1,7 +1,7 @@
 <template>
 
     <div class="row">
-        <configured-action-name-list @changed="updateSelectedName" class="col-md-10"></configured-action-name-list>
+        <configured-action-name-list @changed="updateSelectedName" :previousAction="previousAction" class="col-md-10"></configured-action-name-list>
         <div class="col-md-2">
             <button @click.prevent="createNextAction" type="button" class="btn btn-default" aria-label="Create">
                 Add

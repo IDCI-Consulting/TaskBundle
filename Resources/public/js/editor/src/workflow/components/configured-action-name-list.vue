@@ -17,7 +17,7 @@ import multiSelect from 'vue-multiselect';
 
 export default {
 
-    props: ['index', 'value'],
+    props: ['index', 'value', 'previousAction'],
 
     data: function () {
         return {
@@ -32,6 +32,7 @@ export default {
 
     computed: {
         configuredActionNames: function () {
+            let actionIndex;
             let actions = this.$store.getters.getActionsConfiguration;
             let names = [];
 
@@ -39,6 +40,12 @@ export default {
                 names = actions.map(function (action) {
                     return action.name;
                 });
+            }
+
+            if (null != this.previousAction) {
+                if ((actionIndex = names.indexOf(this.previousAction)) !== -1) {
+                    names.splice(actionIndex, 1);
+                }
             }
 
             if (null == this.selectedName && names.length > 0) {

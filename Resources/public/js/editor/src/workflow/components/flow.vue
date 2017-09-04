@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label>default next</label>
-            <configured-action-name-list @changed="updateDefaultNextAction" :value="action.default_next"></configured-action-name-list>
+            <configured-action-name-list @changed="updateDefaultNextAction" :previousAction="previousAction" :value="action.default_next"></configured-action-name-list>
         </div>
     </div>
 </template>
