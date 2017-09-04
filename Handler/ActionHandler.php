@@ -90,7 +90,7 @@ class ActionHandler
             new TaskEvent($task)
         );
 
-        $currentActionData = $this->registry->getAction($currentAction['action'])->execute($task, $parameters);
+        $currentActionData = $this->registry->getAction($currentAction['service'])->execute($task, $parameters);
 
         if ($currentActionData['error']) {
             $this->dispatcher->dispatch(

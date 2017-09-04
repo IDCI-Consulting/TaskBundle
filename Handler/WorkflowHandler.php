@@ -36,8 +36,8 @@ class WorkflowHandler
         $workflow = $task->getConfiguration()->getWorkflow();
         $nextDestinations = array();
 
-        if (isset($workflow['actions'][$currentActionName]['next'])) {
-            $nextDestinations = $workflow['actions'][$currentActionName]['next'];
+        if (isset($workflow['flow'][$currentActionName]['next'])) {
+            $nextDestinations = $workflow['flow'][$currentActionName]['next'];
         }
 
         foreach ($nextDestinations as $nextDestination) {
@@ -54,7 +54,7 @@ class WorkflowHandler
             }
         }
 
-        $nextAction->setName($workflow['actions'][$currentActionName]['default_next']);
+        $nextAction->setName($workflow['flow'][$currentActionName]['default_next']);
 
         return $nextAction;
     }
