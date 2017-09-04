@@ -9,8 +9,8 @@ export default {
   },
 
   getActionParametersUrl: function (state) {
-    return function (name) {
-      return state.configuration.api_urls.get_action_parameters.replace('ACTION_NAME', name);
+    return function (serviceName) {
+      return state.configuration.api_urls.get_action_parameters.replace('ACTION_NAME', serviceName);
     }
   },
 
@@ -19,9 +19,9 @@ export default {
   },
 
   getAction: function (state) {
-    return function (name) {
+    return function (serviceName) {
       return state.actions.find(function (element) {
-        return element.name === name
+        return element.name === serviceName
       });
     }
   },

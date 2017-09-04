@@ -2,10 +2,10 @@
 
     <div>
         <multiselect
-        v-model="selectedName"
-        :options="configuredActionNames"
-        selectLabel=""
-        placeholder="Select an action configured above">
+            v-model="selectedName"
+            :options="configuredActionNames"
+            selectLabel=""
+            placeholder="Select an action configured above">
         </multiselect>
     </div>
 

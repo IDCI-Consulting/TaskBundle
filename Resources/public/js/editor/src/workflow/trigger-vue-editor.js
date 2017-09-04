@@ -64,7 +64,7 @@ function triggerVueEditor(element, configuration) {
       let workflowConfiguration = JSON.parse(configuration.form.value);
 
       for (let key in workflowConfiguration.actions) {
-          store.dispatch('setActionParameters', { http: this.$http, action: workflowConfiguration.actions[key].action });
+          store.dispatch('setActionParameters', { http: this.$http, service: workflowConfiguration.actions[key].service });
       }
     },
 

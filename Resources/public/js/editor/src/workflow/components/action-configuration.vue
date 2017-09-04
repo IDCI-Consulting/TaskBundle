@@ -5,16 +5,16 @@
             <button @click.prevent="remove" aria-label="Close" class="close">
                 <span aria-hidden="true">×</span>
             </button>
-            <strong>{{ action.action }}</strong>
+            <strong>{{ action.service }}</strong>
             <div class="options extra-form-inputs-required">
                 <div class="form-group">
                     <label>name</label>
-                    <input class="form-control" v-model="actionAccessName" type="text"/>
+                    <input class="form-control" v-model="actionName" type="text"/>
                 </div>
                 <div class="form-group">
                     <label>parameters</label>
                     <parameter
-                        v-for="(parameterOption, parameterName) in getActionParameters(action.action)"
+                        v-for="(parameterOption, parameterName) in getActionParameters(action.service)"
                         :key="parameterName"
                         :name="parameterName"
                         :option="parameterOption"
@@ -38,21 +38,21 @@ export default {
 
     data: function () {
         return {
-            actionAccessName: null
+            actionName: null
         };
     },
 
     computed: {
         action: function () {
             let action = this.$store.getters.getActionConfiguration(this.index);
-            this.actionAccessName = action.name;
+            this.actionName = action.name;
 
             return action;
         }
     },
 
     watch: {
-        actionAccessName: {
+        actionName: {
             handler: function (newActionName) {
                 let payload = {
                     actionIndex: this.index,
@@ -69,6 +69,7 @@ export default {
     },
 
     methods: {
+
         /**
          * Update parameter
          *
@@ -84,21 +85,12 @@ export default {
         },
 
         /**
-         * Check if the path event action type has a configuration
+         * Get the parameters for an action
          *
          * @returns {boolean}
          */
-        hasConfiguration: function () {
-            return Object.keys(this.pathEventActionType).length > 0;
-        },
-
-        /**
-         * Check if the path event action type has a configuration
-         *
-         * @returns {boolean}
-         */
-        getActionParameters: function (actionName) {
-            let action = this.$store.getters.getAction(actionName);
+        getActionParameters: function (actionService) {
+            let action = this.$store.getters.getAction(actionService);
 
             if (null != action) {
                 return action.parameters;
@@ -108,19 +100,10 @@ export default {
         },
 
         /**
-         * Remove a path event action
+         * Remove an action
          */
         remove: function () {
             this.$emit('remove');
-        },
-
-        /**
-         * Update an option
-         *
-         * @param option
-         */
-        updateOption: function (option) {
-            this.$emit('updateOption', option);
         }
     }
 };
