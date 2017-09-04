@@ -148,7 +148,7 @@ export default {
       default_next: payload.default_next
     };
 
-    Vue.set(state.data.workflow.actions, payload.selectedName, action);
+    Vue.set(state.data.workflow.flow, payload.selectedName, action);
 
     this.commit('updateRawField');
   },
@@ -160,7 +160,7 @@ export default {
    * @param {string} actionName - The action name.
    */
   removeActionToFlow: function (state, actionName) {
-    Vue.delete(state.data.workflow.actions, actionName);
+    Vue.delete(state.data.workflow.flow, actionName);
 
     this.commit('updateRawField');
   },
@@ -176,7 +176,7 @@ export default {
       condition: payload.condition
     };
 
-    state.data.workflow.actions[payload.selectedName].next.push(nextAction);
+    state.data.workflow.flow[payload.selectedName].next.push(nextAction);
 
     this.commit('updateRawField');
   },
@@ -188,7 +188,7 @@ export default {
    * @param {Object} payload - The payload that contains the index of the next action & the action where the next action is configured.
    */
   removeNextAction: function (state, payload) {
-    state.data.workflow.actions[payload.action].next.splice(payload.index, 1);
+    state.data.workflow.flow[payload.action].next.splice(payload.index, 1);
 
     this.commit('updateRawField');
   },
@@ -202,7 +202,7 @@ export default {
    */
   updateNextActionName: function (state, payload) {
     Vue.set(
-      state.data.workflow.actions[payload.action].next[payload.index],
+      state.data.workflow.flow[payload.action].next[payload.index],
       'name',
       payload.name
     );
@@ -218,7 +218,7 @@ export default {
    */
   updateNextActionCondition: function (state, payload) {
     Vue.set(
-      state.data.workflow.actions[payload.action].next[payload.index],
+      state.data.workflow.flow[payload.action].next[payload.index],
       'condition',
       payload.condition
     );

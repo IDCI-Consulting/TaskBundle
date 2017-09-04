@@ -55,7 +55,7 @@ export default {
             let workflowConfiguration = this.$store.getters.getWorkflowConfiguration;
 
             if (null != workflowConfiguration) {
-                return workflowConfiguration.actions;
+                return workflowConfiguration.flow;
             }
         },
 
