@@ -40,7 +40,6 @@ export default {
     computed: {
         flow: function () {
             let workflowConfiguration = this.$store.getters.getWorkflowConfiguration;
-            console.log(workflowConfiguration);
 
             if (null != workflowConfiguration) {
                 return workflowConfiguration.flows;

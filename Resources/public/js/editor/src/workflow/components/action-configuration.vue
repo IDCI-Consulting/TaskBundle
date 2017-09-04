@@ -4,7 +4,7 @@
         <button @click.prevent="remove" aria-label="Close" class="close">
             <span aria-hidden="true">×</span>
         </button>
-        <h5>Chosed service: <strong>{{ action.service }}</strong></h5>
+        <h5>Chosen service: <strong>{{ action.service }}</strong></h5>
         <div class="collapsed-block">
             <div class="form-group">
                 <label>name</label>
