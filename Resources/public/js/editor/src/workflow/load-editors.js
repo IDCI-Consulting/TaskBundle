@@ -18,7 +18,7 @@ function loadEditors() {
       var configuration = window[element.getAttribute('data-configuration-variable')];
       configuration.form = utils.createAttributeMapObject(element);
 
-//      element.style.display = 'none';
+      element.style.display = 'none';
 
       // Insert the editor right after the current element
       var editor = document.createElement('div');
