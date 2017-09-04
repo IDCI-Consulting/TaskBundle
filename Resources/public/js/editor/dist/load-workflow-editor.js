@@ -620,7 +620,7 @@ function loadEditors() {
       var configuration = window[element.getAttribute('data-configuration-variable')];
       configuration.form = __WEBPACK_IMPORTED_MODULE_0_vue_editor_commons__["utils"].createAttributeMapObject(element);
 
-//      element.style.display = 'none';
+      element.style.display = 'none';
 
       // Insert the editor right after the current element
       var editor = document.createElement('div');

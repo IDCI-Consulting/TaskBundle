@@ -4,10 +4,7 @@
         <button @click.prevent="remove" aria-label="Close" class="close">
             <span aria-hidden="true">×</span>
         </button>
-        <div class="form-group">
-            <label>Action</label>
-            <configured-action-name-list @changed="updateNextActionName" :value="nextAction.name"></configured-action-name-list>
-        </div>
+        <h5>Next action: <strong>{{ nextAction.name }}</strong></h5>
         <div class="form-group">
             <label>condition</label>
             <input type="text" class="form-control" v-model="nextAction.condition" />
@@ -22,7 +19,7 @@ import configuredActionNameList from './configured-action-name-list.vue';
 
 export default {
 
-    props: ['index', 'action', 'nextAction'],
+    props: ['index', 'previousAction', 'nextAction'],
 
     components: {
         'configured-action-name-list': configuredActionNameList
@@ -30,13 +27,13 @@ export default {
 
     methods: {
         remove: function () {
-            this.$emit('removed', { index: this.index, action: this.action });
+            this.$emit('removed', { index: this.index, previousAction: this.previousAction });
         },
 
         updateNextActionName: function(selectedName) {
             let payload = {
                 index: this.index,
-                action: this.action,
+                previousAction: this.previousAction,
                 name: selectedName
             };
 
@@ -49,7 +46,7 @@ export default {
             handler: function (newCondition) {
                 let payload = {
                     index: this.index,
-                    action: this.action,
+                    previousAction: this.previousAction,
                     condition: newCondition
                 };
 

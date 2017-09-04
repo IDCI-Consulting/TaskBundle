@@ -1,10 +1,12 @@
 <template>
 
-    <div>
-        <configured-action-name-list @changed="updateSelectedName"></configured-action-name-list>
-        <button @click.prevent="createNextAction" type="button" class="btn btn-default" aria-label="Create">
-            Add
-        </button>
+    <div class="row">
+        <configured-action-name-list @changed="updateSelectedName" class="col-md-10"></configured-action-name-list>
+        <div class="col-md-2">
+            <button @click.prevent="createNextAction" type="button" class="btn btn-default" aria-label="Create">
+                Add
+            </button>
+        </div>
     </div>
 
 </template>
@@ -14,6 +16,8 @@
 import configuredActionNameList from './configured-action-name-list.vue';
 
 export default {
+
+    props: ['previousAction'],
 
     data: function () {
         return {
@@ -34,8 +38,8 @@ export default {
         createNextAction: function () {
             try {
                 let payload = {
-                    selectedName: this.selectedName,
-                    actionName: '',
+                    previousAction: this.previousAction,
+                    actionName: this.selectedName,
                     condition: ''
                 };
 
