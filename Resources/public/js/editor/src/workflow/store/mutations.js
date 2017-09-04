@@ -204,7 +204,7 @@ export default {
    */
   updateDefaultNextAction: function (state, payload) {
     Vue.set(
-        state.data.workflow.actions[payload.previousAction],
+        state.data.workflow.flows[payload.previousAction],
         'default_next',
         payload.defaultNext
     );
