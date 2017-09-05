@@ -13974,7 +13974,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "name": parameterName,
         "option": parameterOption,
         "value": _vm.action.parameters[parameterName],
-        "requiredStar": true
+        "required-star": true
       },
       on: {
         "change": _vm.updateParameter
