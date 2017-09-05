@@ -1,9 +1,14 @@
 extract_rules:
     type:         rest
     resource:     IDCI\Bundle\TaskBundle\Controller\Rest\ApiExtractRuleController
-    name_prefix:  api_extract_rules_
+    name_prefix:  idci_task_api_extract_rules_
 
 actions:
     type:         rest
     resource:     IDCI\Bundle\TaskBundle\Controller\Rest\ApiActionController
-    name_prefix:  api_actions_
+    name_prefix:  idci_task_api_actions_
+
+start_tasks:
+    type:         rest
+    resource:     IDCI\Bundle\TaskBundle\Controller\Rest\ApiStartTasksController
+    name_prefix:  idci_task_api_start_tasks_
