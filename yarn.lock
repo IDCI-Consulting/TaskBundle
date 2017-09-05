@@ -7354,7 +7354,7 @@ vue-cli@^2.8.2:
     webpack-hot-middleware "^2.15.0"
     webpack-merge "^2.3.1"
 
-vue-editor-commons@^1.0.6:
+vue-editor-commons@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/vue-editor-commons/-/vue-editor-commons-1.0.8.tgz#cfd19bba59f2fc1a6b673a90659b64a4242371c6"
 
