@@ -33,7 +33,7 @@ class ExtractRuleConfigurationRule implements ConfigurationInterface
         $rootNode = $treeBuilder->root('extract_rule');
         $rootNode
             ->children()
-                ->enumNode('extract_rule')
+                ->enumNode('service')
                     ->values(array_keys($this->extractRuleRegistry->getRules()))
                 ->end()
                 ->arrayNode('parameters')

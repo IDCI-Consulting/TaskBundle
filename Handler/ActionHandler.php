@@ -22,19 +22,29 @@ use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
  */
 class ActionHandler
 {
-    /** @var ActionRegistry */
+    /**
+     * @var ActionRegistry
+     */
     protected $registry;
 
-    /** @var EventDispatcherInterface */
+    /**
+     * @var EventDispatcherInterface
+     */
     protected $dispatcher;
 
-    /** @var \Twig_Environment */
+    /**
+     * @var \Twig_Environment
+     */
     protected $merger;
 
-    /** @var ProducerInterface */
+    /**
+     * @var ProducerInterface
+     */
     protected $actionProducer;
 
-    /** @var WorkflowHandler */
+    /**
+     * @var WorkflowHandler
+     */
     protected $workflowHandler;
 
     /** @var LoggerInterface */
@@ -44,15 +54,15 @@ class ActionHandler
     protected $taskLogProcessor;
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param ProducerInterface $actionProducer
-     * @param ActionRegistry    $registry
-     * @param \Twig_Environment $merger
-     * @param ProducerInterface $actionProducer
-     * @param WorkflowHandler   $workflowHandler
-     * @param LoggerInterface   $logger
-     * @param TaskLogProcessor  $taskLogProcessor
+     * @param ActionRegistry           $registry
+     * @param EventDispatcherInterface $dispatcher
+     * @param \Twig_Environment        $merger
+     * @param ProducerInterface        $actionProducer
+     * @param WorkflowHandler          $workflowHandler
+     * @param LoggerInterface          $logger
+     * @param TaskLogProcessor         $taskLogProcessor
      */
     public function __construct(
         ActionRegistry           $registry,
@@ -95,7 +105,7 @@ class ActionHandler
         );
 
         try {
-            $currentActionData = $this->registry->getAction($currentAction['action'])->execute($task, $parameters);
+            $currentActionData = $this->registry->getAction($currentAction['service'])->execute($task, $parameters);
         } catch(\Exception $e) {
             $this->taskLogProcessor->setTask($task);
             $this->logger->error($e->getMessage());

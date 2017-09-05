@@ -2,6 +2,7 @@
 
 namespace IDCI\Bundle\TaskBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
@@ -25,7 +26,7 @@ class Action
 
     public function __construct()
     {
-        $this->statuses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->statuses = new ArrayCollection();
     }
     
     /**
@@ -55,14 +56,16 @@ class Action
      * Add status
      * Insert the status in first position to build the mongo query more easily.
      *
-     * @param IDCI\Bundle\TaskBundle\Document\ActionStatus $status
+     * @param ActionStatus $status
+     *
+     * @return Action
      */
-    public function addStatus(\IDCI\Bundle\TaskBundle\Document\ActionStatus $status)
+    public function addStatus(ActionStatus $status)
     {
         $statuses = $this->statuses->toArray();
         array_unshift($statuses, $status);
 
-        $this->statuses = new \Doctrine\Common\Collections\ArrayCollection($statuses);
+        $this->statuses = new ArrayCollection($statuses);
 
         return $this;
     }
@@ -70,9 +73,11 @@ class Action
     /**
      * Remove status
      *
-     * @param IDCI\Bundle\TaskBundle\Document\ActionStatus $status
+     * @param ActionStatus $status
+     *
+     * @return Action
      */
-    public function removeStatus(\IDCI\Bundle\TaskBundle\Document\ActionStatus $status)
+    public function removeStatus(ActionStatus $status)
     {
         $this->statuses->removeElement($status);
 
@@ -82,7 +87,7 @@ class Action
     /**
      * Get statuses
      *
-     * @return \Doctrine\Common\Collections\Collection $statuses
+     * @return ArrayCollection $statuses
      */
     public function getStatuses()
     {

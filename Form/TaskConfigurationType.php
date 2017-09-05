@@ -15,11 +15,9 @@ class TaskConfigurationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $task = $builder->getData();
-
         $builder
             ->add('name')
-            ->add('extractRule', 'textarea', array(
+            ->add('extractRule', 'extract_rule_editor', array(
                 'constraints' => array(
                     new IDCITaskConstraint\CheckJson(),
                     new CheckConfiguration(array(
@@ -27,7 +25,7 @@ class TaskConfigurationType extends AbstractType
                     )),
                 ),
             ))
-            ->add('workflow', 'textarea', array(
+            ->add('workflow', 'workflow_editor', array(
                 'constraints' => array(
                     new IDCITaskConstraint\CheckJson(),
                     new CheckConfiguration(array(

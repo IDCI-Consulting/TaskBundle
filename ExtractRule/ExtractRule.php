@@ -16,7 +16,7 @@ class ExtractRule
     protected $name;
 
     /**
-     * @var Action
+     * @var string
      */
     protected $parent;
 

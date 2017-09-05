@@ -10,6 +10,7 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 use IDCI\Bundle\RestBundle\Repository\AbstractEntityRepository;
+use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
 
 /**
  * TaskConfigurationRepository.

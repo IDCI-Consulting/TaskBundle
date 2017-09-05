@@ -26,7 +26,7 @@ class TaskData
     /**
      * Set extractedData
      *
-     * @param hash $extractedData
+     * @param array $extractedData
      * @return $this
      */
     public function setExtractedData($extractedData)
@@ -42,7 +42,7 @@ class TaskData
     /**
      * Get extractedData
      *
-     * @return hash $extractedData
+     * @return array $extractedData
      */
     public function getExtractedData()
     {
@@ -52,7 +52,7 @@ class TaskData
     /**
      * Set actionData
      *
-     * @param hash $actionData
+     * @param array $actionData
      * @return $this
      */
     public function setActionData($actionData)
@@ -68,7 +68,7 @@ class TaskData
     /**
      * Get actionData
      *
-     * @return hash $actionData
+     * @return array $actionData
      */
     public function getActionData()
     {

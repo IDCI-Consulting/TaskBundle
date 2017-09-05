@@ -19,17 +19,33 @@ class DataExtractedEvent extends Event
      */
     protected $data;
 
+    /**
+     * Constructor.
+     *
+     * @param TaskConfiguration $taskConfiguration
+     * @param $data
+     */
     public function __construct(TaskConfiguration $taskConfiguration, $data)
     {
         $this->taskConfiguration = $taskConfiguration;
         $this->data = $data;
     }
 
+    /**
+     * Get the task configuration.
+     *
+     * @return TaskConfiguration
+     */
     public function getTaskConfiguration()
     {
         return $this->taskConfiguration;
     }
 
+    /**
+     * Get the data.
+     *
+     * @return array
+     */
     public function getData()
     {
         return $this->data;

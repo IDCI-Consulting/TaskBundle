@@ -136,3 +136,16 @@ services:
     idci_task.merger:
         class:        "%twig.class%"
         arguments:    ["@idci_task.twig_array_loader"]
+
+    ## FormType ##
+    form.type.idci_task.extract_rule.editor:
+       class: IDCI\Bundle\TaskBundle\Form\Type\ExtractRuleEditorType
+       tags:
+           - { name: form.type, alias: extract_rule_editor }
+           - { name: idci_asset_loader.asset_provider, alias: extract_rule_editor }
+
+    form.type.idci_task.workflow.editor:
+        class: IDCI\Bundle\TaskBundle\Form\Type\WorkflowEditorType
+        tags:
+            - { name: form.type, alias: workflow_editor }
+            - { name: idci_asset_loader.asset_provider, alias: workflow_editor }

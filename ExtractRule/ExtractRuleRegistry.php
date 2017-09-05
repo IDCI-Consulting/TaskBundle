@@ -10,7 +10,9 @@ use IDCI\Bundle\TaskBundle\Exception\UnexpectedTypeException;
 
 class ExtractRuleRegistry implements ExtractRuleRegistryInterface
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $extractRules = array();
 
     /**
