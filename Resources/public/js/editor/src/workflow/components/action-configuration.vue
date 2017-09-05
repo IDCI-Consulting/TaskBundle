@@ -19,12 +19,13 @@
             </a>
             <div :id="id" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" :aria-controls="id">
                 <parameter
-                 v-for="(parameterOption, parameterName) in parameters"
-                 :key="parameterName"
-                 :name="parameterName"
-                 :option="parameterOption"
-                 :value="action.parameters[parameterName]"
-                 @change="updateParameter"
+                  v-for="(parameterOption, parameterName) in parameters"
+                  :key="parameterName"
+                  :name="parameterName"
+                  :option="parameterOption"
+                  :value="action.parameters[parameterName]"
+                  :requiredStar="true"
+                  @change="updateParameter"
                  ></parameter>
             </div>
         </div>
