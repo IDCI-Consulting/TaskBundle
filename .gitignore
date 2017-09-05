@@ -7,6 +7,9 @@ phpunit.xml
 # Node modules
 node_modules
 
+# Remove sourmap file
+*map
+
 # Tests
 /Tests/cache
 /Tests/logs
