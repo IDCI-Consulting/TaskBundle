@@ -50,7 +50,7 @@ class ExtractRuleCompilerPass implements CompilerPassInterface
 
             if (null !== $configuration['parent']) {
                 if (!$container->hasDefinition($this->getDefinitionName($configuration['parent']))) {
-                    throw new UndefinedServiceException($configuration['parent']);
+                    throw new UndefinedExtractRuleException($configuration['parent']);
                 }
 
                 $configuration['parent'] = new Reference(

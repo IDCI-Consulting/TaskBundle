@@ -9,16 +9,21 @@ use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
 
 class ExtractRuleHandler
 {
-    /** @var ExtractRuleRegistry */
+    /**
+     * @var ExtractRuleRegistry
+     */
     protected $registry;
 
-    /** @var EventDispatcherInterface */
+    /**
+     * @var EventDispatcherInterface
+     */
     protected $dispatcher;
 
     /**
      * Constructor.
      *
-     * @param ExtractRuleRegistry $registry
+     * @param ExtractRuleRegistry      $registry
+     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
         ExtractRuleRegistry      $registry,
@@ -39,7 +44,7 @@ class ExtractRuleHandler
 
         // Extract data
         $extractedData = $this->registry
-            ->getRule($extractRuleConfiguration['extract_rule'])
+            ->getRule($extractRuleConfiguration['service'])
             ->extract($extractRuleConfiguration['parameters'])
         ;
 

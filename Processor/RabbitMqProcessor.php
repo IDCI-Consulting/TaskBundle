@@ -10,13 +10,19 @@ use IDCI\Bundle\TaskBundle\Manager\TaskConfigurationManager;
 
 class RabbitMqProcessor implements ProcessorInterface
 {
-    /** @var ProducerInterface */
+    /**
+     * @var ProducerInterface
+     */
     private $extractRuleProducer;
 
-    /** @var ProducerInterface */
+    /**
+     * @var ProducerInterface
+     */
     private $actionProducer;
 
-    /** @var taskConfigurationManager */
+    /**
+     * @var taskConfigurationManager
+     */
     private $taskConfigurationManager;
 
     public function __construct(

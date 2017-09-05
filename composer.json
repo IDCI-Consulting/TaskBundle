@@ -31,6 +31,7 @@
         "friendsofsymfony/rest-bundle": "~1.5",
         "php-amqplib/rabbitmq-bundle":  "~1.6",
         "mtdowling/cron-expression":    "~1.2",
+        "idci/asset-loader-bundle":     "~1.0",
         "tms/logger-bundle":            "~1.0"
     },
     "require-dev": {

@@ -16,10 +16,14 @@ use IDCI\Bundle\TaskBundle\Event\TaskEvents;
 
 class TaskHandler
 {
-    /** @var DocumentManager */
+    /**
+     * @var DocumentManager
+     */
     protected $documentManager;
 
-    /** @var EventDispatcherInterface */
+    /**
+     * @var EventDispatcherInterface
+     */
     protected $dispatcher;
 
     /**

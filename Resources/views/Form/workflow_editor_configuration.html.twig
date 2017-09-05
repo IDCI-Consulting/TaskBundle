@@ -1,0 +1,10 @@
+<!-- Build the editor configuration -->
+<script type="text/javascript">
+    window['{{ form.vars.id }}_configuration'] = {
+        editorId: '{{ form.vars.id }}',
+        api_urls: {
+            get_actions: '{{ path('idci_task_api_actions_get_actions', { '_format': 'json' }) }}',
+            get_action_parameters: '{{ path('idci_task_api_actions_get_action_parameters', { 'name': 'ACTION_NAME' ,'_format': 'json' }) }}'
+        }
+    };
+</script>

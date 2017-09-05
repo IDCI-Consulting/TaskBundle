@@ -2,6 +2,8 @@
 
 namespace IDCI\Bundle\TaskBundle\Processor;
 
+use Tms\Bundle\TaskBundle\Document\Task;
+
 class DefaultProcessor implements ProcessorInterface
 {
     /**

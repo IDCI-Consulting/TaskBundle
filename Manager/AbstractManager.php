@@ -4,9 +4,9 @@ namespace IDCI\Bundle\TaskBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use IDCI\Bundle\LoggerBundle\Logger\LoggableInterface;
-use IDCI\Bundle\LoggerBundle\Event\LogEvents;
-use IDCI\Bundle\LoggerBundle\Event\LogEvent;
+use Tms\Bundle\LoggerBundle\Event\LogEvent;
+use Tms\Bundle\LoggerBundle\Event\LogEvents;
+use Tms\Bundle\LoggerBundle\Logger\LoggableInterface;
 
 /**
  * Abstract manager.
@@ -53,7 +53,7 @@ abstract class AbstractManager
     /**
      * Get Repository.
      *
-     * @return \Doctrine\ORM\EntityManager\EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
     public function getRepository()
     {

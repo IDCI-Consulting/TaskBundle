@@ -9,12 +9,12 @@ Extract rule configuration reference
 
 The extract rule configuration must be a json object (Beginning by `{` and ending by `}`).
 This json object has two keys :
-* `extract_rule`: The extract rule alias.
+* `service`: The extract rule service alias.
 * `parameters`: The extract rule parameters.
 
 ```json
 {
-    "extract_rule": "the_extract_rule_name",
+    "service": "extract_rule_service_name",
     "parameters": {
         "parameter_1_name": "parameter_1_value"
         ...

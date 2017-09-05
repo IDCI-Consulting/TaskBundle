@@ -10,8 +10,16 @@ use IDCI\Bundle\TaskBundle\Event\DataExtractedEvent;
 
 class ExtractedDataSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var ProducerInterface
+     */
     protected $taskProducer;
 
+    /**
+     * Constructor.
+     *
+     * @param ProducerInterface $taskProducer
+     */
     public function __construct(ProducerInterface $taskProducer)
     {
         $this->taskProducer = $taskProducer;

@@ -56,3 +56,6 @@ da_api_client:
             endpoint_root:  "%api.document.endpoint_root%"
             security_token: "%api.security_token%"
             cache_enabled:  false
+
+idci_asset_loader:
+    auto_load: true

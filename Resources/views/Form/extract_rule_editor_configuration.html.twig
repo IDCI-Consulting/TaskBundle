@@ -1,0 +1,9 @@
+<script type="text/javascript">
+    var {{ form.vars.id }}_configuration = {
+        editorId: '{{ form.vars.id }}',
+        api_url: {
+            get_extract_rules: '{{ path('idci_task_api_extract_rules_get_extract_rules', { '_format': 'json'}) }}',
+            get_extract_rules_parameters: '{{ path('idci_task_api_extract_rules_get_extract_rules_parameters', { '_format': 'json', 'name': 'XNAME'}) }}',
+        }
+    };
+</script>

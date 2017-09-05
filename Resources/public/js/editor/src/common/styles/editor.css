@@ -1,0 +1,47 @@
+.editor h1,
+.editor h2,
+.editor h3,
+.editor h4,
+.editor h5,
+.editor h6 {
+  margin-bottom: 6px;
+}
+
+.editor button {
+  display: inline-block;
+  min-width: inherit;
+  padding: 9px;
+}
+
+.editor div.parameters .form-group .form-control-wrapper textarea {
+  min-width: inherit;
+}
+
+.editor span.required-star {
+  color: #c9302c;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+
+/*******************************
+ *      Workflow editor        *
+ *******************************/
+
+.configuration-box {
+  border: 1px solid #CECECE;
+  margin: 10px auto;
+  padding: 10px;
+  -webkit-transition: box-shadow 1s;
+  transition: box-shadow .5s;
+  width: 90%;
+}
+
+.configuration-box:hover {
+  box-shadow: #555 0 0 3px
+}
+
+.configuration-box .collapsed-block > a .configuration-box .form-group {
+    margin: 0;
+}

@@ -1,0 +1,15 @@
+.editor .collapsed-block > a > span {
+    display: inline-block;
+    float: right;
+    font-size: 20px;
+}
+
+.editor .collapsed-block > a > span .fa-plus-circle { display: none; }
+.editor .collapsed-block > a > span .fa-minus-circle { display: inline-block; }
+.editor .collapsed-block > a.collapsed > span .fa-plus-circle { display: inline-block; }
+.editor .collapsed-block > a.collapsed > span .fa-minus-circle { display: none; }
+
+.editor .collapsed-block > a {
+    display: block;
+    margin: 10px 0;
+}
