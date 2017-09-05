@@ -9,6 +9,7 @@ namespace IDCI\Bundle\TaskBundle\Tests\Handler;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use PHPUnit\Framework\TestCase;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
+use Psr\Log\LoggerInterface;
 use IDCI\Bundle\TaskBundle\Handler\ActionHandler;
 use IDCI\Bundle\TaskBundle\Handler\WorkflowHandler;
 use IDCI\Bundle\TaskBundle\Action\ActionRegistry;
@@ -19,6 +20,7 @@ use IDCI\Bundle\TaskBundle\Document\Action;
 use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 use IDCI\Bundle\TaskBundle\Event\TaskEvents;
+use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
 class ActionHandlerTest extends TestCase
 {
@@ -27,12 +29,14 @@ class ActionHandlerTest extends TestCase
     private $taskLogger;
     private $action;
     private $merger;
+    private $logger;
+    private $taskLogProcessor;
 
     public function setUp()
     {
         $this->actionRegistry = $this
             ->getMockBuilder(ActionRegistry::class)
-            ->setMethods(array('hasAction', 'getAction'))
+            ->setMethods(array('getAction'))
             ->getMock()
         ;
 
@@ -55,6 +59,16 @@ class ActionHandlerTest extends TestCase
             ->getMock()
         ;
 
+        $this->logger = $this
+            ->getMockBuilder(LoggerInterface::class)
+            ->getMock()
+        ;
+
+        $this->taskLogProcessor = $this
+            ->getMockBuilder(TaskLogProcessor::class)
+            ->getMock()
+        ;
+
         $this->merger = new \Twig_Environment(new \Twig_Loader_Array());
         $this->workflowHandler = new WorkflowHandler($this->merger);
 
@@ -63,7 +77,9 @@ class ActionHandlerTest extends TestCase
             $this->eventDispatcher,
             $this->merger,
             $this->actionProducer,
-            $this->workflowHandler
+            $this->workflowHandler,
+            $this->logger,
+            $this->taskLogProcessor
         );
     }
 
@@ -77,12 +93,6 @@ class ActionHandlerTest extends TestCase
         );
 
         $action = $task->getConfiguration()->getAction($task->getActions()->first()->getName());
-        $this->actionRegistry
-            ->expects($this->once())
-            ->method('hasAction')
-            ->with($this->equalTo($action['action']))
-            ->will($this->returnValue(true))
-        ;
 
         $this->eventDispatcher
             ->expects($this->exactly(3))
@@ -97,7 +107,7 @@ class ActionHandlerTest extends TestCase
         $this->actionRegistry
             ->expects($this->once())
             ->method('getAction')
-            ->with($this->equalTo($action['action']))
+            ->with($this->equalTo($action['service']))
             ->will($this->returnValue($this->action))
         ;
 
@@ -107,7 +117,7 @@ class ActionHandlerTest extends TestCase
             ->will($this->returnValue($actionData))
         ;
 
-        $this->assertTrue($this->actionHandler->execute($task));
+        $this->assertEquals(null, $this->actionHandler->execute($task));
     }
 
     public function testLastActionExecution()
@@ -117,21 +127,12 @@ class ActionHandlerTest extends TestCase
         $task->getConfiguration()->setWorkflow(array(
             "name" => "workflow_1",
             "first_action_name" => "generated_document",
-            "actions" => array()
+            "flows" => array()
         ));
 
-        $actionData = array(
-            'error' => false,
-            'data' => array('Dummy value returned by action execute method'),
-        );
+        $actionData = 'Dummy value returned by action execute method';
 
         $action = $task->getConfiguration()->getAction($task->getActions()->first()->getName());
-        $this->actionRegistry
-            ->expects($this->once())
-            ->method('hasAction')
-            ->with($this->equalTo($action['action']))
-            ->will($this->returnValue(true))
-        ;
 
         $this->eventDispatcher
             ->expects($this->exactly(2))
@@ -145,7 +146,7 @@ class ActionHandlerTest extends TestCase
         $this->actionRegistry
             ->expects($this->once())
             ->method('getAction')
-            ->with($this->equalTo($action['action']))
+            ->with($this->equalTo($action['service']))
             ->will($this->returnValue($this->action))
         ;
 
@@ -155,25 +156,16 @@ class ActionHandlerTest extends TestCase
             ->will($this->returnValue($actionData))
         ;
 
-        $this->assertTrue($this->actionHandler->execute($task));
+        $this->assertEquals(null, $this->actionHandler->execute($task));
     }
 
     public function testExecutionErrored()
     {
         $task = self::createTask();
 
-        $actionData = array(
-            'error' => true,
-            'data' => array('Dummy value returned by action execute method'),
-        );
+        $actionData = 'Dummy value returned by action execute method';
 
         $action = $task->getConfiguration()->getAction($task->getActions()->first()->getName());
-        $this->actionRegistry
-            ->expects($this->once())
-            ->method('hasAction')
-            ->with($this->equalTo($action['action']))
-            ->will($this->returnValue(true))
-        ;
 
         $this->eventDispatcher
             ->expects($this->exactly(2))
@@ -187,17 +179,17 @@ class ActionHandlerTest extends TestCase
         $this->actionRegistry
             ->expects($this->once())
             ->method('getAction')
-            ->with($this->equalTo($action['action']))
+            ->with($this->equalTo($action['service']))
             ->will($this->returnValue($this->action))
         ;
 
         $this->action
             ->expects($this->once())
             ->method('execute')
-            ->will($this->returnValue($actionData))
+            ->will($this->throwException(new \Exception()))
         ;
 
-        $this->assertFalse($this->actionHandler->execute($task));
+        $this->assertEquals(null, $this->actionHandler->execute($task));
     }
 
     public function testMerge()
@@ -254,7 +246,7 @@ class ActionHandlerTest extends TestCase
             ->setWorkflow(array(
                 "name" => "workflow_1",
                 "first_action_name" => "generated_document",
-                "actions" => array(
+                "flows" => array(
                     "generated_document" => array(
                         "next" => array(
                             array(
@@ -269,7 +261,7 @@ class ActionHandlerTest extends TestCase
             ->setActions(array(
                 array(
                     'name' => 'generated_document',
-                    'action' => 'generate_document',
+                    'service' => 'generate_document',
                     'parameters' => array(
                         'document_id' => 'test-task',
                         'data' => array(
@@ -279,7 +271,7 @@ class ActionHandlerTest extends TestCase
                 ),
                 array(
                     'name' => 'participation_notification',
-                    'action' => 'notify',
+                    'service' => 'notify',
                     'parameters' => array(
                         'notifierAlias' => 'test',
                         'subject' => 'participation {{ extracted_data.id }}',
@@ -289,7 +281,7 @@ class ActionHandlerTest extends TestCase
                 ),
                 array(
                     'name' => 'participation_notification_2',
-                    'action' => 'notify',
+                    'service' => 'notify',
                     'parameters' => array(
                         'notifierAlias' => 'test',
                         'subject' => 'participation {{ extracted_data.id }}',

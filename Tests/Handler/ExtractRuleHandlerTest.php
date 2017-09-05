@@ -99,11 +99,9 @@ class ExtractRuleHandlerTest extends TestCase
     public function testExecute()
     {
         $extractRule = array(
-            'rule' => array(
-                'service' => 'api_participations',
-                'parameters' => array(
-                    'id' => '58da7cc43aaa0609008b4569',
-                ),
+            'service' => 'api_participations',
+            'parameters' => array(
+                'id' => '58da7cc43aaa0609008b4569',
             ),
         );
 
@@ -128,14 +126,14 @@ class ExtractRuleHandlerTest extends TestCase
         $this->extractRuleRegistry
             ->expects($this->once())
             ->method('getRule')
-            ->with($this->equalTo($extractRule['rule']['service']))
+            ->with($this->equalTo($extractRule['service']))
             ->will($this->returnValue($this->extractRule))
         ;
 
         $this->extractRule
             ->expects($this->once())
             ->method('extract')
-            ->with($this->equalTo(array('rule' => $extractRule['rule']['parameters'])))
+            ->with($this->equalTo($extractRule['parameters']))
             ->will($this->returnValue($extractedData))
         ;
 
