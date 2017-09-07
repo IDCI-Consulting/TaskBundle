@@ -15080,12 +15080,31 @@ exports.default = {
       action.parameters[key].component_name = 'component-' + action.parameters[key].form_type;
     }
 
-    var findedAction = state.actions.find(function (element) {
-      return element.name === action.name;
-    });
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-    if (null != findedAction) {
-      _vue2.default.set(findedAction, 'parameters', action.parameters);
+    try {
+      for (var _iterator = state.actions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var configuredAction = _step.value;
+
+        if (configuredAction.name === action.name) {
+          _vue2.default.set(configuredAction, 'parameters', action.parameters);
+        }
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
     }
   },
 

@@ -46,12 +46,10 @@ export default {
       action.parameters[key].component_name = 'component-' + action.parameters[key].form_type;
     }
 
-    let findedAction = state.actions.find(function (element) {
-      return element.name === action.name
-    });
-
-    if (null != findedAction) {
-      Vue.set(findedAction , 'parameters', action.parameters);
+    for (let configuredAction of state.actions) {
+      if (configuredAction.name === action.name) {
+        Vue.set(configuredAction, 'parameters', action.parameters);
+      }
     }
   },
 
