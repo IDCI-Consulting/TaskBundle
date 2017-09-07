@@ -100,16 +100,13 @@ export default {
    *
    */
   updateParameter: function (state, payload) {
+    Vue.set(
+      state.data.actions[payload.actionIndex].parameters,
+      payload.parameter.name,
+      payload.parameter.value
+    );
 
-    let action = state.data.actions[payload.actionIndex];
-
-    for (let parameterName in action.parameters) {
-
-      if (payload.parameter.name === parameterName) {
-        action.parameters[parameterName] = payload.parameter.value;
-        this.commit('updateRawField');
-      }
-    }
+    this.commit('updateRawField');
   },
 
   /**

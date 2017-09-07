@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <button @click.prevent="removeActionToFlow(previousAction)" aria-label="Close" class="close">
             <span aria-hidden="true">×</span>
@@ -21,6 +22,7 @@
             <configured-action-name-list @changed="updateDefaultNextAction" :previousAction="previousAction" :value="action.default_next"></configured-action-name-list>
         </div>
     </div>
+
 </template>
 
 

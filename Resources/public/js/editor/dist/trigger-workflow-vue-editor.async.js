@@ -14786,6 +14786,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -15132,16 +15134,9 @@ exports.default = {
    *
    */
   updateParameter: function updateParameter(state, payload) {
+    _vue2.default.set(state.data.actions[payload.actionIndex].parameters, payload.parameter.name, payload.parameter.value);
 
-    var action = state.data.actions[payload.actionIndex];
-
-    for (var parameterName in action.parameters) {
-
-      if (payload.parameter.name === parameterName) {
-        action.parameters[parameterName] = payload.parameter.value;
-        this.commit('updateRawField');
-      }
-    }
+    this.commit('updateRawField');
   },
 
   /**
