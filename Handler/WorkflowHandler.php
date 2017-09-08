@@ -59,7 +59,6 @@ class WorkflowHandler
         return $nextAction;
     }
 
-
     /**
      * Is task finished.
      *
