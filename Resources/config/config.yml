@@ -32,6 +32,7 @@ old_sound_rabbit_mq:
             exchange_options: {name: "action_exchange", type: "direct"}
             queue_options:    {name: "action_queue"}
             callback:         "idci_task.service.consumer.action"
+            qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
         extract_rule:
             connection:       "default"
             exchange_options: {name: "extract_rule_exchange", type: "direct"}
