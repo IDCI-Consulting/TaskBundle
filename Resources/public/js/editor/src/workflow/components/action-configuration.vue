@@ -97,7 +97,12 @@ export default {
                 parameter: parameter
             };
 
-            this.$store.commit('updateParameter', payload);
+            if (0 === parameter.value.length) {
+                this.$store.commit('removeParameter', payload);
+            } else {
+                this.$store.commit('updateParameter', payload);
+            }
+
         },
 
         /**

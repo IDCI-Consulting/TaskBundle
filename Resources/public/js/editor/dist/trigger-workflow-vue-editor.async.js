@@ -13878,7 +13878,11 @@ if (false) {(function () {
                 parameter: parameter
             };
 
-            this.$store.commit('updateParameter', payload);
+            if (0 === parameter.value.length) {
+                this.$store.commit('removeParameter', payload);
+            } else {
+                this.$store.commit('updateParameter', payload);
+            }
         },
 
         /**
@@ -15032,6 +15036,8 @@ var _vue = __webpack_require__(12);
 
 var _vue2 = _interopRequireDefault(_vue);
 
+var _vueEditorCommons = __webpack_require__(0);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -15146,7 +15152,7 @@ exports.default = {
   },
 
   /**
-   * Remove action.
+   * Update parameter.
    *
    * @param {Object} state - The state.
    * @param {Object} payload - The payload.
@@ -15154,6 +15160,19 @@ exports.default = {
    */
   updateParameter: function updateParameter(state, payload) {
     _vue2.default.set(state.data.actions[payload.actionIndex].parameters, payload.parameter.name, payload.parameter.value);
+
+    this.commit('updateRawField');
+  },
+
+  /**
+   * Remove parameter.
+   *
+   * @param {Object} state - The state.
+   * @param {Object} payload - The payload.
+   *
+   */
+  removeParameter: function removeParameter(state, payload) {
+    _vue2.default.delete(state.data.actions[payload.actionIndex].parameters, payload.parameter.name);
 
     this.commit('updateRawField');
   },
@@ -15281,6 +15300,36 @@ exports.default = {
    * @param {Object} state - The state.
    */
   updateRawField: function updateRawField(state) {
+    var actions = state.data.actions;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = actions[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var action = _step2.value;
+
+        for (var name in action.parameters) {
+          try {
+            action.parameters[name] = JSON.parse(action.parameters[name]);
+          } catch (e) {}
+        }
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+
     var raw = JSON.stringify(state.data, null, 4);
 
     var element = document.getElementById(state.configuration.form.id);

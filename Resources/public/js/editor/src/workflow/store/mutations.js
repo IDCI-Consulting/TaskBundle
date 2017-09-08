@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { JsonToTwigTransformer } from 'vue-editor-commons';
 
 export default {
   /**
@@ -91,7 +92,7 @@ export default {
   },
 
   /**
-   * Remove action.
+   * Update parameter.
    *
    * @param {Object} state - The state.
    * @param {Object} payload - The payload.
@@ -102,6 +103,22 @@ export default {
       state.data.actions[payload.actionIndex].parameters,
       payload.parameter.name,
       payload.parameter.value
+    );
+
+    this.commit('updateRawField');
+  },
+
+  /**
+   * Remove parameter.
+   *
+   * @param {Object} state - The state.
+   * @param {Object} payload - The payload.
+   *
+   */
+  removeParameter: function (state, payload) {
+    Vue.delete(
+      state.data.actions[payload.actionIndex].parameters,
+      payload.parameter.name
     );
 
     this.commit('updateRawField');
@@ -245,6 +262,15 @@ export default {
    * @param {Object} state - The state.
    */
   updateRawField: function (state) {
+    let actions = state.data.actions;
+    for (let action of actions) {
+      for (let name in action.parameters) {
+        try {
+          action.parameters[name] = JSON.parse(action.parameters[name]);
+        } catch (e) {}
+      }
+    }
+
     let raw = JSON.stringify(state.data, null, 4);
 
     let element = document.getElementById(state.configuration.form.id);
