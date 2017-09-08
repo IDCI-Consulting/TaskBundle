@@ -54,11 +54,18 @@ export default {
    * @param {Object[]} extractRules
    */
   updateUsedExtractRuleParameter: function (state, parameter) {
-    Vue.set(
-      state.usedExtractRule.parameters,
-      parameter.name,
-      parameter.value
-    );
+    if (0 === parameter.value.length) {
+      Vue.delete(
+        state.usedExtractRule.parameters,
+        parameter.name
+      );
+    } else {
+      Vue.set(
+        state.usedExtractRule.parameters,
+        parameter.name,
+        parameter.value
+      );
+    }
 
     this.commit('updateInitialTextareaValue');
   },
@@ -112,6 +119,13 @@ export default {
    * @returns []
    */
   updateInitialTextareaValue: function(state) {
+    let parameters = state.usedExtractRule.parameters;
+    for (let parameterName in parameters) {
+      try {
+          parameters[parameterName] = JSON.parse(parameters[parameterName]);
+      } catch (e) {}
+    }
+
     let rawExtractRule = JSON.stringify(state.usedExtractRule, null, 4);
     document.getElementById(state.formProperties.id).value = rawExtractRule;
   }
