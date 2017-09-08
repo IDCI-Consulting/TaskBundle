@@ -38,25 +38,13 @@ old_sound_rabbit_mq:
             exchange_options: {name: "extract_rule_exchange", type: "direct"}
             queue_options:    {name: "extract_rule_queue"}
             callback:         "idci_task.service.consumer.extract_rule"
+            qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
         task:
             connection:       "default"
             exchange_options: {name: "task_exchange", type: "direct"}
             queue_options:    {name: "task_queue"}
             callback:         "idci_task.service.consumer.task"
-
-# Da Api client
-
-da_api_client:
-    api:
-        participation:
-            endpoint_root:  "%api.participation.endpoint_root%"
-            security_token: "%api.security_token%"
-            cache_enabled:  false
-
-        document:
-            endpoint_root:  "%api.document.endpoint_root%"
-            security_token: "%api.security_token%"
-            cache_enabled:  false
+            qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
 
 idci_asset_loader:
     auto_load: true
