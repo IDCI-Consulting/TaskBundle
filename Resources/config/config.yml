@@ -2,11 +2,6 @@ imports:
     - { resource: actions.yml }
     - { resource: extract_rules.yml }
 
-# Old sound RabbitMQ
-
-monolog:
-    channels: ['idci_task.action']
-
 old_sound_rabbit_mq:
     connections:
         default:
@@ -46,5 +41,35 @@ old_sound_rabbit_mq:
             callback:         "idci_task.service.consumer.task"
             qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
 
+doctrine_mongodb:
+    default_database: %mongo_database_name%
+    connections:
+        task:
+            server: %mongo_database_host%
+            options: {}
+        log:
+            server: %mongo_database_host%
+            options: {}
+    document_managers:
+        task:
+            mappings:
+                IDCITaskBundle: ~
+            metadata_cache_driver: array
+        log:
+            auto_mapping: false
+            logging: false
+
 idci_asset_loader:
     auto_load: true
+
+monolog:
+  channels: ['idci_task.action']
+  handlers:
+      mongo:
+          type: mongo
+          level: info
+          channels: ['idci_task.action']
+          mongo:
+              id: mongolog
+              database: %mongo_database_name%
+              collection: task_logs

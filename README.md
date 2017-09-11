@@ -8,9 +8,16 @@ Installation
 
 Add dependencies in your `composer.json` file:
 ```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/Tessi-Tms/TmsLoggerBundle.git"
+    },
+    ...
+],
 "require": {
     ...,
-    "idci/task-bundle": "1.0.*",
+    "idci/task-bundle": "dev-master",
 }
 ```
 
@@ -23,8 +30,10 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
+        new IDCI\Bundle\TaskBundle\IDCITaskBundle(),
         new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
         new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
+        new IDCI\Bundle\AssetLoaderBundle\IDCIAssetLoaderBundle(),
         new FOS\RestBundle\FOSRestBundle(),
         new JMS\SerializerBundle\JMSSerializerBundle(),
         new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
@@ -39,6 +48,18 @@ Import the bundle configuration:
 
 imports:
     - { resource: @IDCITaskBundle/Resources/config/config.yml }
+```
+
+Update your parameters.yml file
+```yml
+rabbitmq_host: localhost
+rabbitmq_port: 5672
+rabbitmq_user: user
+rabbitmq_password: password
+rabbitmq_lazy: false
+rabbitmq_vhost: /
+mongo_database_name: task
+mongo_database_host: localhost
 ```
 
 Documentation
