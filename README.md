@@ -48,10 +48,39 @@ Import the bundle configuration:
 
 imports:
     - { resource: @IDCITaskBundle/Resources/config/config.yml }
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_mysql
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                mappings:
+                    IDCITaskBundle: ~
+                    TmsLoggerBundle: ~
 ```
 
 Update your parameters.yml file
 ```yml
+application_name: 'Task Runner'
+database_host: localhost
+database_port: ~
+database_name: task_manager
+database_user: dbuser
+database_password: dbpwd
 rabbitmq_host: localhost
 rabbitmq_port: 5672
 rabbitmq_user: user
@@ -59,7 +88,7 @@ rabbitmq_password: password
 rabbitmq_lazy: false
 rabbitmq_vhost: /
 mongo_database_name: task
-mongo_database_host: localhost
+mongo_database_host: 'mongodb://127.0.0.1:27017'
 ```
 
 Documentation
