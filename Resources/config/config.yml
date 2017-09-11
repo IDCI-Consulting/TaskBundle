@@ -1,7 +1,3 @@
-imports:
-    - { resource: actions.yml }
-    - { resource: extract_rules.yml }
-
 old_sound_rabbit_mq:
     connections:
         default:
