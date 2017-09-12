@@ -8,13 +8,6 @@ Installation
 
 Add dependencies in your `composer.json` file:
 ```json
-"repositories": [
-    {
-        "type": "vcs",
-        "url": "https://github.com/Tessi-Tms/TmsLoggerBundle.git"
-    },
-    ...
-],
 "require": {
     ...,
     "idci/task-bundle": "dev-master",
@@ -37,7 +30,6 @@ public function registerBundles()
         new FOS\RestBundle\FOSRestBundle(),
         new JMS\SerializerBundle\JMSSerializerBundle(),
         new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
-        new Tms\Bundle\LoggerBundle\TmsLoggerBundle(),
     );
 }
 ```
@@ -70,7 +62,6 @@ doctrine:
                 connection: default
                 mappings:
                     IDCITaskBundle: ~
-                    TmsLoggerBundle: ~
 ```
 
 Update your parameters.yml file

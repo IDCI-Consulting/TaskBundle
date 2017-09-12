@@ -8,7 +8,6 @@ namespace IDCI\Bundle\TaskBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Tms\Bundle\LoggerBundle\Logger\LoggableInterface;
 
 /**
  * @ORM\Entity(repositoryClass="IDCI\Bundle\TaskBundle\Entity\Repository\TaskConfigurationRepository")
@@ -17,7 +16,7 @@ use Tms\Bundle\LoggerBundle\Logger\LoggableInterface;
  * })
  * @ORM\HasLifecycleCallbacks()
  */
-class TaskConfiguration implements LoggableInterface
+class TaskConfiguration
 {
     const STATE_ENABLE = '1';
     const STATE_DISABLE = '0';
