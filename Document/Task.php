@@ -8,6 +8,8 @@ namespace IDCI\Bundle\TaskBundle\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+use IDCI\Bundle\TaskBundle\Event\TaskEvents;
 
 /**
  * @ODM\Document(
