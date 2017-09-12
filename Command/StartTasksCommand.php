@@ -15,7 +15,7 @@ use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
 use IDCI\Bundle\TaskBundle\Processor\ProcessorInterface;
 use Cron\CronExpression;
 
-class StartTasksCommand extends ContainerAwareCommand
+class StartConfiguredTasksCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -69,7 +69,7 @@ EOT
                         $cron
                     );
 
-                    $processor->start($configuration);
+                    $processor->startTasks($configuration);
                 }
             }
         }

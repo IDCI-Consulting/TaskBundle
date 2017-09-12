@@ -57,6 +57,7 @@ services:
         class: IDCI\Bundle\TaskBundle\Processor\RabbitMqProcessor
         arguments:
             - "@old_sound_rabbit_mq.extract_rule_producer"
+            - "@old_sound_rabbit_mq.task_producer"
             - "@old_sound_rabbit_mq.action_producer"
             - "@idci_task.manager.task_configuration"
             - "@doctrine.odm.mongodb.document_manager"
@@ -87,6 +88,7 @@ services:
     idci_task.handler.task:
         class: IDCI\Bundle\TaskBundle\Handler\TaskHandler
         arguments:
+            - "@doctrine.orm.entity_manager"
             - "@doctrine.odm.mongodb.document_manager"
             - "@event_dispatcher"
 

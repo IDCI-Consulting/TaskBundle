@@ -82,6 +82,102 @@ class Task
     }
 
     /**
+     * Create a task from a task configuration
+     *
+     * @param TaskConfiguration $taskConfiguration
+     * @param mixed             $extractedData
+     * @param array             $actionData
+     *
+     * @throws \Exception
+     *
+     * @return Task
+     */
+    public static function createFromTaskConfiguration(
+        TaskConfiguration $taskConfiguration,
+        $extractedData = array(),
+        array $actionData = array()
+    ) {
+        $workflow = json_decode($taskConfiguration->getWorkflow(), true);
+        if (!is_array($workflow)) {
+            throw new \Exception(sprintf(
+                'Invalid json for the task configuration %d : %s',
+                $taskConfiguration->getId(),
+                json_last_error_msg()
+            ));
+        }
+
+        $taskData = new TaskData();
+        $taskData
+            ->setExtractedData($extractedData)
+            ->setActionData($actionData)
+        ;
+
+        $configuration = new Configuration();
+        $configuration
+            ->setWorkflow($workflow['workflow'])
+            ->setActions($workflow['actions'])
+        ;
+
+        $actionStatus = new ActionStatus();
+        $actionStatus
+            ->setStatus(TaskEvents::PENDING)
+            ->setDate(new \DateTime())
+        ;
+
+        $action = new Action();
+        $action
+            ->setName($configuration->getFirstAction())
+            ->addStatus($actionStatus)
+        ;
+
+        $task = new Task();
+        $task
+            ->addAction($action)
+            ->setData($taskData)
+            ->setConfiguration($configuration)
+            ->setTaskConfigurationId($taskConfiguration->getId())
+        ;
+
+        return $task;
+    }
+
+    /**
+     * Create a task from a single action
+     *
+     * @param string $actionServiceName
+     * @param array  $data
+     *
+     * @return Task
+     */
+    public static function createFromAction($actionServiceName, $data)
+    {
+        $taskData = new TaskData();
+        $taskData
+            ->setExtractedData($data)
+        ;
+
+        $actionStatus = new ActionStatus();
+        $actionStatus
+            ->setStatus(TaskEvents::PENDING)
+            ->setDate(new \DateTime())
+        ;
+
+        $action = new Action();
+        $action
+            ->setName($actionServiceName)
+            ->addStatus($actionStatus)
+        ;
+
+        $task = new Task();
+        $task
+            ->addAction($action)
+            ->setData($taskData)
+        ;
+
+        return $task;
+    }
+
+    /**
      * To string
      *
      * @return string

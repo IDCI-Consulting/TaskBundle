@@ -18,6 +18,11 @@ class RabbitMqProcessor implements ProcessorInterface
     /**
      * @var ProducerInterface
      */
+    private $taskProducer;
+
+    /**
+     * @var ProducerInterface
+     */
     private $actionProducer;
 
     /**
@@ -27,11 +32,13 @@ class RabbitMqProcessor implements ProcessorInterface
 
     public function __construct(
         ProducerInterface $extractRuleProducer,
+        ProducerInterface $taskProducer,
         ProducerInterface $actionProducer,
         TaskConfigurationManager $taskConfigurationManager,
         DocumentManager $documentManager
     ) {
         $this->extractRuleProducer = $extractRuleProducer;
+        $this->taskProducer= $taskProducer;
         $this->actionProducer = $actionProducer;
         $this->taskConfigurationManager = $taskConfigurationManager;
         $this->documentManager = $documentManager;
@@ -40,10 +47,21 @@ class RabbitMqProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function start(TaskConfiguration $taskConfiguration)
+    public function startTasks(TaskConfiguration $taskConfiguration)
     {
         $this->extractRuleProducer->publish(serialize(array(
             'task_configuration_id' => $taskConfiguration->getId()
+        )));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function startTask($actionService, $data = array())
+    {
+        $this->taskProducer->publish(serialize(array(
+            'action_service' => $actionService,
+            'data' => $data
         )));
     }
 

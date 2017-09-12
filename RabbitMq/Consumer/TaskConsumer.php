@@ -2,35 +2,36 @@
 
 namespace IDCI\Bundle\TaskBundle\RabbitMq\Consumer;
 
+use Doctrine\ORM\EntityManager;
 use PhpAmqpLib\Message\AMQPMessage;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
-use IDCI\Bundle\TaskBundle\Handler\TaskHandler;
+use IDCI\Bundle\TaskBundle\Factory\TaskFactory;
 use IDCI\Bundle\TaskBundle\Manager\TaskConfigurationManager;
 
 class TaskConsumer implements ConsumerInterface
 {
     /**
-     * @var TaskHandler
+     * @var TaskFactory
      */
-    private $taskHandler;
+    private $taskFactory;
 
     /**
-     * @var TaskConfigurationManager
+     * @var EntityManager
      */
-    private $taskConfigurationManager;
+    private $em;
 
     /**
      * Constructor.
      *
-     * @param TaskHandler              $taskHandler
+     * @param TaskFactory              $taskFactory
      * @param TaskConfigurationManager $taskConfigurationManager
      */
     public function __construct(
-        TaskHandler              $taskHandler,
-        TaskConfigurationManager $taskConfigurationManager
+        TaskFactory   $taskFactory,
+        EntityManager $em
     ) {
-        $this->taskHandler = $taskHandler;
+        $this->taskFactory = $taskFactory;
         $this->taskConfigurationManager = $taskConfigurationManager;
     }
 
@@ -49,12 +50,18 @@ class TaskConsumer implements ConsumerInterface
                 $actionData = $options['data']['action_data'];
             }
 
-            // Force clear cache otherwise it loads the unchanged taskConfiguration
-            $this->taskConfigurationManager->getEntityManager()->clear($this->taskConfigurationManager->getEntityClass());
+            if (array_key_exists('task_configuration_id', $options['data'])) {
+              // Force clear cache otherwise it loads the unchanged taskConfiguration
+              $this->em->clear($this->taskConfigurationManager->getEntityClass());
 
-            $taskConfiguration = $this->taskConfigurationManager->findOneById($options['task_configuration_id']);
+              $taskConfiguration = $this->taskConfigurationManager->findOneById($options['task_configuration_id']);
 
-            $this->taskHandler->execute($taskConfiguration, $extractedData, $actionData);
+              $this->taskHandler->execute($taskConfiguration, $extractedData, $actionData);
+            }
+
+            if (array_key_exists('action_service', $options)) {
+              $this->taskHandler->execute($options['action_service'], $options['data']);
+            }
 
             return ConsumerInterface::MSG_ACK;
         } catch (\Exception $e) {

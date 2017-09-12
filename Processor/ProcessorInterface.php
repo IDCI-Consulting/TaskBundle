@@ -10,7 +10,13 @@ interface ProcessorInterface
     /**
      * @param TaskConfiguration $taskConfiguration
      */
-    public function start(TaskConfiguration $taskConfiguration);
+    public function startTasks(TaskConfiguration $taskConfiguration);
+
+    /**
+     * @param string $actionService
+     * @param array $data
+     */
+    public function startTask($actionService, $data = array());
 
     /**
      * @param Task $task
