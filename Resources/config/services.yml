@@ -53,10 +53,6 @@ services:
             - "@idci_task.handler.task"
             - "@idci_task.manager.task_configuration"
 
-    ## Processor ##
-    idci_task.processor.default:
-        class: IDCI\Bundle\TaskBundle\Processor\DefaultProcessor
-
     idci_task.processor.rabbitmq:
         class: IDCI\Bundle\TaskBundle\Processor\RabbitMqProcessor
         arguments:
