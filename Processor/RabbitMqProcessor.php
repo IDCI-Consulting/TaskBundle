@@ -2,11 +2,11 @@
 
 namespace IDCI\Bundle\TaskBundle\Processor;
 
+use Doctrine\ORM\EntityManager;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
-use IDCI\Bundle\TaskBundle\Manager\TaskConfigurationManager;
 
 class RabbitMqProcessor implements ProcessorInterface
 {
@@ -26,22 +26,22 @@ class RabbitMqProcessor implements ProcessorInterface
     private $actionProducer;
 
     /**
-     * @var taskConfigurationManager
+     * @var EntityManager
      */
-    private $taskConfigurationManager;
+    private $entityManager;
 
     public function __construct(
         ProducerInterface $extractRuleProducer,
         ProducerInterface $taskProducer,
         ProducerInterface $actionProducer,
-        TaskConfigurationManager $taskConfigurationManager,
-        DocumentManager $documentManager
+        EntityManager     $entityManager,
+        DocumentManager   $documentManager
     ) {
         $this->extractRuleProducer = $extractRuleProducer;
-        $this->taskProducer= $taskProducer;
-        $this->actionProducer = $actionProducer;
-        $this->taskConfigurationManager = $taskConfigurationManager;
-        $this->documentManager = $documentManager;
+        $this->taskProducer        = $taskProducer;
+        $this->actionProducer      = $actionProducer;
+        $this->entityManager       = $entityManager;
+        $this->documentManager     = $documentManager;
     }
 
     /**
@@ -73,7 +73,6 @@ class RabbitMqProcessor implements ProcessorInterface
     public function resume(Task $task)
     {
         $this->reloadTaskConfiguration($task);
-
         $this->actionProducer->publish(serialize(array(
             'task_id' => $task->getId(),
         )));
@@ -81,7 +80,11 @@ class RabbitMqProcessor implements ProcessorInterface
 
     private function reloadTaskConfiguration(Task $task)
     {
-        $taskConfiguration = $this->taskConfigurationManager->find($task->getTaskConfigurationId());
+        $taskConfiguration = $this
+            ->entityManager
+            ->getRepository('IDCITaskBundle:TaskConfiguration')
+            ->find($task->getTaskConfigurationId())
+        ;
         $workflow = json_decode($taskConfiguration->getWorkflow(), true);
 
         if ($workflow['workflow'] !== $task->getConfiguration()->getWorkflow() ||

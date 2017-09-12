@@ -1,9 +1,8 @@
 <?php
 
-namespace IDCI\Bundle\TaskBundle\Handler;
+namespace IDCI\Bundle\TaskBundle\Factory;
 
 use Doctrine\ORM\EntityManager;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
 use IDCI\Bundle\TaskBundle\Document\Task;
 
 class TaskFactory
@@ -13,10 +12,12 @@ class TaskFactory
      *
      * @param EntityManager $em
      * @param array $options
+     *
+     * @throws \Exception
+     *
+     * @return Task
      */
     public static function create(EntityManager $em, $options) {
-        $options = unserialize($msg->getBody());
-
         if (array_key_exists('task_configuration_id', $options)) {
           $extractedData = array();
           $actionData = array();
@@ -30,10 +31,9 @@ class TaskFactory
           }
 
           // Force clear cache otherwise it loads the unchanged taskConfiguration
-          $this->em->clear('IDCITaskBundle:TaskConfiguration');
+          $em->clear('IDCI\Bundle\TaskBundle\Entity\TaskConfiguration');
 
-          $taskConfiguration = $this
-              ->em
+          $taskConfiguration = $em
               ->getRepository('IDCITaskBundle:TaskConfiguration')
               ->findOneById($options['task_configuration_id'])
           ;

@@ -3,11 +3,10 @@
 namespace IDCI\Bundle\TaskBundle\RabbitMq\Consumer;
 
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use IDCI\Bundle\TaskBundle\Handler\ExtractRuleHandler;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
-use IDCI\Bundle\TaskBundle\Manager\TaskConfigurationManager;
+use Doctrine\ORM\EntityManager;
 
 class ExtractRuleConsumer implements ConsumerInterface
 {
@@ -22,25 +21,25 @@ class ExtractRuleConsumer implements ConsumerInterface
     protected $extractRuleHandler;
 
     /**
-     * @var TaskConfigurationManager
+     * @var EntityManager
      */
-    protected $taskConfigurationManager;
+    protected $entityManager;
 
     /**
      * Constructor.
      *
-     * @param ExtractRuleRegistry      $extractRuleRegistry
-     * @param ExtractRuleHandler       $extractRuleHandler
-     * @param TaskConfigurationManager $taskConfigurationManager
+     * @param ExtractRuleRegistry $extractRuleRegistry
+     * @param ExtractRuleHandler  $extractRuleHandler
+     * @param EntityManager       $entityManager
      */
     public function __construct(
-        ExtractRuleRegistry      $extractRuleRegistry,
-        ExtractRuleHandler       $extractRuleHandler,
-        TaskConfigurationManager $taskConfigurationManager
+        ExtractRuleRegistry $extractRuleRegistry,
+        ExtractRuleHandler  $extractRuleHandler,
+        EntityManager       $entityManager
     ) {
         $this->extractRuleRegistry = $extractRuleRegistry;
-        $this->extractRuleHandler = $extractRuleHandler;
-        $this->taskConfigurationManager = $taskConfigurationManager;
+        $this->extractRuleHandler  = $extractRuleHandler;
+        $this->entityManager       = $entityManager;
     }
 
     /**
@@ -52,9 +51,13 @@ class ExtractRuleConsumer implements ConsumerInterface
 
         try {
             // Force clear cache otherwise it loads the unchanged taskConfiguration
-            $this->taskConfigurationManager->getEntityManager()->clear($this->taskConfigurationManager->getEntityClass());
+            $this->entityManager->clear('IDCI\Bundle\TaskBundle\Entity\TaskConfiguration');
 
-            $taskConfiguration = $this->taskConfigurationManager->findOneById($options['task_configuration_id']);
+            $taskConfiguration = $this
+                ->entityManager
+                ->getRepository('IDCITaskBundle:TaskConfiguration')
+                ->findOneById($options['task_configuration_id'])
+            ;
 
             $this->extractRuleHandler->execute($taskConfiguration);
 
