@@ -15,7 +15,7 @@ use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
 use IDCI\Bundle\TaskBundle\Processor\ProcessorInterface;
 use Cron\CronExpression;
 
-class StartConfiguredTasksCommand extends ContainerAwareCommand
+class StartTasksCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -42,7 +42,6 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $manager = $this->getContainer()->get('idci_task.manager.task_configuration');
         $table = new Table($output);
 
         /** @var ProcessorInterface $processor */
@@ -55,7 +54,12 @@ EOT
             'Next run date',
         ));
 
-        $taskConfigurations = $manager->findBy(array('enable' => TaskConfiguration::STATE_ENABLE));
+        $taskConfigurations = $this
+            ->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('IDCITaskBundle:TaskConfiguration')
+            ->findBy(array('enable' => TaskConfiguration::STATE_ENABLE))
+        ;
 
         /** @var TaskConfiguration $configuration */
         foreach ($taskConfigurations as $configuration) {

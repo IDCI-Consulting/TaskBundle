@@ -35,8 +35,12 @@ class ApiStartTasksController extends Controller
         }
 
         $processor = $this->get('idci_task.processor.rabbitmq');
-        $manager = $this->get('idci_task.manager.task_configuration');
-        $taskConfiguration = $manager->findOneById($taskConfigurationId);
+        $taskConfiguration = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('IDCITaskBundle:TaskConfiguration')
+            ->findOneById($taskConfigurationId)
+        ;
         $processor->startTasks($taskConfiguration);
         $response = new Response();
         $response->setStatusCode(Response::HTTP_NO_CONTENT);

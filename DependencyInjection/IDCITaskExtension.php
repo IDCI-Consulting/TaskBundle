@@ -35,6 +35,5 @@ class IDCITaskExtension extends Extension
         $container->setParameter('idci_task.configuration', $config);
 
         $loader->load('constraints.yml');
-        $loader->load('managers.yml');
     }
 }
