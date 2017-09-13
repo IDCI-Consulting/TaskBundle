@@ -67,19 +67,19 @@ doctrine:
 Update your parameters.yml file
 ```yml
 application_name: 'Task Runner'
-database_host: localhost
-database_port: ~
-database_name: task_manager
-database_user: dbuser
-database_password: dbpwd
-rabbitmq_host: localhost
-rabbitmq_port: 5672
-rabbitmq_user: user
-rabbitmq_password: password
-rabbitmq_lazy: false
-rabbitmq_vhost: /
-mongo_database_name: task
-mongo_database_host: 'mongodb://127.0.0.1:27017'
+task_database_host: localhost
+task_database_port: ~
+task_database_name: task_manager
+task_database_user: dbuser
+task_database_password: dbpwd
+task_rabbitmq_host: localhost
+task_rabbitmq_port: 5672
+task_rabbitmq_user: user
+task_rabbitmq_password: password
+task_rabbitmq_lazy: false
+task_rabbitmq_vhost: /
+task_mongo_database_name: task
+task_mongo_database_host: 'mongodb://127.0.0.1:27017'
 ```
 
 Documentation

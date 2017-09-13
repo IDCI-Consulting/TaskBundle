@@ -1,12 +1,12 @@
 old_sound_rabbit_mq:
     connections:
         default:
-            host:     "%rabbitmq_host%"
-            port:     "%rabbitmq_port%"
-            user:     "%rabbitmq_user%"
-            password: "%rabbitmq_password%"
+            host:     "%task_rabbitmq_host%"
+            port:     "%task_rabbitmq_port%"
+            user:     "%task_rabbitmq_user%"
+            password: "%task_rabbitmq_password%"
             vhost:    "/"
-            lazy:     "%rabbitmq_lazy%"
+            lazy:     "%task_rabbitmq_lazy%"
     producers:
         action:
             connection:       "default"
@@ -38,13 +38,13 @@ old_sound_rabbit_mq:
             qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
 
 doctrine_mongodb:
-    default_database: %mongo_database_name%
+    default_database: %task_mongo_database_name%
     connections:
         task:
-            server: %mongo_database_host%
+            server: %task_mongo_database_host%
             options: {}
         log:
-            server: %mongo_database_host%
+            server: %task_mongo_database_host%
             options: {}
     document_managers:
         task:
@@ -67,5 +67,5 @@ monolog:
           channels: ['idci_task.action']
           mongo:
               id: mongolog
-              database: %mongo_database_name%
+              database: %task_mongo_database_name%
               collection: task_logs
