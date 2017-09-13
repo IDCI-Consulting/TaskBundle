@@ -10,6 +10,13 @@ services:
     idci_task.configuration_registry:
         class: IDCI\Bundle\TaskBundle\Config\ConfigurationRegistry
 
+    ## Factory ##
+    idci_task.task_factory:
+        class: IDCI\Bundle\TaskBundle\Factory\TaskFactory
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%application_name%"
+
     ## Actions ##
     idci_task.action.abstract:
         abstract: true
@@ -88,7 +95,7 @@ services:
     idci_task.handler.task:
         class: IDCI\Bundle\TaskBundle\Handler\TaskHandler
         arguments:
-            - "@doctrine.orm.entity_manager"
+            - "@idci_task.task_factory"
             - "@doctrine.odm.mongodb.document_manager"
             - "@event_dispatcher"
 

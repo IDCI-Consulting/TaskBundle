@@ -6,15 +6,14 @@ use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Factory\TaskFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 
 class TaskHandler
 {
     /**
-     * @var EntityManager
+     * @var TaskFactory
      */
-    protected $entityManager;
+    protected $taskFactory;
 
     /**
      * @var DocumentManager
@@ -29,18 +28,18 @@ class TaskHandler
     /**
      * Constructor.
      *
-     * @param EntityManager            $entityManager
+     * @param TaskFactory              $taskFactory
      * @param DocumentManager          $documentManager
      * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
-        EntityManager            $entityManager,
+        TaskFactory              $taskFactory,
         DocumentManager          $documentManager,
         EventDispatcherInterface $dispatcher
     ) {
-        $this->entityManager = $entityManager;
+        $this->taskFactory     = $taskFactory;
         $this->documentManager = $documentManager;
-        $this->dispatcher = $dispatcher;
+        $this->dispatcher      = $dispatcher;
     }
 
     /**
@@ -49,7 +48,7 @@ class TaskHandler
      * @param array $options
      */
     public function execute($options) {
-        $task = TaskFactory::create($this->entityManager, $options);
+        $task = $this->taskFactory->create($options);
 
         $this->documentManager->persist($task);
         $this->documentManager->flush();

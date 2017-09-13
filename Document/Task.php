@@ -32,6 +32,13 @@ class Task
     private $id;
 
     /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="origin")
+     */
+    private $origin;
+
+    /**
      * @var array
      *
      * @ODM\EmbedOne(targetDocument="Configuration")
@@ -75,18 +82,22 @@ class Task
 
     /**
      * Constructor
+     *
+     * @param string $origin
      */
-    public function __construct()
+    public function __construct($origin)
     {
         $date = new \DateTime('now');
         $this->createdAt = $date;
         $this->updatedAt = $date;
+        $this->origin = $origin;
         $this->actions = new ArrayCollection();
     }
 
     /**
      * Create a task from a task configuration
      *
+     * @param string            $origin
      * @param TaskConfiguration $taskConfiguration
      * @param mixed             $extractedData
      * @param array             $actionData
@@ -96,6 +107,7 @@ class Task
      * @return Task
      */
     public static function createFromTaskConfiguration(
+        $origin,
         TaskConfiguration $taskConfiguration,
         $extractedData = array(),
         array $actionData = array()
@@ -127,7 +139,7 @@ class Task
             ->addStatus(ActionStatus::PASSED)
         ;
 
-        $task = new Task();
+        $task = new Task($origin);
         $task
             ->addAction($action)
             ->setData($taskData)
@@ -141,12 +153,13 @@ class Task
     /**
      * Create a task from a single action
      *
+     * @param string $origin
      * @param string $actionServiceName
      * @param array  $data
      *
      * @return Task
      */
-    public static function createFromAction($actionServiceName, $data)
+    public static function createFromAction($origin, $actionServiceName, $data)
     {
         $taskData = new TaskData();
         $taskData
@@ -159,7 +172,7 @@ class Task
             ->addStatus(ActionStatus::PENDING)
         ;
 
-        $task = new Task();
+        $task = new Task($origin);
         $task
             ->addAction($action)
             ->setData($taskData)
