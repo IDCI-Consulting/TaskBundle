@@ -34,9 +34,9 @@ class Task
     /**
      * @var string
      *
-     * @ODM\Field(type="string", name="origin")
+     * @ODM\Field(type="string", name="source")
      */
-    private $origin;
+    private $source;
 
     /**
      * @var array
@@ -83,21 +83,21 @@ class Task
     /**
      * Constructor
      *
-     * @param string $origin
+     * @param string $source
      */
-    public function __construct($origin)
+    public function __construct($source)
     {
         $date = new \DateTime('now');
         $this->createdAt = $date;
         $this->updatedAt = $date;
-        $this->origin = $origin;
+        $this->source = $source;
         $this->actions = new ArrayCollection();
     }
 
     /**
      * Create a task from a task configuration
      *
-     * @param string            $origin
+     * @param string            $source
      * @param TaskConfiguration $taskConfiguration
      * @param mixed             $extractedData
      * @param array             $actionData
@@ -107,7 +107,7 @@ class Task
      * @return Task
      */
     public static function createFromTaskConfiguration(
-        $origin,
+        $source,
         TaskConfiguration $taskConfiguration,
         $extractedData = array(),
         array $actionData = array()
@@ -139,7 +139,7 @@ class Task
             ->addStatus(ActionStatus::PASSED)
         ;
 
-        $task = new Task($origin);
+        $task = new Task($source);
         $task
             ->addAction($action)
             ->setData($taskData)
@@ -153,13 +153,13 @@ class Task
     /**
      * Create a task from a single action
      *
-     * @param string $origin
+     * @param string $source
      * @param string $actionServiceName
      * @param array  $data
      *
      * @return Task
      */
-    public static function createFromAction($origin, $actionServiceName, $data)
+    public static function createFromAction($source, $actionServiceName, $data)
     {
         $taskData = new TaskData();
         $taskData
@@ -172,7 +172,7 @@ class Task
             ->addStatus(ActionStatus::PENDING)
         ;
 
-        $task = new Task($origin);
+        $task = new Task($source);
         $task
             ->addAction($action)
             ->setData($taskData)
