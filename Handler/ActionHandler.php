@@ -47,10 +47,14 @@ class ActionHandler
      */
     protected $workflowHandler;
 
-    /** @var LoggerInterface */
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
 
-    /** @var TaskLogProcessor */
+    /**
+     * @var TaskLogProcessor
+     */
     protected $taskLogProcessor;
 
     /**
@@ -89,14 +93,22 @@ class ActionHandler
      */
     public function execute(Task $task)
     {
-        $currentAction = $task->getConfiguration()->getAction($task->getCurrentAction()->getName());
+        if ($task->getConfiguration() === null) {
+            $currentAction = array(
+                'service'    => $task->getCurrentAction()->getName(),
+                'name'       => $task->getCurrentAction()->getName(),
+                'parameters' => $task->getData()->getExtractedData(),
+            );
+        } else {
+            $currentAction = $task->getConfiguration()->getAction($task->getCurrentAction()->getName());
 
-        // Merge the data with action configuration
-        $parameters = $this->merge(
-            $currentAction['parameters'],
-            $task->getData()->getExtractedData(),
-            $task->getData()->getActionData()
-        );
+            // Merge the data with action configuration
+            $currentAction['parameters'] = $this->merge(
+                $currentAction['parameters'],
+                $task->getData()->getExtractedData(),
+                $task->getData()->getActionData()
+            );
+        }
 
         // Task running event.
         $this->dispatcher->dispatch(
@@ -105,7 +117,11 @@ class ActionHandler
         );
 
         try {
-            $currentActionData = $this->registry->getAction($currentAction['service'])->execute($task, $parameters);
+            $currentActionData = $this
+                ->registry
+                ->getAction($currentAction['service'])
+                ->execute($task, $currentAction['parameters'])
+            ;
         } catch(\Exception $e) {
             $this->taskLogProcessor->setTask($task);
             $this->logger->error($e->getMessage());
