@@ -3,6 +3,8 @@
 namespace IDCI\Bundle\TaskBundle\Processor;
 
 use Doctrine\ORM\EntityManager;
+use IDCI\Bundle\TaskBundle\Document\ActionStatus;
+use IDCI\Bundle\TaskBundle\Event\TaskEvents;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use IDCI\Bundle\TaskBundle\Document\Task;
@@ -73,6 +75,13 @@ class RabbitMqProcessor implements ProcessorInterface
     public function resume(Task $task)
     {
         $this->reloadTaskConfiguration($task);
+
+        $actionStatus = new ActionStatus();
+        $actionStatus->setStatus(TaskEvents::PENDING);
+        $actionStatus->setDate(new \DateTime('now'));
+        $task->getCurrentAction()->addStatus($actionStatus);
+        $this->documentManager->flush();
+
         $this->actionProducer->publish(serialize(array(
             'task_id' => $task->getId(),
         )));
