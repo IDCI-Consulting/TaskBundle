@@ -56,16 +56,17 @@ class Action
      * Add status
      * Insert the status in first position to build the mongo query more easily.
      *
-     * @param ActionStatus $status
+     * @param string $status
      *
      * @return Action
      */
-    public function addStatus(ActionStatus $status)
+    public function addStatus($status)
     {
-        $statuses = $this->statuses->toArray();
-        array_unshift($statuses, $status);
+        $actionStatus = new ActionStatus($status);
+        $actionStatuses = $this->statuses->toArray();
+        array_unshift($actionStatuses, $actionStatus);
 
-        $this->statuses = new ArrayCollection($statuses);
+        $this->statuses = new ArrayCollection($actionStatuses);
 
         return $this;
     }

@@ -6,13 +6,13 @@
 
 namespace IDCI\Bundle\TaskBundle\Handler;
 
+use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Psr\Log\LoggerInterface;
 use IDCI\Bundle\TaskBundle\Action\ActionRegistry;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
-use IDCI\Bundle\TaskBundle\Event\TaskEvents;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
 /**
@@ -112,7 +112,7 @@ class ActionHandler
 
         // Task running event.
         $this->dispatcher->dispatch(
-            TaskEvents::RUNNING,
+            ActionStatus::RUNNING,
             new TaskEvent($task)
         );
 
@@ -127,7 +127,7 @@ class ActionHandler
             $this->logger->error($e->getMessage());
 
             $this->dispatcher->dispatch(
-                TaskEvents::ERROR,
+                ActionStatus::ERROR,
                 new TaskEvent($task)
             );
 
@@ -142,7 +142,7 @@ class ActionHandler
         );
 
         $this->dispatcher->dispatch(
-            TaskEvents::PASSED,
+            ActionStatus::PASSED,
             new TaskEvent($task)
         );
 
@@ -151,7 +151,7 @@ class ActionHandler
             $task->addAction($nextAction);
 
             $this->dispatcher->dispatch(
-                TaskEvents::PENDING,
+                ActionStatus::PENDING,
                 new TaskEvent($task)
             );
 

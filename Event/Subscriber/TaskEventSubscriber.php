@@ -3,12 +3,9 @@
 namespace IDCI\Bundle\TaskBundle\Event\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
-use IDCI\Bundle\TaskBundle\Event\TaskEvents;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 
@@ -42,19 +39,19 @@ class TaskEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            TaskEvents::CREATED => array(
+            Task::CREATED => array(
                 array('processTask'),
             ),
-            TaskEvents::PENDING => array(
+            ActionStatus::PENDING => array(
                 array('onPendingEvent')
             ),
-            TaskEvents::RUNNING => array(
+            ActionStatus::RUNNING => array(
                 array('onRunningEvent')
             ),
-            TaskEvents::PASSED => array(
+            ActionStatus::PASSED => array(
                 array('onPassedEvent')
             ),
-            TaskEvents::ERROR => array(
+            ActionStatus::ERROR => array(
                 array('onErrorEvent')
             ),
         );
@@ -77,7 +74,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
      */
     public function onPendingEvent(TaskEvent $event)
     {
-        $this->updateTaskStatus($event->getTask(), TaskEvents::PENDING);
+        $this->updateTaskStatus($event->getTask(), ActionStatus::PENDING);
     }
 
     /**
@@ -87,7 +84,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
      */
     public function onRunningEvent(TaskEvent $event)
     {
-        $this->updateTaskStatus($event->getTask(), TaskEvents::RUNNING);
+        $this->updateTaskStatus($event->getTask(), ActionStatus::RUNNING);
     }
 
     /**
@@ -97,7 +94,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
      */
     public function onPassedEvent(TaskEvent $event)
     {
-        $this->updateTaskStatus($event->getTask(), TaskEvents::PASSED);
+        $this->updateTaskStatus($event->getTask(), ActionStatus::PASSED);
     }
 
     /**
@@ -107,7 +104,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
      */
     public function onErrorEvent(TaskEvent $event)
     {
-        $this->updateTaskStatus($event->getTask(), TaskEvents::ERROR);
+        $this->updateTaskStatus($event->getTask(), ActionStatus::ERROR);
     }
 
     /**
@@ -118,15 +115,8 @@ class TaskEventSubscriber implements EventSubscriberInterface
      */
     public function updateTaskStatus(Task $task, $status)
     {
-        $actionStatus = new ActionStatus();
-        $actionStatus
-            ->setDate(new \DateTime())
-            ->setStatus($status)
-        ;
-
         $currentAction = $task->getCurrentAction();
-
-        $currentAction->addStatus($actionStatus);
+        $currentAction->addStatus($status);
         $this->documentManager->flush();
     }
 }

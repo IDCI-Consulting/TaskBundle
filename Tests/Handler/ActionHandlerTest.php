@@ -6,6 +6,7 @@
 
 namespace IDCI\Bundle\TaskBundle\Tests\Handler;
 
+use IDCI\Bundle\TaskBundle\Action\ActionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use PHPUnit\Framework\TestCase;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
@@ -19,18 +20,19 @@ use IDCI\Bundle\TaskBundle\Document\Configuration;
 use IDCI\Bundle\TaskBundle\Document\Action;
 use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
-use IDCI\Bundle\TaskBundle\Event\TaskEvents;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
 class ActionHandlerTest extends TestCase
 {
     private $actionRegistry;
     private $actionProducer;
-    private $taskLogger;
+    private $actionHandler;
     private $action;
     private $merger;
     private $logger;
     private $taskLogProcessor;
+    private $eventDispatcher;
+    private $workflowHandler;
 
     public function setUp()
     {
@@ -98,9 +100,9 @@ class ActionHandlerTest extends TestCase
             ->expects($this->exactly(3))
             ->method('dispatch')
             ->withConsecutive(
-                array($this->equalTo(TaskEvents::RUNNING), $this->equalTo(new TaskEvent($task))),
-                array($this->equalTo(TaskEvents::PASSED), $this->equalTo(new TaskEvent($task))),
-                array($this->equalTo(TaskEvents::PENDING), $this->equalTo(new TaskEvent($task)))
+                array($this->equalTo(ActionStatus::RUNNING), $this->equalTo(new TaskEvent($task))),
+                array($this->equalTo(ActionStatus::PASSED), $this->equalTo(new TaskEvent($task))),
+                array($this->equalTo(ActionStatus::PENDING), $this->equalTo(new TaskEvent($task)))
             )
         ;
 
@@ -138,8 +140,8 @@ class ActionHandlerTest extends TestCase
             ->expects($this->exactly(2))
             ->method('dispatch')
             ->withConsecutive(
-                array($this->equalTo(TaskEvents::RUNNING), $this->equalTo(new TaskEvent($task))),
-                array($this->equalTo(TaskEvents::PASSED), $this->equalTo(new TaskEvent($task)))
+                array($this->equalTo(ActionStatus::RUNNING), $this->equalTo(new TaskEvent($task))),
+                array($this->equalTo(ActionStatus::PASSED), $this->equalTo(new TaskEvent($task)))
             )
         ;
 
@@ -171,8 +173,8 @@ class ActionHandlerTest extends TestCase
             ->expects($this->exactly(2))
             ->method('dispatch')
             ->withConsecutive(
-                array($this->equalTo(TaskEvents::RUNNING), $this->equalTo(new TaskEvent($task))),
-                array($this->equalTo(TaskEvents::ERROR), $this->equalTo(new TaskEvent($task)))
+                array($this->equalTo(ActionStatus::RUNNING), $this->equalTo(new TaskEvent($task))),
+                array($this->equalTo(ActionStatus::ERROR), $this->equalTo(new TaskEvent($task)))
             )
         ;
 
@@ -302,16 +304,10 @@ class ActionHandlerTest extends TestCase
             ))
         ;
 
-        $actionStatus = new ActionStatus();
-        $actionStatus
-            ->setDate(new \DateTime())
-            ->setStatus(TaskEvents::PENDING)
-        ;
-
         $action = new Action();
         $action
             ->setName('generated_document')
-            ->addStatus($actionStatus)
+            ->addStatus(ActionStatus::PENDING)
         ;
 
         $task = new Task();

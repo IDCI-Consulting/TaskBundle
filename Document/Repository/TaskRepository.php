@@ -3,7 +3,7 @@
 namespace IDCI\Bundle\TaskBundle\Document\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use IDCI\Bundle\TaskBundle\Event\TaskEvents;
+use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 
 class TaskRepository extends DocumentRepository
 {
@@ -17,7 +17,7 @@ class TaskRepository extends DocumentRepository
         return $this
             ->createQueryBuilder()
             ->field("actions.0.statuses.0.status")
-            ->equals(TaskEvents::ERROR)
+            ->equals(ActionStatus::ERROR)
             ->getQuery()
             ->execute()
         ;
@@ -33,7 +33,7 @@ class TaskRepository extends DocumentRepository
         return $this
             ->createQueryBuilder()
             ->field("actions.0.statuses.0.status")
-            ->equals(TaskEvents::PASSED)
+            ->equals(ActionStatus::PASSED)
             ->getQuery()
             ->execute()
         ;

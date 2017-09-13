@@ -10,6 +10,14 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 class ActionStatus
 {
     /**
+     * @var string
+     */
+    const PENDING = 'pending';
+    const RUNNING = 'running';
+    const ERROR   = 'error';
+    const PASSED  = 'passed';
+
+    /**
      * @var \DateTime
      *
      * @ODM\Field(type="date", name="date")
@@ -24,17 +32,45 @@ class ActionStatus
     private $status;
 
     /**
-     * Set date
+     * Constructor
      *
-     * @param \Datetime $date
-     *
-     * @return $this
+     * @param string $status
+     * @throws \InvalidArgumentException
      */
-    public function setDate(\DateTime $date)
+    public function __construct($status)
     {
-        $this->date = $date;
+        if (!$this->isValid($status)) {
+            throw new \InvalidArgumentException(sprintf('Invalid status %s', $status));
+        }
 
-        return $this;
+        $this->date = new \DateTime('now');
+        $this->status = $status;
+    }
+
+    /**
+     * Get the list of statuses
+     *
+     * @return array
+     */
+    public static function getList()
+    {
+        return array(
+            self::PENDING,
+            self::RUNNING,
+            self::ERROR,
+            self::PASSED
+        );
+    }
+
+    /**
+     * Check whether or not a given status is valid
+     *
+     * @param string $status
+     * @return boolean
+     */
+    public static function isValid($status)
+    {
+        return in_array($status, self::getList());
     }
 
     /**
@@ -45,20 +81,6 @@ class ActionStatus
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * Set status
-     *
-     * @param string $status
-     *
-     * @return $this
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
     }
 
     /**

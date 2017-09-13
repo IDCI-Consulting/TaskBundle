@@ -2,12 +2,12 @@
 
 namespace IDCI\Bundle\TaskBundle\Handler;
 
+use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Factory\TaskFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
-use IDCI\Bundle\TaskBundle\Event\TaskEvents;
 
 class TaskHandler
 {
@@ -56,7 +56,7 @@ class TaskHandler
 
         // Dispatch event with created task.
         $this->dispatcher->dispatch(
-            TaskEvents::CREATED,
+            Task::CREATED,
             new TaskEvent($task)
         );
     }

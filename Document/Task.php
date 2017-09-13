@@ -9,7 +9,6 @@ namespace IDCI\Bundle\TaskBundle\Document;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
-use IDCI\Bundle\TaskBundle\Event\TaskEvents;
 
 /**
  * @ODM\Document(
@@ -23,6 +22,8 @@ use IDCI\Bundle\TaskBundle\Event\TaskEvents;
  */
 class Task
 {
+    const CREATED = 'created';
+
     /**
      * @var \MongoId
      *
@@ -120,16 +121,10 @@ class Task
             ->setActions($workflow['actions'])
         ;
 
-        $actionStatus = new ActionStatus();
-        $actionStatus
-            ->setStatus(TaskEvents::PENDING)
-            ->setDate(new \DateTime())
-        ;
-
         $action = new Action();
         $action
             ->setName($configuration->getFirstAction())
-            ->addStatus($actionStatus)
+            ->addStatus(ActionStatus::PASSED)
         ;
 
         $task = new Task();
@@ -158,16 +153,10 @@ class Task
             ->setExtractedData($data)
         ;
 
-        $actionStatus = new ActionStatus();
-        $actionStatus
-            ->setStatus(TaskEvents::PENDING)
-            ->setDate(new \DateTime())
-        ;
-
         $action = new Action();
         $action
             ->setName($actionServiceName)
-            ->addStatus($actionStatus)
+            ->addStatus(ActionStatus::PENDING)
         ;
 
         $task = new Task();
