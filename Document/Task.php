@@ -319,13 +319,15 @@ class Task
     }
 
     /**
-     * Get status
+     * Get the status of the task
+     *
+     * The status of a task is equivalent to the last status of the last action
      *
      * @return string
      */
-    public function getCurrentStatus()
+    public function getStatus()
     {
-        return $this->getCurrentAction()->getCurrentStatus();
+        return $this->getCurrentAction()->getCurrentStatus()->getStatus();
     }
 
     /**
