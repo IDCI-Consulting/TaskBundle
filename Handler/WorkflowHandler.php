@@ -68,6 +68,10 @@ class WorkflowHandler
      */
     public function isTaskFinished(Task $task)
     {
+        if (!$task->getConfiguration()) {
+            return true;
+        }
+
         $workflow = $task->getConfiguration()->getWorkflow();
         $currentActionName = $task->getCurrentAction()->getName();
 

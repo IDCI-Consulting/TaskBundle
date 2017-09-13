@@ -35,7 +35,7 @@ class Task
      *
      * @ODM\EmbedOne(targetDocument="Configuration")
      */
-    private $configuration = array();
+    private $configuration;
 
     /**
      * @var array
