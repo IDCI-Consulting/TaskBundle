@@ -15,7 +15,7 @@ class Configuration
      *
      * @ODM\Field(type="hash", name="workflow")
      */
-    private $workflow= array();
+    private $workflow = array();
 
     /**
      * @var array
