@@ -39,7 +39,7 @@ class ActionStatus
      */
     public function __construct($status)
     {
-        if (!$this->isValid($status)) {
+        if (!self::isValid($status)) {
             throw new \InvalidArgumentException(sprintf('Invalid status %s', $status));
         }
 
