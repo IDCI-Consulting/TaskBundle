@@ -155,7 +155,10 @@ class ActionHandler
                 new TaskEvent($task)
             );
 
-            $this->actionProducer->publish(serialize(array('task_id' => $task->getId())));
+            $this->actionProducer->publish(
+                serialize(array('task_id' => $task->getId())),
+                $task->getSource()
+            );
         }
     }
 

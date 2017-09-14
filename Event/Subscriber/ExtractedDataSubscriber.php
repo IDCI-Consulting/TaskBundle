@@ -16,13 +16,20 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
     protected $taskProducer;
 
     /**
+     * @var string
+     */
+    protected $applicationName;
+
+    /**
      * Constructor.
      *
      * @param ProducerInterface $taskProducer
+     * @param string $applicationName
      */
-    public function __construct(ProducerInterface $taskProducer)
+    public function __construct(ProducerInterface $taskProducer, $applicationName)
     {
         $this->taskProducer = $taskProducer;
+        $this->applicationName = $applicationName;
     }
 
     /**
@@ -50,10 +57,13 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
         ;
 
         foreach ($extractedData as $data) {
-            $this->taskProducer->publish(serialize(array(
-                'data' => array('extracted_data' => $data),
-                'task_configuration_id' => $dataExtractedEvent->getTaskConfiguration()->getId()
-            )));
+            $this->taskProducer->publish(
+                serialize(array(
+                    'data' => array('extracted_data' => $data),
+                    'task_configuration_id' => $dataExtractedEvent->getTaskConfiguration()->getId()
+                )),
+                $this->applicationName
+            );
         }
     }
 }

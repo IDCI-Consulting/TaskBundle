@@ -29,6 +29,7 @@ services:
         class: IDCI\Bundle\TaskBundle\Event\Subscriber\ExtractedDataSubscriber
         arguments:
             - "@old_sound_rabbit_mq.task_producer"
+            - "%application_name%"
         tags:
             - { name: kernel.event_subscriber }
 
@@ -68,6 +69,7 @@ services:
             - "@old_sound_rabbit_mq.action_producer"
             - "@doctrine.orm.entity_manager"
             - "@doctrine.odm.mongodb.document_manager"
+            - "%application_name%"
 
     ## Handler ##
     idci_task.handler.extract_rule:

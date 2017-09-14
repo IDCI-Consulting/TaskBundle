@@ -31,18 +31,35 @@ class RabbitMqProcessor implements ProcessorInterface
      */
     private $entityManager;
 
+    /**
+     * @var string
+     */
+    private $applicationName;
+
+    /**
+     * Constructor
+     *
+     * @param ProducerInterface $extractRuleProducer
+     * @param ProducerInterface $taskProducer
+     * @param ProducerInterface $actionProducer
+     * @param EntityManager $entityManager
+     * @param DocumentManager $documentManager
+     * @param string $applicationName
+     */
     public function __construct(
         ProducerInterface $extractRuleProducer,
         ProducerInterface $taskProducer,
         ProducerInterface $actionProducer,
         EntityManager     $entityManager,
-        DocumentManager   $documentManager
+        DocumentManager   $documentManager,
+        $applicationName
     ) {
         $this->extractRuleProducer = $extractRuleProducer;
         $this->taskProducer        = $taskProducer;
         $this->actionProducer      = $actionProducer;
         $this->entityManager       = $entityManager;
         $this->documentManager     = $documentManager;
+        $this->applicationName     = $applicationName;
     }
 
     /**
@@ -50,9 +67,10 @@ class RabbitMqProcessor implements ProcessorInterface
      */
     public function startTasks(TaskConfiguration $taskConfiguration)
     {
-        $this->extractRuleProducer->publish(serialize(array(
-            'task_configuration_id' => $taskConfiguration->getId()
-        )));
+        $this->extractRuleProducer->publish(
+            serialize(array('task_configuration_id' => $taskConfiguration->getId())),
+            $this->applicationName
+        );
     }
 
     /**
@@ -60,10 +78,13 @@ class RabbitMqProcessor implements ProcessorInterface
      */
     public function startTask($actionService, $data = array())
     {
-        $this->taskProducer->publish(serialize(array(
-            'action_service' => $actionService,
-            'data' => $data
-        )));
+        $this->taskProducer->publish(
+            serialize(array(
+                'action_service' => $actionService,
+                'data' => $data
+            )),
+            $this->applicationName
+        );
     }
 
     /**
@@ -81,9 +102,12 @@ class RabbitMqProcessor implements ProcessorInterface
         $task->getCurrentAction()->addStatus(ActionStatus::PENDING);
         $this->documentManager->flush();
 
-        $this->actionProducer->publish(serialize(array(
-            'task_id' => $task->getId(),
-        )));
+        $this->actionProducer->publish(
+            serialize(array(
+                'task_id' => $task->getId(),
+            )),
+            $task->getSource()
+        );
     }
 
     private function reloadTaskConfiguration(Task $task)

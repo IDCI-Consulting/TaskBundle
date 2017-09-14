@@ -64,7 +64,10 @@ class TaskEventSubscriber implements EventSubscriberInterface
      */
     public function processTask(TaskEvent $event)
     {
-        $this->actionProducer->publish(serialize(array('task_id' => $event->getTask()->getId())));
+        $this->actionProducer->publish(
+            serialize(array('task_id' => $event->getTask()->getId())),
+            $event->getTask()->getSource()
+        );
     }
 
     /**
