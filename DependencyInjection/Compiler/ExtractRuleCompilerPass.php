@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use IDCI\Bundle\TaskBundle\Exception\MissingExtractRuleParametersDefinitionException;
 use IDCI\Bundle\TaskBundle\Exception\UndefinedExtractRuleException;
 
 class ExtractRuleCompilerPass implements CompilerPassInterface
@@ -33,10 +32,6 @@ class ExtractRuleCompilerPass implements CompilerPassInterface
                     ? $attributes['alias']
                     : $id
                 ;
-
-                if (!isset($extractRules[$alias])) {
-                    throw new MissingExtractRuleParametersDefinitionException($alias);
-                }
 
                 $registryDefinition->addMethodCall(
                     'setRule',

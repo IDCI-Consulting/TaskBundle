@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use IDCI\Bundle\TaskBundle\Exception\MissingActionParametersDefinitionException;
 use IDCI\Bundle\TaskBundle\Exception\UndefinedActionException;
 
 class ActionCompilerPass implements CompilerPassInterface
@@ -33,10 +32,6 @@ class ActionCompilerPass implements CompilerPassInterface
                     ? $attributes['alias']
                     : $id
                 ;
-
-                if (!isset($actions[$alias])) {
-                    throw new MissingActionParametersDefinitionException($alias);
-                }
 
                 $registryDefinition->addMethodCall(
                     'setAction',
