@@ -202,6 +202,7 @@ class Task
 
         $this->updatedAt = $date;
     }
+
     /**
      * Get id
      *
@@ -210,6 +211,16 @@ class Task
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get source
+     *
+     * @return string $source
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 
     /**
