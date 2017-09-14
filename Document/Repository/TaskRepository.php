@@ -3,39 +3,72 @@
 namespace IDCI\Bundle\TaskBundle\Document\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\Query\Builder as QueryBuilder;
 use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 
 class TaskRepository extends DocumentRepository
 {
     /**
-     * Find errored tasks.
+     * Find tasks by status query builder
      *
-     * @return array
+     * @param string $status
+     *
+     * @return QueryBuilder
      */
-    public function findErroredTasks()
+    public function findByStatusQueryBuilder($status)
     {
-        return $this
+        if (!ActionStatus::isValid($status)) {
+            throw new \InvalidArgumentException(sprintf('Invalid status %s', $status));
+        }
+
+        $qb = $this
             ->createQueryBuilder()
             ->field("actions.0.statuses.0.status")
-            ->equals(ActionStatus::ERROR)
-            ->getQuery()
-            ->execute()
+            ->equals($status)
         ;
+
+        return $qb;
     }
 
     /**
-     * Find passed tasks.
+     * Find tasks by status
+     *
+     * @param string $status
      *
      * @return array
      */
-    public function findPassedTasks()
+    public function findByStatus($status)
     {
-        return $this
+        $q = $this->findByStatusQueryBuilder($status)->getQuery();
+
+        return is_null($q)? array() : $q->execute();
+    }
+
+    /**
+     * Find unconfigured tasks status query builder
+     *
+     * @return QueryBuilder
+     */
+    public function findUnconfiguredTasksQueryBuilder()
+    {
+        $qb = $this
             ->createQueryBuilder()
-            ->field("actions.0.statuses.0.status")
-            ->equals(ActionStatus::PASSED)
-            ->getQuery()
-            ->execute()
+            ->field("configuration")
+            ->equals(null)
         ;
+
+        return $qb;
+    }
+
+    /**
+     * Find unconfigured tasks status
+     *
+     * @return QueryBuilder
+     */
+    public function findUnconfiguredTasks()
+    {
+        $q = $this->findUnconfiguredTasksQueryBuilder()->getQuery();
+
+        return is_null($q)? array() : $q->execute();
     }
 }
