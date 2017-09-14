@@ -73,7 +73,11 @@ class RabbitMqProcessor implements ProcessorInterface
      */
     public function resume(Task $task)
     {
-        $this->reloadTaskConfiguration($task);
+        // If the task is bound to a configuration, reload it in the task in case the configuration was updated
+        if ($task->getTaskConfigurationId()) {
+            $this->reloadTaskConfiguration($task);
+        }
+
         $task->getCurrentAction()->addStatus(ActionStatus::PENDING);
         $this->documentManager->flush();
 
