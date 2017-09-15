@@ -136,7 +136,7 @@ class Task
         $action = new Action();
         $action
             ->setName($configuration->getFirstAction())
-            ->addStatus(ActionStatus::PASSED)
+            ->addStatus(ActionStatus::PENDING)
         ;
 
         $task = new Task($source);
