@@ -2,16 +2,28 @@ IDCITaskBundle
 =============
 
 The purpose of this bundle is to add an easy way to asynchronously process CPU-intensive scripts. This bundle use RabbitMq to solve those issues.
-A CPU-intensive script is called an **action**.  
+A CPU-intensive script is called an **action**. To keep traces on actions, this bundle uses monolog to store the action logs in mongodb.
 If you want to understand how this bundle works, you need the basics about [rabbitmq](http://www.rabbitmq.com/).
+
+- [Introduction](#introduction)
+    - [Glossary](#glossary)
+    - [Lifecycle of a task](#lifecycle-of-a-task)
+- [Installation](#installation)
+- [Run the tests](#run-the-tests)
+- [How to create an extract rule service](Resources/doc/how_to_create_extract_rule_service.md)
+- [How to create an action service](Resources/doc/how_to_create_action_service.md)
+- [How to create a task configuration object](Resources/doc/how_to_create_task_configuration_object.md)
+- [How to run tasks](Resources/doc/how_to_run_tasks.md)
+- [Example](Resources/doc/example.md)
+- [UML](Resources/doc/uml.md)
 
 Introduction
 ------------
 
-### Glossary
+### Glossary
 
-* An "extract_rule" refers to a php script that will get an array of data, and will create a task for each item of this array.
-* An "action" is a script doing any work you want. It can be triggered by other previous actions in a definable and predictable order, or can be the entrypoint of a worflow.
+* An "extract_rule" refers to a symfony service that will get an array of data, and will create a task for each item of this array.
+* An "action" is a service doing any work you want. It can be triggered by other previous actions in a definable and predictable order, or can be the entrypoint of a worflow.
 * A "workflow" refers to the way actions are linked together. You can use conditions depending of the results of previous actions to trigger an action or another.
 * A "task" refers to multiple actions linked together for one extracted data.
 * A "task configuration" is composed of an extract_rule, actions and worflow to define how tasks are processed.
@@ -22,7 +34,7 @@ A task can be created in 2 different ways. The processor service is the entrypoi
 
 **A single action with some (or no) data to process**
 
-![Task lifecycle](Resources/doc/task-lifecycle-single.png)
+![Task lifecycle](Resources/doc/images/task-lifecycle-single.png)
 
 * 1 - The **task producer** send a message with the name of an action and some data (or no data).
 * 2 - The **task consumer** create a single task from these data and use the **action producer** to send the created task.
@@ -30,7 +42,7 @@ A task can be created in 2 different ways. The processor service is the entrypoi
 
 **A complex configuration with a workflow and multiple actions**
 
-![Task lifecycle](Resources/doc/task-lifecycle-configuration.png)
+![Task lifecycle](Resources/doc/images/task-lifecycle-configuration.png)
 
 * 1 - The **extract_rule producer** send a message to rabbitmq with the name of the extract rule.
 * 2 - The **extract rule consumer** extract the data and use the **task producer** to send a message with the data array.
@@ -116,13 +128,13 @@ task_mongo_database_name: task
 task_mongo_database_host: 'mongodb://127.0.0.1:27017'
 ```
 
-Usage
------
 
-// TODO
+Example
+-------
 
-Tests
------
+
+Run the tests
+-------------
 
 Install bundle dependencies:
 ```sh
