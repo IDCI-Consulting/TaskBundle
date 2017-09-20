@@ -90,10 +90,16 @@ class RabbitMqProcessor implements ProcessorInterface
     /**
      * Resume task
      *
+     * @throws
+     *
      * @param Task $task
      */
     public function resume(Task $task)
     {
+        if ($task->getStatus() !== ActionStatus::ERROR) {
+            throw new \Exception('You can only resume a task that failed');
+        }
+
         // If the task is bound to a configuration, reload it in the task in case the configuration was updated
         if ($task->getTaskConfigurationId()) {
             $this->reloadTaskConfiguration($task);
