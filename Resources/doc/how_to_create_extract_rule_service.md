@@ -12,8 +12,8 @@ You need to implement 2 methods: `configureOptions()` and `doExtract()`:
 ```php
 <?php
 
-use IDCI\Bundle\TaskBundle\ExtractRule\AbstractExtractRule;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use IDCI\Bundle\TaskBundle\ExtractRule\AbstractExtractRule;
 
 class MyExtractRule extends AbstractExtractRule
 {
@@ -41,7 +41,7 @@ class MyExtractRule extends AbstractExtractRule
 
         return $data;
     }
-    
+
     ...
 }
 ```
@@ -53,7 +53,7 @@ Inside `doExtract`, fetch your data any way you want with the parameters.
 In case the returned data is an array, a task for each item will be created.
 In case of a single value or object, a single task will be created.
 
-**IMPORTANT /!\ : If the data contains objects, those objects must implements the JsonSerializable interface.**
+**IMPORTANT /!\ : If the data contains objects, those objects must implements the [JsonSerializable](http://php.net/manual/en/class.jsonserializable.php) interface.**
 
 Register your class as a tagged service
 ---------------------------------------

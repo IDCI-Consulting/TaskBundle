@@ -8,7 +8,7 @@ You might want to think: "I have to create an application based on this bundle t
 I need to move the code of my commands into actions in that application. That application will centralized all my actions (jobs)".
 
 * Where you are right: you need to move the code of your symfony commands in actions. If you split your code in services, it should be very easy.
-* Where you are wrong: you don't need to create a new application based on this bundle. You only need to add this bundle to your existing application and configure the bundle correctly to connect your application to the rabbitmq server and the mongo database. 
+* Where you are wrong: you don't need to create a new application based on this bundle. You only need to add this bundle to your existing application and configure the bundle correctly to connect your application to the RabbitMQ server and the Mongo database.
 
 How does it works?
 ------------------
@@ -18,10 +18,10 @@ Let's consider the following schema:
 ![Routing issue](images/routing_issue.png)
 
 You have 2 symfony applications running on different servers.
-When a producer send a message, the exchange forward it to the action queue. With this setup, rabbitmq will just send the message to the first available consumer.
-See the documentation about [scalability](scalability.md) to understand how rabbitmq takes advantage of multiple consumers.
+When a producer send a message, the exchange forward it to the action queue. With this setup, RabbitMQ will just send the message to the first available consumer.
+See the documentation about [scalability](scalability.md) to understand how RabbitMQ takes advantage of multiple consumers.
 
-That is where the **application_name** parameter comes in. The application_name parameter will be used as a routing_key, and a queue will be named according to that key and bound to the exchange thanks to that routing key.
+That is where the **application_name** parameter comes in. The application_name parameter will be used as a [routing_key](https://www.rabbitmq.com/tutorials/tutorial-four-php.html), and a queue will be named according to that key and bound to the exchange thanks to that routing key.
 You can see [the configuration](https://github.com/IDCI-Consulting/TaskBundle/blob/master/Resources/config/config.yml#L25-L28)
 as well as an [example of use of producer](https://github.com/IDCI-Consulting/TaskBundle/blob/master/Processor/RabbitMqProcessor.php#L72) for a better comprehension on this subject.
 

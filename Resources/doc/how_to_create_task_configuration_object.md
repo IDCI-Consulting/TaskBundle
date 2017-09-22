@@ -6,6 +6,8 @@ Now, you should have a few available **actions** and **extract_rule** services. 
 A task configuration is a simple object:
 
 ```php
+use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+
 $taskConfiguration = new TaskConfiguration();
 ```
 
@@ -39,14 +41,14 @@ Workflow configuration
 
 A workflow is composed of 2 concepts: **actions** and a **workflow** to link actions.
 
-### Actions configuration
+### Actions configuration
 
 The action configuration must be a json array. One action must be an object with at least two keys :
 * `service`: the action service alias.
 * `parameters`: The action parameters.
 In case you use a service multiple times in a workflow, you can specify a name.
 * `name`: The access data name & action name.
-In the next actions, you can access the data computed by the previous actions like this {{ action_name.key }}.
+In the next actions, you can access the data computed by the previous actions like this `{{ action_name.key }}`.
 
 You also can access to the data computed by the extract rule like this `{{ extracted_data.key_name }}`.
 

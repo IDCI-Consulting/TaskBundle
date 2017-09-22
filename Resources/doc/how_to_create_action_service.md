@@ -13,8 +13,8 @@ The action class only has two required method `configureOptions()` and `doExecut
 <?php
 namespace IDCI\Bundle\TaskBundle\Action;
 
-use IDCI\Bundle\TaskBundle\Action\AbstractAction;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use IDCI\Bundle\TaskBundle\Action\AbstractAction;
 
 class MyAction extends AbstractAction
 {
@@ -37,6 +37,9 @@ class MyAction extends AbstractAction
      */
     public function doExecute(array $options)
     {
+        // The AbstractActionn provides a getLogger method to log.
+        $this->getLogger()->info('Begin multiplication.');
+
         $result = $options['number_one'] * $options['number_two'];
 
         return $result;
@@ -47,7 +50,7 @@ class MyAction extends AbstractAction
 Inside `configureOptions`, you can use the [Symfony OptionResolver component](http://symfony.com/doc/current/components/options_resolver.html)
 and define the Action parameters.
 
-Inside `doExecute`, do whatever you want.
+Inside `doExecute`, do whatever you want. In our example, we do a multiplication.
 
 Register your class as a tagged service
 ---------------------------------------
@@ -55,7 +58,7 @@ Register your class as a tagged service
 ```yml
 services:
     idci_task.action.get_user_age:
-        parent: idci_task.action.abstract
+        parent: idci_task.action.abstract #
         class: Path\To\Your\Action\MyAction
         tags:
             - { name: "idci_task.action", alias: "my_action" }

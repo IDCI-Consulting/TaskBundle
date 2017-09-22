@@ -12,7 +12,7 @@ User entity
 ```php
 <?php
 
-namespace Bundle\Entity;
+namespace My\Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -73,6 +73,7 @@ class User implements \JsonSerializable
 For the sake of this example, let's imagine those 3 Users are persisted in database:
 
 ```php
+<?php
 $bob  = new User('bob',  new \DateTime('1991-03-15'));
 $john = new User('john', new \DateTime('1997-09-22'));
 $milo = new User('milo', new \DateTime('8520-08-20'));
@@ -84,6 +85,9 @@ The extract rule
 We create a class called MysqlUserExtractRule that will be used to retrieve some users.
 
 ```php
+<?php
+namespace My\Bundle\ExtractRule;
+
 use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\TaskBundle\ExtractRule\AbstractExtractRule;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -157,7 +161,7 @@ We register that class as a service with the **idci_task.extract_rule** tag.
 ```yml
 services:
     idci_task.extract_rule.mysql_user:
-        class: Path\To\ExtractRule\MysqlUserExtractRule
+        class: My\Bundle\ExtractRule\MysqlUserExtractRule
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
@@ -170,6 +174,9 @@ The actions
 We create an action that will calculate the age of a user.
 
 ```php
+<?php
+namespace My\Bundle\Action;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use IDCI\Bundle\TaskBundle\Action\AbstractAction;
 
@@ -212,6 +219,9 @@ class GetUserAgeAction extends AbstractAction
 We create another action that will log the result:
 
 ```php
+<?php
+namespace My\Bundle\Action;
+
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use IDCI\Bundle\TaskBundle\Action\AbstractAction;
@@ -257,13 +267,13 @@ We register those classes as services:
 services:
     idci_task.action.get_user_age:
         parent: idci_task.action.abstract
-        class: Bundle\Action\GetUserAgeAction
+        class: My\Bundle\Action\GetUserAgeAction
         tags:
             - { name: "idci_task.action", alias: "get_user_age" }
 
     idci_task.action.log_user_age:
         parent: idci_task.action.abstract
-        class: Bundle\Action\LogUserAgeAction
+        class: My\Bundle\Action\LogUserAgeAction
         tags:
             - { name: "idci_task.action", alias: "log_user_age" }
 ```
@@ -280,6 +290,7 @@ $this->get('idci_task.processor.rabbitmq')->startTask('log_user_age', array('use
 A more complex configuration can be created with the extract rule and the 2 actions:
 
 ```php
+<?php
 $taskConfiguration = new TaskConfiguration();
 $taskConfiguration->setName('test_task');
 $taskConfiguration->setExtractRule(
@@ -326,6 +337,7 @@ This will run 3 tasks for each user. The 2 first will passed, when the last one 
 We can fix the task in order to resume it:
 
 ```php
+<?php
 $task = $this
     ->get('doctrine.odm.mongodb.document_manager')
     ->getRepository('IDCITaskBundle:Task')

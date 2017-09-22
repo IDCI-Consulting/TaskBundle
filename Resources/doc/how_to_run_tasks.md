@@ -65,6 +65,7 @@ $this->processor->startTask('action_service_name', array('data1' => 21, 'data2' 
 ### Resume a failed task
 
 ```php
+// We have to use getNext() method because findByStatus returns a cursor.
 $task = $this
     ->get('doctrine.odm.mongodb.document_manager')
     ->getRepository('IDCITaskBundle:Task')
