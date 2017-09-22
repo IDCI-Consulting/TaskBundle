@@ -1,20 +1,6 @@
 How to separate actions in different applications
 =================================================
 
-- [Introduction](../../README.md#introduction)
-    - [Glossary](../../README.md#glossary)
-    - [Lifecycle of a task](../../README.md#lifecycle-of-a-task)
-- [Installation](../../README.md#installation)
-- [Run the tests](../../README.md#run-the-tests)
-- [How to create an extract rule service](how_to_create_extract_rule_service.md)
-- [How to create an action service](how_to_create_action_service.md)
-- [How to create a task configuration object](how_to_create_task_configuration_object.md)
-- [How to run tasks](how_to_run_tasks.md)
-- [How to scale your application to run tasks concurrently](scalability.md)
-- [How to separate actions in different applications](routing.md)
-- [Example](example.md)
-- [UML](uml.md)
-
 You will likely want to use this bundle if you have got so many cron jobs that it's becoming hard to scale and manage.
 With this in mind, you might already have multiple Symfony applications with Commands used in those cron jobs.
 
@@ -42,3 +28,20 @@ as well as an [example of use of producer](https://github.com/IDCI-Consulting/Ta
 Here is what's happening:
 
 ![Routing key](images/routing_key.png)
+
+Summary
+-------
+
+- [Introduction](../../README.md#introduction)
+    - [Glossary](../../README.md#glossary)
+    - [Lifecycle of a task](../../README.md#lifecycle-of-a-task)
+- [Installation](../../README.md#installation)
+- [Run the tests](../../README.md#run-the-tests)
+- [How to create an extract rule service](how_to_create_extract_rule_service.md)
+- [How to create an action service](how_to_create_action_service.md)
+- [How to create a task configuration object](how_to_create_task_configuration_object.md)
+- [How to run tasks](how_to_run_tasks.md)
+- [How to scale your application to run tasks concurrently](scalability.md)
+- [How to separate actions in different applications](routing.md)
+- [Example](example.md)
+- [UML](uml.md)

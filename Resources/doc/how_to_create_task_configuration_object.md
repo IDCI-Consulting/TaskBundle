@@ -1,20 +1,6 @@
 Create a TaskConfiguration object
 =================================
 
-- [Introduction](../../README.md#introduction)
-    - [Glossary](../../README.md#glossary)
-    - [Lifecycle of a task](../../README.md#lifecycle-of-a-task)
-- [Installation](../../README.md#installation)
-- [Run the tests](../../README.md#run-the-tests)
-- [How to create an extract rule service](how_to_create_extract_rule_service.md)
-- [How to create an action service](how_to_create_action_service.md)
-- [How to create a task configuration object](how_to_create_task_configuration_object.md)
-- [How to run tasks](how_to_run_tasks.md)
-- [How to scale your application to run tasks concurrently](scalability.md)
-- [How to separate actions in different applications](routing.md)
-- [Example](example.md)
-- [UML](uml.md)
-
 Now, you should have a few available **actions** and **extract_rule** services. Let's create a configuration out of it.
 
 A task configuration is a simple object:
@@ -120,3 +106,20 @@ See the [workflow configuration rule](../../Workflow/WorkflowConfigurationRule.p
 to understand the configuration structure.
 
 // TODO: add information on conditions in flows, and enable and cron expression
+
+Summary
+-------
+
+- [Introduction](../../README.md#introduction)
+    - [Glossary](../../README.md#glossary)
+    - [Lifecycle of a task](../../README.md#lifecycle-of-a-task)
+- [Installation](../../README.md#installation)
+- [Run the tests](../../README.md#run-the-tests)
+- [How to create an extract rule service](how_to_create_extract_rule_service.md)
+- [How to create an action service](how_to_create_action_service.md)
+- [How to create a task configuration object](how_to_create_task_configuration_object.md)
+- [How to run tasks](how_to_run_tasks.md)
+- [How to scale your application to run tasks concurrently](scalability.md)
+- [How to separate actions in different applications](routing.md)
+- [Example](example.md)
+- [UML](uml.md)

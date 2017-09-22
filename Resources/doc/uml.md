@@ -1,6 +1,19 @@
 UML
 ===
 
+Entities
+--------
+
+![UML Class Diagram](images/uml.png)
+
+Registries
+----------
+
+![Registry UML Class Diagram](images/registries_uml.png)
+
+Summary
+-------
+
 - [Introduction](../../README.md#introduction)
     - [Glossary](../../README.md#glossary)
     - [Lifecycle of a task](../../README.md#lifecycle-of-a-task)
@@ -14,13 +27,3 @@ UML
 - [How to separate actions in different applications](routing.md)
 - [Example](example.md)
 - [UML](uml.md)
-
-Entities
---------
-
-![UML Class Diagram](images/uml.png)
-
-Registries
-----------
-
-![Registry UML Class Diagram](images/registries_uml.png)
