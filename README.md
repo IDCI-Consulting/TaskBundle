@@ -1,7 +1,8 @@
 IDCITaskBundle
 =============
 
-The purpose of this bundle is to add an easy way to asynchronously process CPU-intensive scripts. This bundle use RabbitMq to solve those issues.
+The purpose of this bundle is to add an easy way to asynchronously process CPU-intensive scripts. You might be used to cron jobs in matter such as these. 
+This bundle use RabbitMq which solve those issues more efficiently and effectively.
 A CPU-intensive script is called an **action**. To keep traces on actions, this bundle uses monolog to store the action logs in mongodb.
 If you want to understand how this bundle works, you need the basics about [rabbitmq](http://www.rabbitmq.com/).
 
@@ -14,6 +15,8 @@ If you want to understand how this bundle works, you need the basics about [rabb
 - [How to create an action service](Resources/doc/how_to_create_action_service.md)
 - [How to create a task configuration object](Resources/doc/how_to_create_task_configuration_object.md)
 - [How to run tasks](Resources/doc/how_to_run_tasks.md)
+- [How to scale your application to run tasks concurrently](Resources/doc/scalability.md)
+- [How to separate actions in different applications](Resources/doc/routing.md)
 - [Example](Resources/doc/example.md)
 - [UML](Resources/doc/uml.md)
 
