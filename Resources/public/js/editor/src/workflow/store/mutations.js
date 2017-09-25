@@ -2,22 +2,23 @@ import Vue from 'vue';
 import { JsonToTwigTransformer } from 'vue-editor-commons';
 
 export default {
+
   /**
    * Initialize workflow data with form data.
    *
    * @param {Object} state - The state.
    */
   initializeWorkflowData: function (state) {
-    let formValue = JSON.parse(state.configuration.form.value);
-    let initialStateData = state.data;
+    if (state.configuration.form.value) {
+      let formValue = JSON.parse(state.configuration.form.value);
+      let initialStateData = state.data;
 
-    if (null != state.configuration.form.value) {
       state.data = formValue;
-    }
 
-    // If the parsed object is empty; restore initial state data.
-    if (Object.keys(formValue).length <= 0) {
-      state.data = initialStateData;
+      // If the parsed object is empty; restore initial state data.
+      if (Object.keys(formValue).length <= 0) {
+        state.data = initialStateData;
+      }
     }
   },
 
