@@ -12,7 +12,6 @@ use IDCI\Bundle\TaskBundle\Handler\ExtractRuleHandler;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleInterface;
 use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
-use IDCI\Bundle\TaskBundle\Event\DataExtractedEvent;
 
 class ExtractRuleHandlerTest extends TestCase
 {
@@ -102,18 +101,6 @@ class ExtractRuleHandlerTest extends TestCase
             'service' => 'api_participations',
             'parameters' => array(
                 'id' => '58da7cc43aaa0609008b4569',
-            ),
-        );
-
-        $actions = array(
-            array(
-                'name' => 'retrieved_document',
-                'action' => 'retrieve_document',
-                'parameters' => array(
-                    'data' => array(
-                        'participation' => '{{ extracted_data.id }}',
-                    ),
-                ),
             ),
         );
 

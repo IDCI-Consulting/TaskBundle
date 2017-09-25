@@ -57,7 +57,6 @@ class ActionHandlerTest extends TestCase
 
         $this->action = $this
             ->getMockBuilder(ActionInterface::class)
-            ->setMethods(array('execute'))
             ->getMock()
         ;
 
@@ -164,8 +163,6 @@ class ActionHandlerTest extends TestCase
     public function testExecutionErrored()
     {
         $task = self::createTask();
-
-        $actionData = 'Dummy value returned by action execute method';
 
         $action = $task->getConfiguration()->getAction($task->getActions()->first()->getName());
 
@@ -310,7 +307,7 @@ class ActionHandlerTest extends TestCase
             ->addStatus(ActionStatus::PENDING)
         ;
 
-        $task = new Task();
+        $task = new Task('source_test');
         $task
             ->setConfiguration($configuration)
             ->setData($data)
