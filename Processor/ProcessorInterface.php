@@ -3,14 +3,14 @@
 namespace IDCI\Bundle\TaskBundle\Processor;
 
 use IDCI\Bundle\TaskBundle\Document\Task;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
 
 interface ProcessorInterface
 {
     /**
-     * @param TaskConfiguration $taskConfiguration
+     * @param AbstractTaskConfiguration $taskConfiguration
      */
-    public function startTasks(TaskConfiguration $taskConfiguration);
+    public function startTasks(AbstractTaskConfiguration $taskConfiguration);
 
     /**
      * @param string $actionService

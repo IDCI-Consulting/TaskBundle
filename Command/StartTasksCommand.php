@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
 use IDCI\Bundle\TaskBundle\Processor\ProcessorInterface;
 use Cron\CronExpression;
 
@@ -57,11 +57,11 @@ EOT
         $taskConfigurations = $this
             ->getContainer()
             ->get('doctrine.orm.entity_manager')
-            ->getRepository('IDCITaskBundle:TaskConfiguration')
-            ->findBy(array('enable' => TaskConfiguration::STATE_ENABLE))
+            ->getRepository($this->getContainer()->getParameter('idci_task.task_configuration_class'))
+            ->findBy(array('enable' => AbstractTaskConfiguration::STATE_ENABLE))
         ;
 
-        /** @var TaskConfiguration $configuration */
+        /** @var AbstractTaskConfiguration $configuration */
         foreach ($taskConfigurations as $configuration) {
             $cron = CronExpression::factory($configuration->getCronExpression());
 
@@ -84,13 +84,13 @@ EOT
     /**
      * Add a row.
      *
-     * @param Table             $table
-     * @param TaskConfiguration $configuration
-     * @param CronExpression    $cron
+     * @param Table                     $table
+     * @param AbstractTaskConfiguration $configuration
+     * @param CronExpression            $cron
      *
      * @return Table
      */
-    private function addRow(Table $table, TaskConfiguration $configuration, CronExpression $cron)
+    private function addRow(Table $table, AbstractTaskConfiguration $configuration, CronExpression $cron)
     {
         $table->addRow(array(
             'task' => $configuration->getId(),

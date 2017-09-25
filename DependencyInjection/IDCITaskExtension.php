@@ -31,6 +31,7 @@ class IDCITaskExtension extends Extension
 
         $container->setParameter('idci_task.extract_rules', $config['extract_rules']);
         $container->setParameter('idci_task.actions', $config['actions']);
+        $container->setParameter('idci_task.task_configuration_class', $config['task_configuration_class']);
 
         $container->setParameter('idci_task.configuration', $config);
 

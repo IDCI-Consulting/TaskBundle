@@ -3,7 +3,7 @@
 namespace IDCI\Bundle\TaskBundle\Handler;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
 use IDCI\Bundle\TaskBundle\Event\DataExtractedEvent;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
 
@@ -36,9 +36,9 @@ class ExtractRuleHandler
     /**
      * Execute all extract rules and log for each
      *
-     * @param TaskConfiguration $taskConfiguration
+     * @param AbstractTaskConfiguration $taskConfiguration
      */
-    public function execute(TaskConfiguration $taskConfiguration)
+    public function execute(AbstractTaskConfiguration $taskConfiguration)
     {
         $extractRuleConfiguration = json_decode($taskConfiguration->getExtractRule(), true);
 

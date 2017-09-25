@@ -6,7 +6,6 @@
 
 namespace IDCI\Bundle\TaskBundle\Controller\Rest;
 
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +37,7 @@ class ApiStartTasksController extends Controller
         $taskConfiguration = $this
             ->getDoctrine()
             ->getManager()
-            ->getRepository('IDCITaskBundle:TaskConfiguration')
+            ->getRepository($this->getParameter('idci_task.task_configuration_class'))
             ->findOneById($taskConfigurationId)
         ;
         $processor->startTasks($taskConfiguration);

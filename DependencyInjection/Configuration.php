@@ -24,6 +24,11 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('idci_task');
         $rootNode
+            ->children()
+                ->scalarNode('task_configuration_class')
+                    ->defaultValue('IDCI\Bundle\TaskBundle\Entity\TaskConfiguration')
+                ->end()
+            ->end()
             ->append($this->addActionsNode())
             ->append($this->addExtraRulesNode())
         ;

@@ -8,7 +8,7 @@ namespace IDCI\Bundle\TaskBundle\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
 
 /**
  * @ODM\Document(
@@ -97,10 +97,10 @@ class Task
     /**
      * Create a task from a task configuration
      *
-     * @param string            $source
-     * @param TaskConfiguration $taskConfiguration
-     * @param mixed             $extractedData
-     * @param array             $actionData
+     * @param string                    $source
+     * @param AbstractTaskConfiguration $taskConfiguration
+     * @param mixed                     $extractedData
+     * @param array                     $actionData
      *
      * @throws \Exception
      *
@@ -108,7 +108,7 @@ class Task
      */
     public static function createFromTaskConfiguration(
         $source,
-        TaskConfiguration $taskConfiguration,
+        AbstractTaskConfiguration $taskConfiguration,
         $extractedData = array(),
         array $actionData = array()
     ) {

@@ -26,20 +26,28 @@ class ExtractRuleConsumer implements ConsumerInterface
     protected $entityManager;
 
     /**
+     * @var string
+     */
+    protected $taskConfigurationClass;
+
+    /**
      * Constructor.
      *
      * @param ExtractRuleRegistry $extractRuleRegistry
      * @param ExtractRuleHandler  $extractRuleHandler
      * @param EntityManager       $entityManager
+     * @param string              $taskConfigurationClass
      */
     public function __construct(
         ExtractRuleRegistry $extractRuleRegistry,
         ExtractRuleHandler  $extractRuleHandler,
-        EntityManager       $entityManager
+        EntityManager       $entityManager,
+        $taskConfigurationClass
     ) {
-        $this->extractRuleRegistry = $extractRuleRegistry;
-        $this->extractRuleHandler  = $extractRuleHandler;
-        $this->entityManager       = $entityManager;
+        $this->extractRuleRegistry    = $extractRuleRegistry;
+        $this->extractRuleHandler     = $extractRuleHandler;
+        $this->entityManager          = $entityManager;
+        $this->taskConfigurationClass = $taskConfigurationClass;
     }
 
     /**
@@ -51,11 +59,11 @@ class ExtractRuleConsumer implements ConsumerInterface
 
         try {
             // Force clear cache otherwise it loads the unchanged taskConfiguration
-            $this->entityManager->clear('IDCI\Bundle\TaskBundle\Entity\TaskConfiguration');
+            $this->entityManager->clear($this->taskConfigurationClass);
 
             $taskConfiguration = $this
                 ->entityManager
-                ->getRepository('IDCITaskBundle:TaskConfiguration')
+                ->getRepository($this->taskConfigurationClass)
                 ->findOneById($options['task_configuration_id'])
             ;
 

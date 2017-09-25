@@ -3,14 +3,14 @@
 namespace IDCI\Bundle\TaskBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
 
 class DataExtractedEvent extends Event
 {
     const NAME = 'data.extracted';
 
     /**
-     * @var TaskConfiguration
+     * @var AbstractTaskConfiguration
      */
     protected $taskConfiguration;
 
@@ -22,10 +22,10 @@ class DataExtractedEvent extends Event
     /**
      * Constructor.
      *
-     * @param TaskConfiguration $taskConfiguration
+     * @param AbstractTaskConfiguration $taskConfiguration
      * @param $data
      */
-    public function __construct(TaskConfiguration $taskConfiguration, $data)
+    public function __construct(AbstractTaskConfiguration $taskConfiguration, $data)
     {
         $this->taskConfiguration = $taskConfiguration;
         $this->data = $data;
@@ -34,7 +34,7 @@ class DataExtractedEvent extends Event
     /**
      * Get the task configuration.
      *
-     * @return TaskConfiguration
+     * @return AbstractTaskConfiguration
      */
     public function getTaskConfiguration()
     {

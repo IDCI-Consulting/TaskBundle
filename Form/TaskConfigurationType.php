@@ -11,6 +11,21 @@ use IDCI\Bundle\TaskBundle\Validator\Constraints as IDCITaskConstraint;
 class TaskConfigurationType extends AbstractType
 {
     /**
+     * @var string
+     */
+    private $taskConfigurationClass;
+
+    /**
+     * Constructor
+     *
+     * @param string $taskConfigurationClass
+     */
+    public function __construct($taskConfigurationClass)
+    {
+        $this->taskConfigurationClass = $taskConfigurationClass;
+    }
+
+    /**
      * {@inheritdox}.
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -45,7 +60,7 @@ class TaskConfigurationType extends AbstractType
     {
         $resolver
           ->setDefaults(array(
-              'data_class' => 'IDCI\Bundle\TaskBundle\Entity\TaskConfiguration',
+              'data_class' => $this->taskConfigurationClass,
           ))
         ;
     }

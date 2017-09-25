@@ -16,6 +16,7 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "%application_name%"
+            - "%idci_task.task_configuration_class%"
 
     ## Actions ##
     idci_task.action.abstract:
@@ -54,6 +55,7 @@ services:
             - "@idci_task.extract_rule_registry"
             - "@idci_task.handler.extract_rule"
             - "@doctrine.orm.entity_manager"
+            - "%idci_task.task_configuration_class%"
 
     idci_task.service.consumer.task:
         class: IDCI\Bundle\TaskBundle\RabbitMq\Consumer\TaskConsumer
@@ -70,6 +72,7 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@doctrine.odm.mongodb.document_manager"
             - "%application_name%"
+            - "%idci_task.task_configuration_class%"
 
     ## Handler ##
     idci_task.handler.extract_rule:

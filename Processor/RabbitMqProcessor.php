@@ -7,7 +7,7 @@ use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use IDCI\Bundle\TaskBundle\Document\Task;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
 
 class RabbitMqProcessor implements ProcessorInterface
 {
@@ -37,6 +37,11 @@ class RabbitMqProcessor implements ProcessorInterface
     private $applicationName;
 
     /**
+     * @var string
+     */
+    private $taskConfigurationClass;
+
+    /**
      * Constructor
      *
      * @param ProducerInterface $extractRuleProducer
@@ -45,6 +50,7 @@ class RabbitMqProcessor implements ProcessorInterface
      * @param EntityManager $entityManager
      * @param DocumentManager $documentManager
      * @param string $applicationName
+     * @param string $taskConfigurationClass
      */
     public function __construct(
         ProducerInterface $extractRuleProducer,
@@ -52,20 +58,22 @@ class RabbitMqProcessor implements ProcessorInterface
         ProducerInterface $actionProducer,
         EntityManager     $entityManager,
         DocumentManager   $documentManager,
-        $applicationName
+        $applicationName,
+        $taskConfigurationClass
     ) {
-        $this->extractRuleProducer = $extractRuleProducer;
-        $this->taskProducer        = $taskProducer;
-        $this->actionProducer      = $actionProducer;
-        $this->entityManager       = $entityManager;
-        $this->documentManager     = $documentManager;
-        $this->applicationName     = $applicationName;
+        $this->extractRuleProducer    = $extractRuleProducer;
+        $this->taskProducer           = $taskProducer;
+        $this->actionProducer         = $actionProducer;
+        $this->entityManager          = $entityManager;
+        $this->documentManager        = $documentManager;
+        $this->applicationName        = $applicationName;
+        $this->taskConfigurationClass = $taskConfigurationClass;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function startTasks(TaskConfiguration $taskConfiguration)
+    public function startTasks(AbstractTaskConfiguration $taskConfiguration)
     {
         $this->extractRuleProducer->publish(
             serialize(array('task_configuration_id' => $taskConfiguration->getId())),
@@ -120,7 +128,7 @@ class RabbitMqProcessor implements ProcessorInterface
     {
         $taskConfiguration = $this
             ->entityManager
-            ->getRepository('IDCITaskBundle:TaskConfiguration')
+            ->getRepository($this->taskConfigurationClass)
             ->find($task->getTaskConfigurationId())
         ;
         $workflow = json_decode($taskConfiguration->getWorkflow(), true);

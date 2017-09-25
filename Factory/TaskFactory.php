@@ -18,14 +18,21 @@ class TaskFactory
     private $applicationName;
 
     /**
+     * @var string
+     */
+    private $taskConfigurationClass;
+
+    /**
      * Constructor.
      *
      * @param EntityManager $entityManager
      * @param string        $applicationName
+     * @param string        $taskConfigurationClass
      */
-    public function __construct(EntityManager $entityManager, $applicationName) {
-        $this->entityManager   = $entityManager;
-        $this->applicationName = $applicationName;
+    public function __construct(EntityManager $entityManager, $applicationName, $taskConfigurationClass) {
+        $this->entityManager          = $entityManager;
+        $this->applicationName        = $applicationName;
+        $this->taskConfigurationClass = $taskConfigurationClass;
     }
 
     /**
@@ -51,10 +58,10 @@ class TaskFactory
           }
 
           // Force clear cache otherwise it loads the unchanged taskConfiguration
-          $this->entityManager->clear('IDCI\Bundle\TaskBundle\Entity\TaskConfiguration');
+          $this->entityManager->clear($this->taskConfigurationClass);
 
           $taskConfiguration = $this->entityManager
-              ->getRepository('IDCITaskBundle:TaskConfiguration')
+              ->getRepository($this->taskConfigurationClass)
               ->findOneById($options['task_configuration_id'])
           ;
 

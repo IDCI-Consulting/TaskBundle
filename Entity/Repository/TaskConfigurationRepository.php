@@ -9,8 +9,7 @@ namespace IDCI\Bundle\TaskBundle\Entity\Repository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
-use IDCI\Bundle\RestBundle\Repository\AbstractEntityRepository;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
 
 /**
  * TaskConfigurationRepository.
@@ -183,7 +182,7 @@ class TaskConfigurationRepository extends EntityRepository
 
         $qb
             ->andWhere($qb->expr()->in(sprintf('%s.enable', $alias), ':active'))
-            ->setParameter('active', array(TaskConfiguration::STATE_ENABLE))
+            ->setParameter('active', array(AbstractTaskConfiguration::STATE_ENABLE))
         ;
 
         return $qb;
@@ -204,7 +203,7 @@ class TaskConfigurationRepository extends EntityRepository
         }
 
         $qb->andWhere($qb->expr()->in(sprintf('%s.enable', $alias), ':active'))
-            ->setParameter('active', array(TaskConfiguration::STATE_DISABLE))
+            ->setParameter('active', array(AbstractTaskConfiguration::STATE_DISABLE))
         ;
 
         return $qb;
