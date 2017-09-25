@@ -11,10 +11,8 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Processor\ProcessorInterface;
-use Cron\CronExpression;
 
 class ResumeTasksCommand extends ContainerAwareCommand
 {
