@@ -34,7 +34,8 @@ Summary
 
 - [Introduction](../../README.md#introduction)
     - [Glossary](../../README.md#glossary)
-    - [Lifecycle of a task](../../README.md#lifecycle-of-a-task)
+    - [Simple schema](../../README.md#simple-schema)
+    - [Lifecycle of a task with RabbitMq](../../README.md#lifecycle-of-a-task-with-rabbitmq)
 - [Installation](../../README.md#installation)
 - [Run the tests](../../README.md#run-the-tests)
 - [How to create an extract rule service](how_to_create_extract_rule_service.md)

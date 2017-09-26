@@ -8,7 +8,8 @@ If you want to understand how this bundle works, you need the basics about [Rabb
 
 - [Introduction](#introduction)
     - [Glossary](#glossary)
-    - [Lifecycle of a task](#lifecycle-of-a-task)
+    - [Simple schema](#simple-schema)
+    - [Lifecycle of a task with RabbitMq](#lifecycle-of-a-task-with-rabbitmq)
 - [Installation](#installation)
 - [Run the tests](#run-the-tests)
 - [How to create an extract rule service](Resources/doc/how_to_create_extract_rule_service.md)
@@ -25,13 +26,20 @@ Introduction
 
 ### Glossary
 
-* An "extract_rule" refers to a symfony service that will retrieve an array of data, and will create a task for each item of this array.
-* An "action" is a service doing any work you want. It can be triggered by other previous actions in a definable and predictable order, or can be the entrypoint of a worflow.
-* A "workflow" refers to the way actions are linked together. You can use conditions depending of the results of previous actions to trigger an action or another.
-* A "task" refers to multiple actions linked together for one extracted data.
-* A "task configuration" is composed of an extract_rule, actions and worflow to define how tasks are processed.
+* An **extract_rule** refers to a symfony service that will retrieve an array of data. A task will be created for each item of this array.
+* An **action** is a service doing any work you want. It can be triggered by other previous actions in a definable and predictable order (composing what we call a workflow).
+* A **workflow** refers to the way actions are linked together. You can use conditions depending of the results of previous actions to trigger an action or another.
+* A **task** refers to multiple actions linked together for one extracted data. It's a mongo document, and can be used to resume actions if they failed0
+* With all these, we can compose a **task configuration** to define how tasks are created and processed.
 
-### Lifecycle of a task
+### Simple schema
+
+Here is a simple schema that will help get a picture of how tasks are created and processed.
+Each arrow can represent a RabbitMq message that is sent and will be consumed.
+
+![Simple schema](Resources/doc/images/simple_schema.png)
+
+### Lifecycle of a task with rabbitmq
 
 A task can be created in 2 different ways. The processor service is the entrypoint of this bundle. See the ["How to run tasks"](Resources/doc/how_to_run_tasks.md) part of the documentation for more details.
 
