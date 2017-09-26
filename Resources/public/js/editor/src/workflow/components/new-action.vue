@@ -1,6 +1,10 @@
 <template>
 
   <div class="row">
+    <div class="col-md-12 error" v-if="errorMessage !== ''">
+        {{ errorMessage }}
+        <i class="fa fa-exclamation-circle"></i>
+    </div>
     <div class="col-md-10">
         <multiselect
           v-model="selectedActionService"
@@ -61,6 +65,7 @@ export default {
         };
 
         this.$store.commit('addAction', payload);
+        this.errorMessage = '';
       } catch (error) {
         this.errorMessage = error.message;
       }
