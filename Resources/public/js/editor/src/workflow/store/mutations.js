@@ -94,6 +94,12 @@ export default {
    *
    */
   updateActionName: function (state, payload) {
+    for (let action of state.data.actions) {
+      if (payload.name === action.name) {
+        throw new Error('Be careful... The name "' + payload.name + '" is already used');
+      }
+    }
+
     state.data.actions[payload.actionIndex].name = payload.name;
     this.commit('updateRawField');
   },

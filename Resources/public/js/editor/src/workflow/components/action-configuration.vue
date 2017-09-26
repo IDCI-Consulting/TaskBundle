@@ -8,18 +8,31 @@
         <div class="collapsed-block">
             <div class="form-group">
                 <label>name</label>
-                <input class="form-control" v-model="actionName" type="text"/>
+                <div class="error" v-if="errorMessage !== ''">
+                    {{ errorMessage }}
+                    <i class="fa fa-exclamation-circle"></i>
+                </div>
+                <input class="form-control" v-model="actionName" type="text" @input="updateActionName(actionName)"/>
             </div>
-            <a role="button" data-toggle="collapse" :href="'#'+ id" class="collapsed">
-                Parameters
+            <parameter
+              v-for="(parameterOption, parameterName) in requiredParameters"
+              :key="parameterName"
+              :name="parameterName"
+              :option="parameterOption"
+              :value="action.parameters[parameterName]"
+              :required-star="true"
+              @change="updateParameter"
+              ></parameter>
+            <a role="button" data-toggle="collapse" :href="'#'+ id" class="collapsed" v-if="hasOptionalParameters()">
+                Optional parameters
                 <span class="toggle">
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                     <i class="fa fa-minus-circle" aria-hidden="true"></i>
                 </span>
             </a>
-            <div :id="id" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" :aria-controls="id">
+            <div :id="id" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" :aria-controls="id" v-if="hasOptionalParameters()">
                 <parameter
-                  v-for="(parameterOption, parameterName) in parameters"
+                  v-for="(parameterOption, parameterName) in optionalParameters"
                   :key="parameterName"
                   :name="parameterName"
                   :option="parameterOption"
@@ -46,7 +59,8 @@ export default {
 
     data: function () {
         return {
-            actionName: null
+            actionName: null,
+            errorMessage: ''
         };
     },
 
@@ -62,21 +76,30 @@ export default {
             return action;
         },
 
-        parameters: function () {
-            return this.getActionParameters(this.action.service);
-        }
-    },
+        requiredParameters: function () {
+            let parameters = this.getActionParameters(this.action.service);
+            let requiredParameters = {};
 
-    watch: {
-        actionName: {
-            handler: function (newActionName) {
-                let payload = {
-                    actionIndex: this.index,
-                    name: newActionName
+            for (let key in parameters) {
+                if (parameters[key].options.required) {
+                    requiredParameters[key] = parameters[key];
                 }
-
-                this.$store.commit('updateActionName', payload);
             }
+
+            return requiredParameters;
+        },
+
+        optionalParameters: function () {
+            let parameters = this.getActionParameters(this.action.service);
+            let optionalParameters = {};
+
+            for (let key in parameters) {
+                if (!parameters[key].options.required) {
+                    optionalParameters[key] = parameters[key];
+                }
+            }
+
+            return optionalParameters;
         }
     },
 
@@ -125,6 +148,34 @@ export default {
          */
         remove: function () {
             this.$emit('remove');
+        },
+
+        /**
+         * Has optional parameters.
+         *
+         * @returns boolean
+         */
+        hasOptionalParameters: function () {
+            return Object.keys(this.optionalParameters).length > 0;
+        },
+
+        /**
+         * Update action name.
+         *
+         * @param {string} name
+         */
+        updateActionName: function(newActionName) {
+            try {
+                let payload = {
+                    actionIndex: this.index,
+                    name: newActionName
+                }
+
+                this.$store.commit('updateActionName', payload);
+                this.errorMessage = '';
+            } catch(error) {
+                this.errorMessage = error.message;
+            }
         }
     }
 };
