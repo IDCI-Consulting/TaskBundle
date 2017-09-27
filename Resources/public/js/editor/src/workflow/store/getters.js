@@ -38,5 +38,14 @@ export default {
 
   getWorkflowConfiguration: function (state) {
     return state.data.workflow;
+  },
+
+  /**
+   * Return the JSON string of workflow data
+   *
+   * @returns {string}
+   */
+  getRawJSON: function (state) {
+    return JSON.stringify(state.data, null, 2);
   }
 }

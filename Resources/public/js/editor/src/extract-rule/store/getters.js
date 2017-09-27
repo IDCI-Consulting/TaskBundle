@@ -64,6 +64,15 @@ export default {
       }
     }
 
+  },
+
+  /**
+   * Return the JSON string of used extract rule
+   *
+   * @returns {string}
+   */
+  getRawJSON: function (state) {
+    return JSON.stringify(state.usedExtractRule, null, 2);
   }
 
 };
