@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping-2.0.xsd">
+
+    <mapped-superclass name="IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration">
+        <indexes>
+            <index name="name" columns="name" />
+        </indexes>
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="preUpdate" method="onUpdate" />
+        </lifecycle-callbacks>
+
+        <field name="name"           column="name"            type="string" length="100" unique="true" />
+        <field name="extractRule"    column="extract_rule"    type="text"                              />
+        <field name="workflow"       column="workflow"        type="text"                              />
+        <field name="enable"         column="enable"          type="boolean"                           />
+        <field name="createdAt"      column="created_at"      type="datetime"                          />
+        <field name="updatedAt"      column="updated_at"      type="datetime"                          />
+        <field name="cronExpression" column="cron_expression" type="string" length="120"               />
+    </mapped-superclass>
+
+</doctrine-mapping>

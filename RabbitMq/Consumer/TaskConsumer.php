@@ -15,22 +15,14 @@ class TaskConsumer implements ConsumerInterface
     private $taskHandler;
 
     /**
-     * @var EntityManager
-     */
-    private $em;
-
-    /**
      * Constructor.
      *
-     * @param TaskHandler   $taskHandler
-     * @param EntityManager $em
+     * @param TaskHandler $taskHandler
      */
     public function __construct(
-        TaskHandler   $taskHandler,
-        EntityManager $em
+        TaskHandler   $taskHandler
     ) {
         $this->taskHandler = $taskHandler;
-        $this->em = $em;
     }
 
     public function execute(AMQPMessage $msg)

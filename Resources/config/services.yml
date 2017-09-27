@@ -14,7 +14,6 @@ services:
     idci_task.task_factory:
         class: IDCI\Bundle\TaskBundle\Factory\TaskFactory
         arguments:
-            - "@doctrine.orm.entity_manager"
             - "%application_name%"
             - "%idci_task.task_configuration_class%"
 
@@ -54,14 +53,12 @@ services:
         arguments:
             - "@idci_task.extract_rule_registry"
             - "@idci_task.handler.extract_rule"
-            - "@doctrine.orm.entity_manager"
             - "%idci_task.task_configuration_class%"
 
     idci_task.service.consumer.task:
         class: IDCI\Bundle\TaskBundle\RabbitMq\Consumer\TaskConsumer
         arguments:
             - "@idci_task.handler.task"
-            - "@doctrine.orm.entity_manager"
 
     idci_task.processor.rabbitmq:
         class: IDCI\Bundle\TaskBundle\Processor\RabbitMqProcessor
@@ -69,7 +66,6 @@ services:
             - "@old_sound_rabbit_mq.extract_rule_producer"
             - "@old_sound_rabbit_mq.task_producer"
             - "@old_sound_rabbit_mq.action_producer"
-            - "@doctrine.orm.entity_manager"
             - "@doctrine.odm.mongodb.document_manager"
             - "%application_name%"
             - "%idci_task.task_configuration_class%"

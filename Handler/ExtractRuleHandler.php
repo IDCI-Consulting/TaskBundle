@@ -3,7 +3,7 @@
 namespace IDCI\Bundle\TaskBundle\Handler;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
+use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
 use IDCI\Bundle\TaskBundle\Event\DataExtractedEvent;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
 

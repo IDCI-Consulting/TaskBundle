@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('task_configuration_class')
-                    ->defaultValue('IDCI\Bundle\TaskBundle\Entity\TaskConfiguration')
+                    ->defaultValue('IDCI\Bundle\TaskBundle\Model\TaskConfiguration')
                 ->end()
             ->end()
             ->append($this->addActionsNode())

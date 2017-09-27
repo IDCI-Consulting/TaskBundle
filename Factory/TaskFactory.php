@@ -8,11 +8,6 @@ use IDCI\Bundle\TaskBundle\Document\Task;
 class TaskFactory
 {
     /**
-     * @var EntityManager
-     */
-    private $entityManager;
-
-    /**
      * @var string
      */
     private $applicationName;
@@ -25,12 +20,10 @@ class TaskFactory
     /**
      * Constructor.
      *
-     * @param EntityManager $entityManager
      * @param string        $applicationName
      * @param string        $taskConfigurationClass
      */
-    public function __construct(EntityManager $entityManager, $applicationName, $taskConfigurationClass) {
-        $this->entityManager          = $entityManager;
+    public function __construct($applicationName, $taskConfigurationClass) {
         $this->applicationName        = $applicationName;
         $this->taskConfigurationClass = $taskConfigurationClass;
     }
@@ -45,7 +38,7 @@ class TaskFactory
      * @return Task
      */
     public function create($options) {
-        if (array_key_exists('task_configuration_id', $options)) {
+        if (array_key_exists('task_configuration', $options)) {
           $extractedData = array();
           $actionData = array();
 
@@ -57,17 +50,9 @@ class TaskFactory
               $actionData = $options['data']['action_data'];
           }
 
-          // Force clear cache otherwise it loads the unchanged taskConfiguration
-          $this->entityManager->clear($this->taskConfigurationClass);
-
-          $taskConfiguration = $this->entityManager
-              ->getRepository($this->taskConfigurationClass)
-              ->findOneById($options['task_configuration_id'])
-          ;
-
           return Task::createFromTaskConfiguration(
               $this->applicationName,
-              $taskConfiguration,
+              $options['task_configuration'],
               $extractedData,
               $actionData
           );

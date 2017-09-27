@@ -8,6 +8,7 @@ namespace IDCI\Bundle\TaskBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -16,8 +17,28 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class IDCITaskExtension extends Extension
+class IDCITaskExtension extends Extension implements PrependExtensionInterface
 {
+    public function prepend(ContainerBuilder $container)
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+        // Attempt to prepend the doctrine configuration only if the bundle is registered in the kernel
+        // This make doctrine an optional dependency
+        if (isset($bundles['DoctrineBundle'])) {
+            $config = array(
+                'orm' => array(
+                    'mappings' => array(
+                        'IDCITaskBundle' => array(
+                            'prefix' => 'IDCI\Bundle\TaskBundle\Model',
+                        )
+                    )
+                )
+            );
+
+            $container->prependExtensionConfig('doctrine', $config);
+        }
+    }
+
     /**
      * {@inheritdoc}
      */

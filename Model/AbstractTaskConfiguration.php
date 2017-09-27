@@ -4,61 +4,45 @@
  * @author: Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
 
-namespace IDCI\Bundle\TaskBundle\Entity;
+namespace IDCI\Bundle\TaskBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-
-abstract class AbstractTaskConfiguration
+abstract class AbstractTaskConfiguration implements \JsonSerializable
 {
     const STATE_ENABLE = '1';
     const STATE_DISABLE = '0';
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", unique=true, type="string", length=100)
      */
     protected $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="extract_rule", type="text")
      */
     protected $extractRule;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="workflow", type="text")
      */
     protected $workflow;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="enable", type="boolean")
      */
     protected $enable;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="cron_expression", type="string", length=120)
+     * @var string
      */
     protected $cronExpression;
 
@@ -82,6 +66,23 @@ abstract class AbstractTaskConfiguration
     }
 
     /**
+     * Serialize a task configuration in json
+     *
+     * @return array
+     */
+    public function jsonSerialize() {
+        return array(
+            'name'           => $this->name,
+            'extractRule'    => $this->extractRule,
+            'workflow'       => $this->workflow,
+            'enable'         => $this->enable,
+            'createdAt'      => $this->createdAt,
+            'updatedAt'      => $this->updatedAt,
+            'cronExpression' => $this->cronExpression,
+        );
+    }
+
+    /**
      * Is enable.
      *
      * @return bool
@@ -96,8 +97,6 @@ abstract class AbstractTaskConfiguration
 
     /**
      * On update.
-     *
-     * @ORM\PreUpdate()
      */
     public function onUpdate()
     {

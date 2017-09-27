@@ -15,6 +15,7 @@ If you want to understand how this bundle works, you need the basics about [Rabb
 - [How to create an extract rule service](Resources/doc/how_to_create_extract_rule_service.md)
 - [How to create an action service](Resources/doc/how_to_create_action_service.md)
 - [How to create a task configuration object](Resources/doc/how_to_create_task_configuration_object.md)
+- [Persist a task configuration](Resources/doc/persist_task_configurations.md)
 - [How to run tasks](Resources/doc/how_to_run_tasks.md)
 - [How to scale your application to run tasks concurrently](Resources/doc/scalability.md)
 - [How to separate actions in different applications](Resources/doc/routing.md)
@@ -81,7 +82,6 @@ public function registerBundles()
     $bundles = array(
         // ...
         new IDCI\Bundle\TaskBundle\IDCITaskBundle(),
-        new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
         new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
         new IDCI\Bundle\AssetLoaderBundle\IDCIAssetLoaderBundle(),
         new FOS\RestBundle\FOSRestBundle(),
@@ -97,29 +97,6 @@ Import the bundle configuration:
 
 imports:
     - { resource: @IDCITaskBundle/Resources/config/config.yml }
-
-doctrine:
-    dbal:
-        default_connection: default
-        connections:
-            default:
-                driver:   pdo_mysql
-                host:     "%database_host%"
-                port:     "%database_port%"
-                dbname:   "%database_name%"
-                user:     "%database_user%"
-                password: "%database_password%"
-                charset:  UTF8
-
-    orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
-        default_entity_manager: default
-        entity_managers:
-            default:
-                connection: default
-                mappings:
-                    IDCITaskBundle: ~
-```
 
 Update your parameters.yml file
 ```yml

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use IDCI\Bundle\TaskBundle\Handler\ExtractRuleHandler;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleInterface;
-use IDCI\Bundle\TaskBundle\Entity\TaskConfiguration;
+use IDCI\Bundle\TaskBundle\Model\TaskConfiguration;
 
 class ExtractRuleHandlerTest extends TestCase
 {
