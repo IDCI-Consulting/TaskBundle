@@ -8,9 +8,6 @@ namespace IDCI\Bundle\TaskBundle\Model;
 
 class TaskConfiguration extends AbstractTaskConfiguration
 {
-    const STATE_ENABLE = '1';
-    const STATE_DISABLE = '0';
-
     /**
      * @var int
      */
