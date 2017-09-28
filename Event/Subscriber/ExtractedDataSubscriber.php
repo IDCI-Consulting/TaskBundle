@@ -60,7 +60,7 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
             $this->taskProducer->publish(
                 serialize(array(
                     'data' => array('extracted_data' => $data),
-                    'task_configuration_id' => $dataExtractedEvent->getTaskConfiguration()->getId()
+                    'task_configuration' => $dataExtractedEvent->getTaskConfiguration()
                 )),
                 $this->applicationName
             );

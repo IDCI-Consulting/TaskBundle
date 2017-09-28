@@ -7,7 +7,7 @@ use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use IDCI\Bundle\TaskBundle\Document\Task;
-use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
+use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
 
 class RabbitMqProcessor implements ProcessorInterface
 {
@@ -27,11 +27,6 @@ class RabbitMqProcessor implements ProcessorInterface
     private $actionProducer;
 
     /**
-     * @var EntityManager
-     */
-    private $entityManager;
-
-    /**
      * @var string
      */
     private $applicationName;
@@ -47,7 +42,6 @@ class RabbitMqProcessor implements ProcessorInterface
      * @param ProducerInterface $extractRuleProducer
      * @param ProducerInterface $taskProducer
      * @param ProducerInterface $actionProducer
-     * @param EntityManager $entityManager
      * @param DocumentManager $documentManager
      * @param string $applicationName
      * @param string $taskConfigurationClass
@@ -56,7 +50,6 @@ class RabbitMqProcessor implements ProcessorInterface
         ProducerInterface $extractRuleProducer,
         ProducerInterface $taskProducer,
         ProducerInterface $actionProducer,
-        EntityManager     $entityManager,
         DocumentManager   $documentManager,
         $applicationName,
         $taskConfigurationClass
@@ -64,7 +57,6 @@ class RabbitMqProcessor implements ProcessorInterface
         $this->extractRuleProducer    = $extractRuleProducer;
         $this->taskProducer           = $taskProducer;
         $this->actionProducer         = $actionProducer;
-        $this->entityManager          = $entityManager;
         $this->documentManager        = $documentManager;
         $this->applicationName        = $applicationName;
         $this->taskConfigurationClass = $taskConfigurationClass;
@@ -76,7 +68,7 @@ class RabbitMqProcessor implements ProcessorInterface
     public function startTasks(AbstractTaskConfiguration $taskConfiguration)
     {
         $this->extractRuleProducer->publish(
-            serialize(array('task_configuration_id' => $taskConfiguration->getId())),
+            serialize(array('task_configuration' => $taskConfiguration)),
             $this->applicationName
         );
     }
@@ -108,11 +100,6 @@ class RabbitMqProcessor implements ProcessorInterface
             throw new \Exception('You can only resume a task that failed');
         }
 
-        // If the task is bound to a configuration, reload it in the task in case the configuration was updated
-        if ($task->getTaskConfigurationId()) {
-            $this->reloadTaskConfiguration($task);
-        }
-
         $task->getCurrentAction()->addStatus(ActionStatus::PENDING);
         $this->documentManager->flush();
 
@@ -122,26 +109,5 @@ class RabbitMqProcessor implements ProcessorInterface
             )),
             $task->getSource()
         );
-    }
-
-    private function reloadTaskConfiguration(Task $task)
-    {
-        $taskConfiguration = $this
-            ->entityManager
-            ->getRepository($this->taskConfigurationClass)
-            ->find($task->getTaskConfigurationId())
-        ;
-        $workflow = json_decode($taskConfiguration->getWorkflow(), true);
-
-        if ($workflow['workflow'] !== $task->getConfiguration()->getWorkflow() ||
-            $workflow['actions']  !== $task->getConfiguration()->getActions()
-        ) {
-            $task->getConfiguration()
-                ->setWorkflow($workflow['workflow'])
-                ->setActions($workflow['actions'])
-            ;
-
-            $this->documentManager->flush();
-        }
     }
 }

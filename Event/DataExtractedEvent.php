@@ -3,7 +3,7 @@
 namespace IDCI\Bundle\TaskBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
+use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
 
 class DataExtractedEvent extends Event
 {

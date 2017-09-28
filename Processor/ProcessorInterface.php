@@ -3,7 +3,7 @@
 namespace IDCI\Bundle\TaskBundle\Processor;
 
 use IDCI\Bundle\TaskBundle\Document\Task;
-use IDCI\Bundle\TaskBundle\Entity\AbstractTaskConfiguration;
+use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
 
 interface ProcessorInterface
 {
