@@ -1,6 +1,6 @@
 <template>
 
-    <div class="configuration-box parameters">
+    <div class="parameters">
         <parameter
             v-for="(option, name) in requiredParameters"
             :key="name"
