@@ -77,29 +77,21 @@ export default {
         },
 
         requiredParameters: function () {
-            let parameters = this.getActionParameters(this.action.service);
-            let requiredParameters = {};
-
-            for (let key in parameters) {
-                if (parameters[key].options.required) {
-                    requiredParameters[key] = parameters[key];
-                }
-            }
-
-            return requiredParameters;
+          return utils.filterObject(
+              this.getActionParameters(this.action.service),
+              function(element){
+                return element.options.required
+              }
+          );
         },
 
         optionalParameters: function () {
-            let parameters = this.getActionParameters(this.action.service);
-            let optionalParameters = {};
-
-            for (let key in parameters) {
-                if (!parameters[key].options.required) {
-                    optionalParameters[key] = parameters[key];
-                }
-            }
-
-            return optionalParameters;
+          return utils.filterObject(
+              this.getActionParameters(this.action.service),
+              function(element){
+                return !element.options.required
+              }
+          );
         }
     },
 
