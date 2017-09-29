@@ -25,6 +25,13 @@ class Configuration
     private $actions = array();
 
     /**
+     * @var Task
+     *
+     * @ODM\ReferenceOne(simple=true, targetDocument="IDCI\Bundle\TaskBundle\Document\Task")
+     */
+    private $task;
+
+    /**
      * Set workflow
      *
      * @param array $workflow
@@ -96,6 +103,6 @@ class Configuration
             }
         }
 
-        throw new ActionNotFoundException($name, $this->workflow['name']);
+        throw new ActionNotFoundException($name, $this->task->getTaskConfigurationId());
     }
 }

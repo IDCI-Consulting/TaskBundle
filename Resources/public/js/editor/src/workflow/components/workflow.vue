@@ -2,10 +2,6 @@
 
     <div>
         <div class="form-group">
-            <label>workflow name</label>
-            <input class="form-control" type="text" @input="updateWorkflowName" :value="workflowName"/>
-        </div>
-        <div class="form-group">
             <label>first action name</label>
             <configured-action-name-list @changed="updateFirstActionName" :value="workflowFirstActionName"></configured-action-name-list>
         </div>
@@ -43,14 +39,6 @@ export default {
 
             if (null != workflowConfiguration) {
                 return workflowConfiguration.flows;
-            }
-        },
-
-        workflowName: function () {
-            let workflowConfiguration = this.$store.getters.getWorkflowConfiguration;
-
-            if (null != workflowConfiguration) {
-                return workflowConfiguration.name;
             }
         },
 

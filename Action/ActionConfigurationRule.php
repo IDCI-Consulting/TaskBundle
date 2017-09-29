@@ -44,7 +44,6 @@ class ActionConfigurationRule implements ConfigurationInterface
                 ->end()
                 ->arrayNode('workflow')
                     ->children()
-                        ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('first_action_name')->isRequired()->cannotBeEmpty()->end()
                         ->arrayNode('flows')
                             ->useAttributeAsKey('action_name')
