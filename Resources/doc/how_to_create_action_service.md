@@ -64,6 +64,35 @@ services:
             - { name: "idci_task.action", alias: "my_action" }
 ```
 
+Add the configuration
+---------------------
+
+If you want to use the editor:
+
+```yml
+idci_task:
+    actions:
+        my_action:
+            description: "An dummy action"
+            parameters:
+                number_one: { form_type: integer, options: { required: true } }
+                number_two: { form_type: integer, options: { required: true } }
+```
+
+Available form_type values are:
+* checkbox
+* choice
+* integer
+* number
+* text
+* textarea
+
+(List available here: https://github.com/IDCI-Consulting/vue-editor-commons/tree/master/components/options)
+
+Available options are:
+* required (boolean)
+* help (string)
+
 More
 ----
 
@@ -82,6 +111,7 @@ Summary
 - [How to create an action service](how_to_create_action_service.md)
 - [How to create a task configuration object](how_to_create_task_configuration_object.md)
 - [Persist a task configuration](persist_task_configurations.md)
+- [Use the task configuration form type](editors.md)
 - [How to run tasks](how_to_run_tasks.md)
 - [How to scale your application to run tasks concurrently](scalability.md)
 - [How to separate actions in different applications](routing.md)

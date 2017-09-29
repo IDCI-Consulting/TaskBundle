@@ -65,12 +65,6 @@ doctrine_mongodb:
             auto_mapping: false
             logging: false
 
-idci_asset_loader:
-    providers:
-        load_only:
-           - extract_rule_editor
-           - workflow_editor
-
 monolog:
   channels: ['idci_task.action']
   handlers:

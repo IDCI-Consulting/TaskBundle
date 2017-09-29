@@ -34,8 +34,19 @@ class IDCITaskExtension extends Extension implements PrependExtensionInterface
                     )
                 )
             );
-
             $container->prependExtensionConfig('doctrine', $config);
+        }
+
+        if (isset($bundles['IDCIAssetLoaderBundle'])) {
+            $config = array(
+                'providers' => array(
+                    'load_only' => array(
+                        'extract_rule_editor',
+                        'workflow_editor'
+                    )
+                )
+            );
+            $container->prependExtensionConfig('idci_asset_loader', $config);
         }
     }
 

@@ -1,6 +1,6 @@
 <template>
 
-  <div class="row">
+  <div class="row new-action">
     <div class="col-md-12 error" v-if="errorMessage !== ''">
         {{ errorMessage }}
         <i class="fa fa-exclamation-circle"></i>
@@ -84,3 +84,10 @@ export default {
 };
 
 </script>
+
+<style>
+    .new-action .error {
+        color: #c9302c;
+        padding: 5px 5px 5px 15px;
+    }
+</style>

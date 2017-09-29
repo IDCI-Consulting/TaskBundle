@@ -16,6 +16,7 @@ If you want to understand how this bundle works, you need the basics about [Rabb
 - [How to create an action service](Resources/doc/how_to_create_action_service.md)
 - [How to create a task configuration object](Resources/doc/how_to_create_task_configuration_object.md)
 - [Persist a task configuration](Resources/doc/persist_task_configurations.md)
+- [Use the task configuration form type](Resource/doc/editors.md)
 - [How to run tasks](Resources/doc/how_to_run_tasks.md)
 - [How to scale your application to run tasks concurrently](Resources/doc/scalability.md)
 - [How to separate actions in different applications](Resources/doc/routing.md)
@@ -83,9 +84,6 @@ public function registerBundles()
         // ...
         new IDCI\Bundle\TaskBundle\IDCITaskBundle(),
         new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
-        new IDCI\Bundle\AssetLoaderBundle\IDCIAssetLoaderBundle(),
-        new FOS\RestBundle\FOSRestBundle(),
-        new JMS\SerializerBundle\JMSSerializerBundle(),
         new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
     );
 }

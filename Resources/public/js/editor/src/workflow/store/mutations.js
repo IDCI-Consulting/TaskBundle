@@ -65,7 +65,7 @@ export default {
   addAction: function (state, payload) {
     for (let action of state.data.actions) {
       if ((payload.name === action.name) && (payload.service === action.service)) {
-        throw new Error('You have to configure the action named "' + payload.service + '" before adding a new same action.');
+        throw new Error('You cannot add two times the action "' + payload.service + '". You need to specify the name of the first action before');
       }
     }
 

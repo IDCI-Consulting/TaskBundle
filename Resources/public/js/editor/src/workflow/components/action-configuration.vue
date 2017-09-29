@@ -8,10 +8,10 @@
         <div class="collapsed-block">
             <div class="form-group">
                 <label>name</label>
-                <div class="error" v-if="errorMessage !== ''">
+                <span class="error" v-if="errorMessage !== ''">
                     {{ errorMessage }}
                     <i class="fa fa-exclamation-circle"></i>
-                </div>
+                </span>
                 <input class="form-control" v-model="actionName" type="text" @input="updateActionName(actionName)"/>
             </div>
             <parameter
@@ -173,3 +173,10 @@ export default {
 };
 
 </script>
+
+<style>
+    .configuration-box .form-group .error {
+        color: #c9302c;
+        padding: 5px;
+    }
+</style>

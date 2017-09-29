@@ -56,8 +56,10 @@
     max-width: 100%;
 }
 
-.close {
-    float: right;
+.vue-modal-container .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 /*

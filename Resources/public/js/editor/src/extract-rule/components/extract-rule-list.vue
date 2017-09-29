@@ -1,6 +1,7 @@
 <template>
 
     <div>
+      <div class="description">{{ description }}</div>
       <multiselect
         v-model="selectedExtractRuleService"
         :options="extractRuleServiceList"
@@ -9,6 +10,7 @@
         select-label=""
         placeholder="Select an extract rule service">
       </multiselect>
+      <hr>
     </div>
 
 </template>
@@ -36,7 +38,7 @@ export default {
     selectedExtractRuleService: function (newSelectedExtractRuleService) {
       // Fetch the parameters via the api
       if (null != newSelectedExtractRuleService) {
-          this.$store.dispatch('setExtractRuleParameters', {
+          this.$store.dispatch('setExtractRuleData', {
             http: this.$http,
             extractRuleName: newSelectedExtractRuleService
           }).then(() => {
@@ -55,6 +57,14 @@ export default {
           return element.name;
         }
       );
+    },
+    description: function () {
+      let usedExtractRule = this.$store.getters.getUsedExtractRule;
+      return this
+        .$store
+        .getters
+        .getExtractRuleDescription(usedExtractRule.service)
+     ;
     }
   }
 
@@ -65,5 +75,10 @@ export default {
 <style>
   .editor.extract-rule-editor div.parameters .form-group .form-control-wrapper textarea {
     min-height: 60px;
+  }
+
+  .editor.extract-rule-editor .description {
+    font-style: italic;
+    padding: 5px;
   }
 </style>

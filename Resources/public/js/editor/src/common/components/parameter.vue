@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="parameter">
         <component
           :is="option.component_name"
           :option="option"
@@ -45,3 +45,13 @@ export default {
 };
 
 </script>
+
+<style>
+
+.parameter .form-group > .form-control-wrapper > span {
+    font-style: italic;
+    font-size: 0.9em;
+    color: slategrey;
+}
+
+</style>

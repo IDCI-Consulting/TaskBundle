@@ -17,12 +17,12 @@ export default {
   },
 
   /**
-   * Set the parameters for an extract rule
+   * Set the data for an extract rule
    *
    * @param state
    * @param {Object} payload
    */
-  setExtractRuleParameters: function (state, payload) {
+  setExtractRuleData: function (state, payload) {
     let parameters = payload.extractRuleParameters;
     for (let key in parameters) {
       parameters[key].component_name = 'component-' + parameters[key].form_type;
@@ -33,6 +33,7 @@ export default {
     });
 
     Vue.set(extractRule, 'parameters', payload.extractRuleParameters);
+    Vue.set(extractRule, 'description', payload.extractRuleDescription);
   },
 
   /**

@@ -67,6 +67,25 @@ export default {
   },
 
   /**
+   * Get the extract rule parameters for the given extract rule name
+   *
+   * @param state
+   * @returns {Object}
+   */
+  getExtractRuleDescription: function (state, getters) {
+    return function (extractRuleServiceName) {
+      let extractRule = getters.getExtractRuleList.find(function (element) {
+        return element.name === extractRuleServiceName;
+      });
+
+      if (null != extractRule) {
+        return extractRule.description;
+      }
+    }
+
+  },
+
+  /**
    * Return the JSON string of used extract rule
    *
    * @returns {string}

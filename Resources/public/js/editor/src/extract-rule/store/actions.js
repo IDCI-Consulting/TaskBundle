@@ -16,13 +16,21 @@ var extractRuleEditorActions = {
     });
   },
 
-  setExtractRuleParameters: function ($store, payload) {
+  /**
+   * Set the extract rule parameters and description
+   *
+   * @param $store
+   * @param payload
+   * @returns {Promise}
+   */
+  setExtractRuleData: function ($store, payload) {
     return new Promise(function(resolve, reject) {
       var url = $store.getters.getExtractRuleParametersApiUrl(payload.extractRuleName);
       extractRuleEditorActions.handleGetRequest(url, $store, payload.http, function (response) {
-        $store.commit('setExtractRuleParameters', {
+        $store.commit('setExtractRuleData', {
           extractRuleName: payload.extractRuleName,
-          extractRuleParameters: response.parameters
+          extractRuleParameters: response.parameters,
+          extractRuleDescription: response.description
         });
         resolve();
       });

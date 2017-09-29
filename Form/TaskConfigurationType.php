@@ -20,7 +20,7 @@ class TaskConfigurationType extends AbstractType
      *
      * @param string $taskConfigurationClass
      */
-    public function __construct($taskConfigurationClass)
+    public function __construct($taskConfigurationClass = null)
     {
         $this->taskConfigurationClass = $taskConfigurationClass;
     }
