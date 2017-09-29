@@ -40,6 +40,18 @@ export default {
     return state.data.workflow;
   },
 
+  getActionDescription: function (state, getters) {
+    return function (actionName) {
+      let action = getters.getActionList.find(function (element) {
+        return element.name === actionName;
+      });
+
+      if (action) {
+        return action.description;
+      }
+    };
+  },
+
   /**
    * Return the JSON string of workflow data
    *

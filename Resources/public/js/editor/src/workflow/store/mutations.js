@@ -51,6 +51,7 @@ export default {
     for (let configuredAction of state.actions) {
       if (configuredAction.name === action.name) {
         Vue.set(configuredAction, 'parameters', action.parameters);
+        Vue.set(configuredAction, 'description', action.description);
       }
     }
   },

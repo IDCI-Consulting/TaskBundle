@@ -77,7 +77,7 @@ export default {
     min-height: 60px;
   }
 
-  .editor.extract-rule-editor .description {
+  .editor .description {
     font-style: italic;
     padding: 5px;
   }

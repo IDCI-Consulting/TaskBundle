@@ -5,6 +5,7 @@
             <span aria-hidden="true">×</span>
         </button>
         <h5>Chosen service: <strong>{{ action.service }}</strong></h5>
+        <div class="description">{{ description }}</div>
         <div class="collapsed-block">
             <div class="form-group">
                 <label>name</label>
@@ -92,6 +93,10 @@ export default {
                 return !element.options.required
               }
           );
+        },
+
+        description: function () {
+            return this.$store.getters.getActionDescription(this.action.service);
         }
     },
 
