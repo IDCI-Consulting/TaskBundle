@@ -29,7 +29,6 @@ function triggerVueEditor(element, configuration) {
       data: {
         actions: [],
         workflow: {
-          name: "",
           first_action_name: "",
           flows: {}
         }
