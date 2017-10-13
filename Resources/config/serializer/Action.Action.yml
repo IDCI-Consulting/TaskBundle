@@ -8,8 +8,6 @@ IDCI\Bundle\TaskBundle\Action\Action:
         description:
             expose: true
 
-        parameters:
-            expose: true
-
-        parent:
-            expose: true
+    virtual_properties:
+        getParameters:
+            serialized_name: parameters
