@@ -37,8 +37,12 @@ class MyAction extends AbstractAction
      */
     public function doExecute(array $options)
     {
-        // The AbstractActionn provides a getLogger method to log.
+        // The AbstractAction provides a getLogger method to log.
         $this->getLogger()->info('Begin multiplication.');
+
+        // The AbstractAction provides two methods:
+        // $this->getTaskConfigurationSlug(); // returns task configuration slug.
+        // $this->getCurrentActionName() // returns current aciton name.
 
         $result = $options['number_one'] * $options['number_two'];
 
