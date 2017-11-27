@@ -6,6 +6,8 @@
 
 namespace IDCI\Bundle\TaskBundle\Model;
 
+use IDCI\Bundle\TaskBundle\Util\Urlizer
+
 abstract class AbstractTaskConfiguration implements \JsonSerializable
 {
     const STATE_ENABLE = '1';
@@ -15,6 +17,11 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
      * @var string
      */
     protected $name;
+
+    /**
+     * @var string
+     */
+    protected $slug;
 
     /**
      * @var string
@@ -60,6 +67,9 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
     public function __construct()
     {
         $this->extractRule = $this->actions = '{}';
+
+        $this->setSlug($this->generateSlug());
+
         $now = new \DateTime();
         $this->createdAt = $now;
         $this->updatedAt = $now;
@@ -73,6 +83,7 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
     public function jsonSerialize() {
         return array(
             'name'           => $this->name,
+            'slug'           => $this->slug,
             'extractRule'    => $this->extractRule,
             'workflow'       => $this->workflow,
             'enable'         => $this->enable,
@@ -100,6 +111,8 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
      */
     public function onUpdate()
     {
+        $this->setSlug($this->generateSlug());
+
         $this->updatedAt = new \DateTime();
     }
 
@@ -114,6 +127,16 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
             self::STATE_ENABLE => self::STATE_ENABLE,
             self::STATE_DISABLE => self::STATE_DISABLE,
         );
+    }
+
+    /**
+     * Generate slug using the name.
+     *
+     * @return string
+     */
+    protected function generateSlug()
+    {
+        return Urlizer::urlize($this->getName());
     }
 
     /**
@@ -138,6 +161,29 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Template
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**
