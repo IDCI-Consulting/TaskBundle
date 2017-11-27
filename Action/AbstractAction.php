@@ -90,4 +90,31 @@ abstract class AbstractAction implements ActionInterface
     {
         return $this->taskLogProcessor;
     }
+
+    /**
+     * Get task configuration slug.
+     *
+     * @return string
+     */
+    protected function getTaskConfigurationSlug()
+    {
+        return $this
+            ->taskLogProcessor
+            ->getTask()
+            ->getTaskConfigurationSlug();
+    }
+
+    /**
+     * Get current action name.
+     *
+     * @return string
+     */
+    protected function getCurrentActionName()
+    {
+        return $this
+            ->taskLogProcessor
+            ->getTask()
+            ->getCurrentAction()
+            ->getName();
+    }
 }

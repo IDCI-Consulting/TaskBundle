@@ -6,7 +6,7 @@
 
 namespace IDCI\Bundle\TaskBundle\Model;
 
-use IDCI\Bundle\TaskBundle\Util\Urlizer
+use IDCI\Bundle\TaskBundle\Util\Urlizer;
 
 abstract class AbstractTaskConfiguration implements \JsonSerializable
 {
@@ -168,11 +168,12 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
      *
      * @param string $slug
      *
-     * @return Template
+     * @return AbstractTaskConfiguration
      */
     public function setSlug($slug)
     {
         $this->slug = $slug;
+
         return $this;
     }
 
