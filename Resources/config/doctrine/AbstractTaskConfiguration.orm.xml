@@ -7,6 +7,7 @@
     <mapped-superclass name="IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration">
         <indexes>
             <index name="name" columns="name" />
+            <index name="slug" columns="slug" />
         </indexes>
 
         <lifecycle-callbacks>
@@ -14,6 +15,7 @@
         </lifecycle-callbacks>
 
         <field name="name"           column="name"            type="string" length="100" unique="true" />
+        <field name="slug"           column="slug"            type="string" length="200" unique="true" />
         <field name="extractRule"    column="extract_rule"    type="text"                              />
         <field name="workflow"       column="workflow"        type="text"                              />
         <field name="enable"         column="enable"          type="boolean"                           />

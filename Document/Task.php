@@ -53,11 +53,11 @@ class Task
     private $data;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ODM\Field(type="int", name="task_configuration_id")
+     * @ODM\Field(type="string", name="task_configuration_slug")
      */
-    private $taskConfigurationId;
+    private $taskConfigurationSlug;
 
     /**
      * @var array
@@ -144,7 +144,7 @@ class Task
             ->addAction($action)
             ->setData($taskData)
             ->setConfiguration($configuration)
-            ->setTaskConfigurationId($taskConfiguration->getId())
+            ->setTaskConfigurationSlug($taskConfiguration->getSlug())
         ;
 
         return $task;
@@ -270,26 +270,27 @@ class Task
     }
 
     /**
-     * Set task configuration id.
+     * Set task configuration slug.
      *
-     * @param string $taskConfigurationId
+     * @param string $taskConfigurationSlug
+     *
      * @return $this
      */
-    public function setTaskConfigurationId($taskConfigurationId)
+    public function setTaskConfigurationSlug($taskConfigurationSlug)
     {
-        $this->taskConfigurationId = $taskConfigurationId;
+        $this->taskConfigurationSlug = $taskConfigurationSlug;
 
         return $this;
     }
 
     /**
-     * Get task configuration id.
+     * Get task configuration slug.
      *
-     * @return int
+     * @return string
      */
-    public function getTaskConfigurationId()
+    public function getTaskConfigurationSlug()
     {
-        return $this->taskConfigurationId;
+        return $this->taskConfigurationSlug;
     }
 
     /**

@@ -103,6 +103,6 @@ class Configuration
             }
         }
 
-        throw new ActionNotFoundException($name, $this->task->getTaskConfigurationId());
+        throw new ActionNotFoundException($name, $this->task->getTaskConfigurationSlug());
     }
 }
