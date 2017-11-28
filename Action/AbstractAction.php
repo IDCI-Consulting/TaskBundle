@@ -105,11 +105,11 @@ abstract class AbstractAction implements ActionInterface
     }
 
     /**
-     * Get current action name.
+     * Get action name.
      *
      * @return string
      */
-    protected function getCurrentActionName()
+    protected function getName()
     {
         return $this
             ->taskLogProcessor
