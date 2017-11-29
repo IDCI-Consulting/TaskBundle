@@ -52,6 +52,7 @@ class Configuration implements ConfigurationInterface
             ->prototype('array')
                 ->children()
                     ->scalarNode('description')->defaultNull()->end()
+                    ->booleanNode('abstract')->defaultFalse()->end()
                     ->scalarNode('parent')->defaultNull()->end()
                     ->arrayNode('parameters')
                         ->defaultValue(array())

@@ -28,6 +28,11 @@ class Action
     protected $description;
 
     /**
+     * @var bool
+     */
+    protected $abstract;
+
+    /**
      * @var array
      */
     protected $parameters;
@@ -42,6 +47,7 @@ class Action
         $this->name        = $configuration['name'];
         $this->parent      = $configuration['parent'];
         $this->description = $configuration['description'];
+        $this->abstract    = $configuration['abstract'];
         $this->parameters  = $configuration['parameters'];
     }
 
@@ -73,6 +79,16 @@ class Action
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Is abstract.
+     *
+     * @return bool
+     */
+    public function isAbstract()
+    {
+        return $this->abstract;
     }
 
     /**

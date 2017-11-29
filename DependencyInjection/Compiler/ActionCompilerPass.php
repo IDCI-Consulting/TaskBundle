@@ -55,8 +55,8 @@ class ActionCompilerPass implements CompilerPassInterface
 
             $configuration['name'] = $name;
 
-            $serviceDefinition->setAbstract(false);
-            $serviceDefinition->setPublic(true);
+            $serviceDefinition->setAbstract($configuration['abstract']);
+            $serviceDefinition->setPublic(!$configuration['abstract']);
             $serviceDefinition->replaceArgument(0, $configuration);
 
             $container->setDefinition(
