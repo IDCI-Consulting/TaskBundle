@@ -9,10 +9,10 @@ export default {
    * @param {Object[]} extractRuleList
    */
   setExtractRuleList: function (state, extractRuleList) {
-    state.extractRuleList = extractRuleList.map(function(element) {
-      return {
+    extractRuleList.forEach(function(element, index) {
+      Vue.set(state.extractRuleList, index, {
         name: element
-      };
+      });
     });
   },
 
