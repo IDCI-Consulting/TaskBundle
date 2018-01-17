@@ -107,6 +107,16 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
     }
 
     /**
+     * On create.
+     */
+    public function onCreate()
+    {
+        $this->setSlug($this->generateSlug());
+
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
      * On update.
      */
     public function onUpdate()

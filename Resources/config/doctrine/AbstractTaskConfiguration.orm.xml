@@ -11,6 +11,7 @@
         </indexes>
 
         <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="onCreate" />
             <lifecycle-callback type="preUpdate" method="onUpdate" />
         </lifecycle-callbacks>
 
