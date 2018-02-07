@@ -70,6 +70,7 @@ class Task
      * @var \Datetime
      *
      * @ODM\Field(type="date", name="created_at")
+     * @ODM\Index
      */
     private $createdAt;
 

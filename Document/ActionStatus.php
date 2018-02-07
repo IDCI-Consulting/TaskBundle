@@ -28,6 +28,7 @@ class ActionStatus
      * @var string
      *
      * @ODM\Field(type="string", name="status")
+     * @ODM\Index
      */
     private $status;
 
