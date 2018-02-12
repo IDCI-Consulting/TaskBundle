@@ -17,7 +17,9 @@ use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
  * )
  * @ODM\HasLifecycleCallbacks
  * @ODM\Indexes({
- *     @ODM\Index(keys={"task_configuration_id"="asc"}, name="task_configuration_id")
+ *     @ODM\Index(keys={"task_configuration_id"="asc"}, name="task_configuration_id"),
+ *     @ODM\Index(keys={"created_at"="desc"}, name="created_at"),
+ *     @ODM\Index(keys={"status"="asc"}, name="status")
  * })
  */
 class Task
@@ -37,6 +39,13 @@ class Task
      * @ODM\Field(type="string", name="source")
      */
     private $source;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="status")
+     */
+    private $status;
 
     /**
      * @var array
@@ -70,7 +79,6 @@ class Task
      * @var \Datetime
      *
      * @ODM\Field(type="date", name="created_at")
-     * @ODM\Index
      */
     private $createdAt;
 
@@ -93,6 +101,7 @@ class Task
         $this->updatedAt = $date;
         $this->source = $source;
         $this->actions = new ArrayCollection();
+        $this->status = ActionStatus::PENDING;
     }
 
     /**
@@ -200,6 +209,8 @@ class Task
     public function onPreUpdate()
     {
         $date = new \DateTime('now');
+
+        $this->setStatus($this->getCurrentAction()->getCurrentStatus()->getStatus());
 
         $this->updatedAt = $date;
     }
@@ -353,7 +364,21 @@ class Task
      */
     public function getStatus()
     {
-        return $this->getCurrentAction()->getCurrentStatus()->getStatus();
+        return $this->status;
+    }
+
+    /**
+     * Set the status of the task
+     *
+     * @param string $status
+     *
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
