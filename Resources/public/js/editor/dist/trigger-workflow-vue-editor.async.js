@@ -17,7 +17,7 @@ Object.defineProperty(exports,"__esModule",{value:true});exports.triggerVueEdito
  * @param {Object} configuration - The editor configuration.
  */function triggerVueEditor(element,configuration){_vue2.default.component('workflow-editor',_editor2.default);_vue2.default.use(_vuex2.default);_vue2.default.use(_vueResource2.default);_vue2.default.use(_vueMultiselect2.default);var store=new _vuex2.default.Store({state:{configuration:configuration,actions:[],apiCache:{},data:{actions:[],workflow:{first_action_name:"",flows:{}}}},getters:Object.assign(_getters2.default,_vueEditorCommons.getters),mutations:Object.assign(_mutations2.default,_vueEditorCommons.mutations),actions:Object.assign(_actions2.default,_vueEditorCommons.actions)});/**
    * The app
-   */new _vue2.default({el:element,beforeCreate:function beforeCreate(){store.dispatch('setActions',this.$http);if(configuration.form.value){var workflowConfiguration=JSON.parse(configuration.form.value);for(var key in workflowConfiguration.actions){store.dispatch('setActionParameters',{http:this.$http,service:workflowConfiguration.actions[key].service});}}},created:function created(){store.commit('initializeWorkflowData');},store:store});}exports.triggerVueEditor=triggerVueEditor;
+   */new _vue2.default({el:element,beforeCreate:function beforeCreate(){var _this=this;this.$store.dispatch('setActions',this.$http).then(function(){if(configuration.form.value){var workflowConfiguration=JSON.parse(configuration.form.value);for(var key in workflowConfiguration.actions){_this.$store.dispatch('setActionParameters',{http:_this.$http,service:workflowConfiguration.actions[key].service});}}});},created:function created(){this.$store.commit('initializeWorkflowData');},store:store});}exports.triggerVueEditor=triggerVueEditor;
 
 /***/ }),
 /* 8 */
@@ -4054,12 +4054,12 @@ Object.defineProperty(exports,"__esModule",{value:true});var workflowEditorActio
    *
    * @param {Object} $store - The store.
    * @param {Object} $http  - The Vue Resource http object.
-   */setActions:function setActions($store,$http){return new Promise(function(resolve,reject){var url=$store.getters.getActionsUrl;workflowEditorActions.handleGetRequest(url,$store,$http,function(actions){$store.commit('setActions',actions);});});},/**
+   */setActions:function setActions($store,$http){return new Promise(function(resolve,reject){workflowEditorActions.handleGetRequest($store.getters.getActionsUrl,$store,$http,function(actions){$store.commit('setActions',actions);resolve();});});},/**
    * Set the action parameters retrieved from the API.
    *
    * @param {Object} store - The store.
    * @param {Object} payload  - The object with Vue Resource and the action name.
-   */setActionParameters:function setActionParameters($store,payload){return new Promise(function(resolve,reject){var url=$store.getters.getActionParametersUrl(payload.service);workflowEditorActions.handleGetRequest(url,$store,payload.http,function(action){$store.commit('setActionParameters',action);});});}};exports.default=workflowEditorActions;
+   */setActionParameters:function setActionParameters($store,payload){return new Promise(function(resolve,reject){workflowEditorActions.handleGetRequest($store.getters.getActionParametersUrl(payload.service),$store,payload.http,function(action){$store.commit('setActionParameters',action);resolve();});});}};exports.default=workflowEditorActions;
 
 /***/ })
 ]);

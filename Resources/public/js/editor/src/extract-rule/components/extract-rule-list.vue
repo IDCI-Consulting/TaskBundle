@@ -36,15 +36,6 @@ export default {
 
   watch: {
     selectedExtractRuleService: function (newSelectedExtractRuleService) {
-      // Fetch the parameters via the api
-      if (null != newSelectedExtractRuleService) {
-          this.$store.dispatch('setExtractRuleData', {
-            http: this.$http,
-            extractRuleName: newSelectedExtractRuleService
-          }).then(() => {
-            this.$store.commit('cleanUsedParameters');
-          });
-      }
       // Update the data object
       this.$store.commit('updateUsedExtractRuleService', newSelectedExtractRuleService);
     }
