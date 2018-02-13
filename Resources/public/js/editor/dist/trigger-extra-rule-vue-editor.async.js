@@ -21,7 +21,11 @@ Object.defineProperty(exports,"__esModule",{value:true});exports.triggerVueEdito
    * The app
    */new _vue2.default({el:element,store:extractRuleEditorStore,/**
      * Call the APIs before creating the app
+<<<<<<< HEAD
      */beforeCreate:function beforeCreate(){var _this=this;extractRuleEditorStore.dispatch('setExtractRules',this.$http).then(function(){_this.$store.getters.getExtractRuleList.forEach(function(element,index){_this.$store.dispatch('setExtractRuleData',{http:_this.$http,extractRuleName:element.name}).then(function(){_this.$store.commit('cleanUsedParameters');});});});},created:function created(){this.$store.commit('initializeUsedExtractRule');}});}exports.triggerVueEditor=triggerVueEditor;
+=======
+     */beforeCreate:function beforeCreate(){extractRuleEditorStore.dispatch('setExtractRules',this.$http);},created:function created(){this.$store.commit('initializeUsedExtractRule');}});}exports.triggerVueEditor=triggerVueEditor;
+>>>>>>> master
 
 /***/ }),
 /* 7 */,
@@ -2654,7 +2658,11 @@ exports = module.exports = __webpack_require__(9)(true);
 
 
 // module
+<<<<<<< HEAD
 exports.push([module.i, "\n.editor.extract-rule-editor div.parameters .form-group .form-control-wrapper textarea {\n  min-height: 60px;\n}\n.editor .description {\n  font-style: italic;\n  padding: 5px;\n}\n", "", {"version":3,"sources":["/usr/src/app/Resources/public/js/editor/src/extract-rule/components/Resources/public/js/editor/src/extract-rule/components/extract-rule-list.vue?4f511c80"],"names":[],"mappings":";AAkEA;EACA,iBAAA;CACA;AAEA;EACA,mBAAA;EACA,aAAA;CACA","file":"extract-rule-list.vue","sourcesContent":["<template>\n\n    <div>\n      <div class=\"description\">{{ description }}</div>\n      <multiselect\n        v-model=\"selectedExtractRuleService\"\n        :options=\"extractRuleServiceList\"\n        :allow-empty=\"false\"\n        deselect-label=\"Selected\"\n        select-label=\"\"\n        placeholder=\"Select an extract rule service\">\n      </multiselect>\n      <hr>\n    </div>\n\n</template>\n\n<script>\n\nimport 'TaskBundle/common/styles/multiselect.css';\nimport multiselect from 'vue-multiselect';\n\nexport default {\n\n  components: { 'multiselect': multiselect },\n\n  data: function () {\n    return {\n      selectedExtractRuleService: null\n    };\n  },\n\n  created: function () {\n    this.selectedExtractRuleService = this.$store.getters.getUsedExtractRule.service;\n  },\n\n  watch: {\n    selectedExtractRuleService: function (newSelectedExtractRuleService) {\n      // Update the data object\n      this.$store.commit('updateUsedExtractRuleService', newSelectedExtractRuleService);\n    }\n  },\n\n  computed: {\n    extractRuleServiceList: function () {\n      return this.$store.getters.getExtractRuleList.map(\n        function (element) {\n          return element.name;\n        }\n      );\n    },\n    description: function () {\n      let usedExtractRule = this.$store.getters.getUsedExtractRule;\n      return this\n        .$store\n        .getters\n        .getExtractRuleDescription(usedExtractRule.service)\n     ;\n    }\n  }\n\n};\n\n</script>\n\n<style>\n  .editor.extract-rule-editor div.parameters .form-group .form-control-wrapper textarea {\n    min-height: 60px;\n  }\n\n  .editor .description {\n    font-style: italic;\n    padding: 5px;\n  }\n</style>\n"],"sourceRoot":""}]);
+=======
+exports.push([module.i, "\n.editor.extract-rule-editor div.parameters .form-group .form-control-wrapper textarea {\n  min-height: 60px;\n}\n.editor .description {\n  font-style: italic;\n  padding: 5px;\n}\n", "", {"version":3,"sources":["/usr/src/app/Resources/public/js/editor/src/extract-rule/components/Resources/public/js/editor/src/extract-rule/components/extract-rule-list.vue?8ccd911e"],"names":[],"mappings":";AA2EA;EACA,iBAAA;CACA;AAEA;EACA,mBAAA;EACA,aAAA;CACA","file":"extract-rule-list.vue","sourcesContent":["<template>\n\n    <div>\n      <div class=\"description\">{{ description }}</div>\n      <multiselect\n        v-model=\"selectedExtractRuleService\"\n        :options=\"extractRuleServiceList\"\n        :allow-empty=\"false\"\n        deselect-label=\"Selected\"\n        select-label=\"\"\n        placeholder=\"Select an extract rule service\">\n      </multiselect>\n      <hr>\n    </div>\n\n</template>\n\n<script>\n\nimport 'TaskBundle/common/styles/multiselect.css';\nimport multiselect from 'vue-multiselect';\n\nexport default {\n\n  components: { 'multiselect': multiselect },\n\n  data: function () {\n    return {\n      selectedExtractRuleService: null\n    };\n  },\n\n  created: function () {\n    this.selectedExtractRuleService = this.$store.getters.getUsedExtractRule.service;\n  },\n\n  watch: {\n    selectedExtractRuleService: function (newSelectedExtractRuleService) {\n      // Fetch the parameters via the api\n      if (null != newSelectedExtractRuleService) {\n          this.$store.dispatch('setExtractRuleData', {\n            http: this.$http,\n            extractRuleName: newSelectedExtractRuleService\n          }).then(() => {\n            this.$store.commit('cleanUsedParameters');\n          });\n      }\n      // Update the data object\n      this.$store.commit('updateUsedExtractRuleService', newSelectedExtractRuleService);\n    }\n  },\n\n  computed: {\n    extractRuleServiceList: function () {\n      return this.$store.getters.getExtractRuleList.map(\n        function (element) {\n          return element.name;\n        }\n      );\n    },\n    description: function () {\n      let usedExtractRule = this.$store.getters.getUsedExtractRule;\n      return this\n        .$store\n        .getters\n        .getExtractRuleDescription(usedExtractRule.service)\n     ;\n    }\n  }\n\n};\n\n</script>\n\n<style>\n  .editor.extract-rule-editor div.parameters .form-group .form-control-wrapper textarea {\n    min-height: 60px;\n  }\n\n  .editor .description {\n    font-style: italic;\n    padding: 5px;\n  }\n</style>\n"],"sourceRoot":""}]);
+>>>>>>> master
 
 // exports
 
@@ -2681,7 +2689,12 @@ Object.defineProperty(exports,"__esModule",{value:true});__webpack_require__(44)
 //
 //
 //
+<<<<<<< HEAD
 exports.default={components:{'multiselect':_vueMultiselect2.default},data:function data(){return{selectedExtractRuleService:null};},created:function created(){this.selectedExtractRuleService=this.$store.getters.getUsedExtractRule.service;},watch:{selectedExtractRuleService:function selectedExtractRuleService(newSelectedExtractRuleService){// Update the data object
+=======
+exports.default={components:{'multiselect':_vueMultiselect2.default},data:function data(){return{selectedExtractRuleService:null};},created:function created(){this.selectedExtractRuleService=this.$store.getters.getUsedExtractRule.service;},watch:{selectedExtractRuleService:function selectedExtractRuleService(newSelectedExtractRuleService){var _this=this;// Fetch the parameters via the api
+if(null!=newSelectedExtractRuleService){this.$store.dispatch('setExtractRuleData',{http:this.$http,extractRuleName:newSelectedExtractRuleService}).then(function(){_this.$store.commit('cleanUsedParameters');});}// Update the data object
+>>>>>>> master
 this.$store.commit('updateUsedExtractRuleService',newSelectedExtractRuleService);}},computed:{extractRuleServiceList:function extractRuleServiceList(){return this.$store.getters.getExtractRuleList.map(function(element){return element.name;});},description:function description(){var usedExtractRule=this.$store.getters.getUsedExtractRule;return this.$store.getters.getExtractRuleDescription(usedExtractRule.service);}}};
 
 /***/ }),
@@ -3014,7 +3027,11 @@ Object.defineProperty(exports,"__esModule",{value:true});var _vue=__webpack_requ
    *
    * @param state
    * @param {Object[]} extractRuleList
+<<<<<<< HEAD
    */setExtractRuleList:function setExtractRuleList(state,extractRuleList){extractRuleList.forEach(function(element,index){state.extractRuleList.push({name:element});});},/**
+=======
+   */setExtractRuleList:function setExtractRuleList(state,extractRuleList){state.extractRuleList=extractRuleList.map(function(element){return{name:element};});},/**
+>>>>>>> master
    * Set the data for an extract rule
    *
    * @param state
@@ -3034,7 +3051,11 @@ Object.defineProperty(exports,"__esModule",{value:true});var _vue=__webpack_requ
    *
    * @param state
    * @param {Object[]} extractRules
+<<<<<<< HEAD
    */cleanUsedParameters:function cleanUsedParameters(state,parameter){var usedParameters=state.usedExtractRule.parameters;var allParameters=state.extractRuleList.find(function(element){return element.name===state.usedExtractRule.service;}).parameters;if(typeof allParameters!=='undefined'){for(var usedParameterName in usedParameters){if(typeof allParameters[usedParameterName]==='undefined'){_vue2.default.delete(state.usedExtractRule.parameters,usedParameterName);}}}this.commit('updateInitialTextareaValue');},/**
+=======
+   */cleanUsedParameters:function cleanUsedParameters(state,parameter){var usedParameters=state.usedExtractRule.parameters;var allParameters=state.extractRuleList.find(function(element){return element.name===state.usedExtractRule.service;}).parameters;for(var usedParameterName in usedParameters){if(typeof allParameters[usedParameterName]==='undefined'){_vue2.default.delete(state.usedExtractRule.parameters,usedParameterName);}}this.commit('updateInitialTextareaValue');},/**
+>>>>>>> master
    * Initialize the extract rule used in the form
    *
    * @param state

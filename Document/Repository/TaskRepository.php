@@ -23,7 +23,7 @@ class TaskRepository extends DocumentRepository
 
         $qb = $this
             ->createQueryBuilder()
-            ->field("actions.0.statuses.0.status")
+            ->field("status")
             ->equals($status)
         ;
 
