@@ -57,20 +57,21 @@ function triggerVueEditor(element, configuration) {
   new Vue({
     el: element,
 
-    beforeCreate: function () {
-      store.dispatch('setActions', this.$http);
+    beforeCreate() {
+      this.$store.dispatch('setActions', this.$http).then(() => {
+        if (configuration.form.value) {
+          let workflowConfiguration = JSON.parse(configuration.form.value);
 
-      if (configuration.form.value) {
-        let workflowConfiguration = JSON.parse(configuration.form.value);
-
-        for (let key in workflowConfiguration.actions) {
-          store.dispatch('setActionParameters', { http: this.$http, service: workflowConfiguration.actions[key].service });
+          for (let key in workflowConfiguration.actions) {
+            this.$store.dispatch('setActionParameters', { http: this.$http, service: workflowConfiguration.actions[key].service });
+          }
         }
-      }
+      });
+
     },
 
-    created: function () {
-      store.commit('initializeWorkflowData');
+    created() {
+      this.$store.commit('initializeWorkflowData');
     },
 
     store: store

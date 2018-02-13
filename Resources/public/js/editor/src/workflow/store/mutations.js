@@ -29,11 +29,13 @@ export default {
    * @param {Array}  actions - The action names
    */
   setActions: function (state, actions) {
-    state.actions = actions.map(function (element) {
+    let list = actions.map(function (element) {
       return {
         name: element
       };
     });
+
+    Vue.set(state, 'actions', list);
   },
 
   /**

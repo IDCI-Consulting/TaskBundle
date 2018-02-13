@@ -9,10 +9,10 @@ export default {
    * @param {Object[]} extractRuleList
    */
   setExtractRuleList: function (state, extractRuleList) {
-    state.extractRuleList = extractRuleList.map(function(element) {
-      return {
+    extractRuleList.forEach(function(element, index) {
+      state.extractRuleList.push({
         name: element
-      };
+      });
     });
   },
 
@@ -84,9 +84,11 @@ export default {
       return element.name === state.usedExtractRule.service;
     }).parameters;
 
-    for (let usedParameterName in usedParameters) {
-      if (typeof allParameters[usedParameterName] === 'undefined') {
-        Vue.delete(state.usedExtractRule.parameters, usedParameterName);
+    if (typeof allParameters !== 'undefined') {
+      for (let usedParameterName in usedParameters) {
+        if (typeof allParameters[usedParameterName] === 'undefined') {
+          Vue.delete(state.usedExtractRule.parameters, usedParameterName);
+        }
       }
     }
 

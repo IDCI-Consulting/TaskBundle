@@ -5,9 +5,12 @@ let workflowEditorActions = {
    * @param {Object} $store - The store.
    * @param {Object} $http  - The Vue Resource http object.
    */
-  setActions: function ($store, $http) {
-    workflowEditorActions.handleGetRequest($store.getters.getActionsUrl, $store, $http, function (actions) {
-      $store.commit('setActions', actions);
+  setActions($store, $http) {
+    return new Promise((resolve, reject) => {
+      workflowEditorActions.handleGetRequest($store.getters.getActionsUrl, $store, $http, (actions) => {
+        $store.commit('setActions', actions);
+        resolve();
+      });
     });
   },
 
@@ -17,9 +20,12 @@ let workflowEditorActions = {
    * @param {Object} store - The store.
    * @param {Object} payload  - The object with Vue Resource and the action name.
    */
-  setActionParameters: function ($store, payload) {
-    workflowEditorActions.handleGetRequest($store.getters.getActionParametersUrl(payload.service), $store, payload.http, function (action) {
-      $store.commit('setActionParameters', action);
+  setActionParameters($store, payload) {
+    return new Promise((resolve, reject) => {
+      workflowEditorActions.handleGetRequest($store.getters.getActionParametersUrl(payload.service), $store, payload.http, (action) => {
+        $store.commit('setActionParameters', action);
+        resolve();
+      });
     });
   }
 };

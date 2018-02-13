@@ -51,10 +51,19 @@ function triggerVueEditor(element, configuration, formProperties) {
     /**
      * Call the APIs before creating the app
      */
-    beforeCreate: function () {
-      extractRuleEditorStore.dispatch('setExtractRules', this.$http);
+    beforeCreate() {
+      extractRuleEditorStore.dispatch('setExtractRules', this.$http).then(() => {
+        this.$store.getters.getExtractRuleList.forEach((element, index) => {
+          this.$store.dispatch('setExtractRuleData', {
+            http: this.$http,
+            extractRuleName: element.name
+          }).then(() => {
+            this.$store.commit('cleanUsedParameters');
+          });
+        });
+      });
     },
-    created: function () {
+    created() {
       this.$store.commit('initializeUsedExtractRule');
     }
   });

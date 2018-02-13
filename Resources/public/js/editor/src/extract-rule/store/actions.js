@@ -6,10 +6,10 @@ var extractRuleEditorActions = {
    * @param $store
    * @param $http
    */
-  setExtractRules: function ($store, $http) {
-    return new Promise(function(resolve, reject) {
+  setExtractRules($store, $http) {
+    return new Promise((resolve, reject) => {
       var url = $store.getters.getExtractRuleListApiUrl;
-      extractRuleEditorActions.handleGetRequest(url, $store, $http, function (extractRuleList) {
+      extractRuleEditorActions.handleGetRequest(url, $store, $http, (extractRuleList) => {
         $store.commit('setExtractRuleList', extractRuleList);
         resolve();
       });
@@ -23,10 +23,10 @@ var extractRuleEditorActions = {
    * @param payload
    * @returns {Promise}
    */
-  setExtractRuleData: function ($store, payload) {
-    return new Promise(function(resolve, reject) {
+  setExtractRuleData($store, payload) {
+    return new Promise((resolve, reject) => {
       var url = $store.getters.getExtractRuleParametersApiUrl(payload.extractRuleName);
-      extractRuleEditorActions.handleGetRequest(url, $store, payload.http, function (response) {
+      extractRuleEditorActions.handleGetRequest(url, $store, payload.http, (response) => {
         $store.commit('setExtractRuleData', {
           extractRuleName: payload.extractRuleName,
           extractRuleParameters: response.parameters,
