@@ -19,12 +19,15 @@ use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
  * @ODM\Indexes({
  *     @ODM\Index(keys={"task_configuration_id"="asc"}, name="task_configuration_id"),
  *     @ODM\Index(keys={"created_at"="desc"}, name="created_at"),
+ *     @ODM\Index(keys={"ended_at"="asc"}, name="ended_at"),
  *     @ODM\Index(keys={"status"="asc"}, name="status")
+ *     @ODM\Index(keys={"process_key"="asc"}, name="process_key")
  * })
  */
 class Task
 {
-    const CREATED = 'created';
+    const CREATED = 'task.created';
+    const ENDED = 'task.ended';
 
     /**
      * @var \MongoId
@@ -88,6 +91,20 @@ class Task
      * @ODM\Field(type="date", name="updated_at")
      */
     private $updatedAt;
+
+    /**
+     * @var \Datetime
+     *
+     * @ODM\Field(type="date", name="ended_at")
+     */
+    private $endedAt;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="process_key")
+     */
+    private $processKey;
 
     /**
      * Constructor
@@ -399,5 +416,57 @@ class Task
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set endedAt
+     *
+     * @param \Datetime $endedAt
+     *
+     * return $this
+     */
+    public function setEndedAt(\Datetime $endedAt)
+    {
+        $this->endedAt = $endedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get endedAt
+     *
+     * @return \Datetime
+     */
+    public function getEndedAt()
+    {
+        return $this->endedAt;
+    }
+
+    /**
+     * Set processKey
+     *
+     * @param string $processKey
+     *
+     * return $this
+     */
+    public function setProcessKey($processKey)
+    {
+        if (null !== $this->processKey) {
+            throw new \InvalidArgumentException('A process key is already defined.');
+        }
+
+        $this->processKey = $processKey;
+
+        return $this;
+    }
+
+    /**
+     * Get processKey
+     *
+     * @return string
+     */
+    public function getProcessKey()
+    {
+        return $this->processKey;
     }
 }

@@ -106,12 +106,21 @@ class ActionHandler
                 $currentAction['parameters'] = array();
             }
 
-            // Merge the data with action configuration
-            $currentAction['parameters'] = $this->merge(
-                $currentAction['parameters'],
-                $task->getData()->getExtractedData(),
-                $task->getData()->getActionData()
-            );
+            try {
+                // Merge the data with action configuration
+                $currentAction['parameters'] = $this->merge(
+                    $currentAction['parameters'],
+                    $task->getData()->getExtractedData(),
+                    $task->getData()->getActionData()
+                );
+            } catch (\Exception $e) {
+                $this->setErroredTask($task, sprintf(
+                    'There is a problem in your configuration with the following message %s',
+                    $e->getMessage()
+                ));
+
+                return;
+            }
         }
 
         // Task running event.
@@ -124,16 +133,9 @@ class ActionHandler
             $currentActionData = $this
                 ->registry
                 ->getAction($currentAction['service'])
-                ->execute($task, $currentAction['parameters'])
-            ;
+                ->execute($task, $currentAction['parameters']);
         } catch(\Exception $e) {
-            $this->taskLogProcessor->setTask($task);
-            $this->logger->error($e->getMessage());
-
-            $this->dispatcher->dispatch(
-                ActionStatus::ERROR,
-                new TaskEvent($task)
-            );
+            $this->setErroredTask($task, $e->getMessage());
 
             return;
         }
@@ -163,7 +165,31 @@ class ActionHandler
                 serialize(array('task_id' => $task->getId())),
                 $task->getSource()
             );
+
+            return;
         }
+
+        $this->dispatcher->dispatch(
+            Task::ENDED,
+            new TaskEvent($task)
+        );
+    }
+
+    /**
+     * Set an errored task.
+     *
+     * @param Task   $task
+     * @param string $errorMessage
+     */
+    private function setErroredTask(Task $task, $errorMessage = '')
+    {
+        $this->taskLogProcessor->setTask($task);
+        $this->logger->error($errorMessage);
+
+        $this->dispatcher->dispatch(
+            ActionStatus::ERROR,
+            new TaskEvent($task)
+        );
     }
 
     /**

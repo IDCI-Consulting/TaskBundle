@@ -42,6 +42,9 @@ class TaskEventSubscriber implements EventSubscriberInterface
             Task::CREATED => array(
                 array('processTask'),
             ),
+            Task::ENDED => array(
+                array('endTask'),
+            ),
             ActionStatus::PENDING => array(
                 array('onPendingEvent')
             ),
@@ -68,6 +71,17 @@ class TaskEventSubscriber implements EventSubscriberInterface
             serialize(array('task_id' => $event->getTask()->getId())),
             $event->getTask()->getSource()
         );
+    }
+
+    /**
+     * Finish a task.
+     *
+     * @param Task $task
+     */
+    public function updateTaskStatus(Task $task)
+    {
+        $task->setEndedAt(new \Datetime('now'));
+        $this->documentManager->flush();
     }
 
     /**

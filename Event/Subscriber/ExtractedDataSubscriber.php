@@ -53,17 +53,29 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
     {
         $extractedData = is_array($dataExtractedEvent->getData())
             ? $dataExtractedEvent->getData()
-            : array(json_decode(json_encode($dataExtractedEvent->getData()), true))
-        ;
+            : array(json_decode(json_encode($dataExtractedEvent->getData()), true));
+
+        $processKey = $this->generateRandomProcessKey();
 
         foreach ($extractedData as $data) {
             $this->taskProducer->publish(
                 serialize(array(
                     'data' => array('extracted_data' => $data),
-                    'task_configuration' => $dataExtractedEvent->getTaskConfiguration()
+                    'task_configuration' => $dataExtractedEvent->getTaskConfiguration(),
+                    'process_key' => $processKey,
                 )),
                 $this->applicationName
             );
         }
+    }
+
+    /**
+     * Generate a random process key.
+     *
+     * @return string
+     */
+    private function generateRandomProcessKey()
+    {
+        return 'random_key';
     }
 }
