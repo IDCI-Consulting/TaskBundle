@@ -23,9 +23,8 @@ class TaskRepository extends DocumentRepository
 
         $qb = $this
             ->createQueryBuilder()
-            ->field("status")
-            ->equals($status)
-        ;
+            ->field('status')
+            ->equals($status);
 
         return $qb;
     }
@@ -41,7 +40,7 @@ class TaskRepository extends DocumentRepository
     {
         $q = $this->findByStatusQueryBuilder($status)->getQuery();
 
-        return is_null($q)? array() : $q->execute();
+        return is_null($q) ? array() : $q->execute();
     }
 
     /**
@@ -53,9 +52,8 @@ class TaskRepository extends DocumentRepository
     {
         $qb = $this
             ->createQueryBuilder()
-            ->field("configuration")
-            ->equals(null)
-        ;
+            ->field('configuration')
+            ->equals(null);
 
         return $qb;
     }
@@ -63,12 +61,43 @@ class TaskRepository extends DocumentRepository
     /**
      * Find unconfigured tasks status
      *
-     * @return QueryBuilder
+     * @return array
      */
     public function findUnconfiguredTasks()
     {
         $q = $this->findUnconfiguredTasksQueryBuilder()->getQuery();
 
-        return is_null($q)? array() : $q->execute();
+        return is_null($q) ? array() : $q->execute();
+    }
+
+    /**
+     * Find unconfigured tasks status query builder
+     *
+     * @param string $processKey
+     *
+     * @return QueryBuilder
+     */
+    public function findNotEndedTaskByProcessKeyQueryBuilder($processKey)
+    {
+        $qb = $this
+            ->createQueryBuilder()
+            ->field('endedAt')->equals(null)
+            ->field('processKey')->equals($processKey);
+
+        return $qb;
+    }
+
+    /**
+     * Find unconfigured tasks status
+     *
+     * @param string $processKey
+     *
+     * @return array
+     */
+    public function findNotEndedTaskByProcessKey($processKey)
+    {
+        $q = $this->findUnconfiguredTasksQueryBuilder()->getQuery();
+
+        return is_null($q) ? array() : $q->execute();
     }
 }
