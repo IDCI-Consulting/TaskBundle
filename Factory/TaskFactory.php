@@ -52,6 +52,7 @@ class TaskFactory
 
           return Task::createFromTaskConfiguration(
               $this->applicationName,
+              $options['process_key'],
               $options['task_configuration'],
               $extractedData,
               $actionData
@@ -61,6 +62,7 @@ class TaskFactory
         if (array_key_exists('action_service', $options)) {
           return Task::createFromAction(
               $this->applicationName,
+              $options['process_key'],
               $options['action_service'],
               $options['data']
           );

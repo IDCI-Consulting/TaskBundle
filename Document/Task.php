@@ -20,7 +20,7 @@ use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
  *     @ODM\Index(keys={"task_configuration_id"="asc"}, name="task_configuration_id"),
  *     @ODM\Index(keys={"created_at"="desc"}, name="created_at"),
  *     @ODM\Index(keys={"ended_at"="asc"}, name="ended_at"),
- *     @ODM\Index(keys={"status"="asc"}, name="status")
+ *     @ODM\Index(keys={"status"="asc"}, name="status"),
  *     @ODM\Index(keys={"process_key"="asc"}, name="process_key")
  * })
  */
@@ -125,6 +125,7 @@ class Task
      * Create a task from a task configuration
      *
      * @param string                    $source
+     * @param string                    $processKey
      * @param AbstractTaskConfiguration $taskConfiguration
      * @param mixed                     $extractedData
      * @param array                     $actionData
@@ -135,6 +136,7 @@ class Task
      */
     public static function createFromTaskConfiguration(
         $source,
+        $processKey,
         AbstractTaskConfiguration $taskConfiguration,
         $extractedData = array(),
         array $actionData = array()
@@ -168,6 +170,7 @@ class Task
 
         $task = new Task($source);
         $task
+            ->setProcessKey($processKey)
             ->addAction($action)
             ->setData($taskData)
             ->setConfiguration($configuration)
@@ -181,12 +184,13 @@ class Task
      * Create a task from a single action
      *
      * @param string $source
+     * @param string $processKey
      * @param string $actionServiceName
      * @param array  $data
      *
      * @return Task
      */
-    public static function createFromAction($source, $actionServiceName, $data)
+    public static function createFromAction($source, $processKey, $actionServiceName, $data)
     {
         $taskData = new TaskData();
         $taskData
@@ -201,6 +205,7 @@ class Task
 
         $task = new Task($source);
         $task
+            ->setProcessKey($processKey)
             ->addAction($action)
             ->setData($taskData)
         ;

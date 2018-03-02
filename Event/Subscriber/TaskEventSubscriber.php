@@ -43,7 +43,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
                 array('processTask'),
             ),
             Task::ENDED => array(
-                array('endTask'),
+                array('finishTask'),
             ),
             ActionStatus::PENDING => array(
                 array('onPendingEvent')
@@ -78,7 +78,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
      *
      * @param Task $task
      */
-    public function updateTaskStatus(Task $task)
+    public function finishTask(Task $task)
     {
         $task->setEndedAt(new \Datetime('now'));
         $this->documentManager->flush();

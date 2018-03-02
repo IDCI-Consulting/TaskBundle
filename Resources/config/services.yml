@@ -92,6 +92,7 @@ services:
         class: IDCI\Bundle\TaskBundle\Handler\WorkflowHandler
         arguments:
             - "@idci_task.merger"
+            - "@doctrine.odm.mongodb.document_manager"
 
     idci_task.handler.task:
         class: IDCI\Bundle\TaskBundle\Handler\TaskHandler

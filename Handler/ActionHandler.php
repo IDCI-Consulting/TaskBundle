@@ -12,6 +12,7 @@ use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Psr\Log\LoggerInterface;
 use IDCI\Bundle\TaskBundle\Action\ActionRegistry;
 use IDCI\Bundle\TaskBundle\Document\Task;
+use IDCI\Bundle\TaskBundle\Event\ProcessEvents;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
@@ -115,7 +116,7 @@ class ActionHandler
                 );
             } catch (\Exception $e) {
                 $this->setErroredTask($task, sprintf(
-                    'There is a problem in your configuration with the following message %s',
+                    "There is a problem in your configuration with the following message:\n %s",
                     $e->getMessage()
                 ));
 
@@ -173,7 +174,15 @@ class ActionHandler
             Task::ENDED,
             new TaskEvent($task)
         );
+
+        if ($this->workflowHandler->isProcessFinished($task->getProcessKey())) {
+            $this->dispatcher->dispatch(
+                ProcessEvents::POST,
+                new ProcessEvent($task->getConfiguration(), $task->getProcessKey())
+            );
+        }
     }
+
 
     /**
      * Set an errored task.
