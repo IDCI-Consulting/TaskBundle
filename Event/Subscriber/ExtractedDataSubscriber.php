@@ -6,6 +6,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
+use Ramsey\Uuid\Uuid;
 use IDCI\Bundle\TaskBundle\Event\DataExtractedEvent;
 
 class ExtractedDataSubscriber implements EventSubscriberInterface
@@ -55,7 +56,7 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
             ? $dataExtractedEvent->getData()
             : array(json_decode(json_encode($dataExtractedEvent->getData()), true));
 
-        $processKey = $this->generateRandomProcessKey();
+        $processKey = Uuid::uuid1()->toString();
 
         foreach ($extractedData as $data) {
             $this->taskProducer->publish(
@@ -67,15 +68,5 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
                 $this->applicationName
             );
         }
-    }
-
-    /**
-     * Generate a random process key.
-     *
-     * @return string
-     */
-    private function generateRandomProcessKey()
-    {
-        return 'random_key';
     }
 }
