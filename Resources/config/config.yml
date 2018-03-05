@@ -5,7 +5,7 @@ old_sound_rabbit_mq:
             port:     "%task_rabbitmq_port%"
             user:     "%task_rabbitmq_user%"
             password: "%task_rabbitmq_password%"
-            vhost:    "/"
+            vhost:    "%task_rabbitmq_vhost%"
             lazy:     "%task_rabbitmq_lazy%"
     producers:
         action:
