@@ -95,6 +95,7 @@ Import the bundle configuration:
 
 imports:
     - { resource: @IDCITaskBundle/Resources/config/config.yml }
+```
 
 Update your parameters.yml file
 ```yml

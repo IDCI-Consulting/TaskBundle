@@ -183,7 +183,6 @@ class ActionHandler
         }
     }
 
-
     /**
      * Set an errored task.
      *

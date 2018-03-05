@@ -47,12 +47,13 @@ class PostEventSubscriber implements EventSubscriberInterface
      */
     public function onPostProcessEvent(PostEvent $event)
     {
+        $processKey = $event->getProcessKey();
         $configuration = $event->getConfiguration();
 
         foreach ($configuration->getPostActions() as $actionName) {
             $action = $configuration->getAction($actionName);
 
-            $this->processor->startTask($actionName, array_merge(
+            $this->processor->startTask($action['service'], array_merge(
                 $action['parameters'],
                 array('process_key' => $event->getProcessKey()),
             ));

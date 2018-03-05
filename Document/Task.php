@@ -187,11 +187,17 @@ class Task
      * @param string $processKey
      * @param string $actionServiceName
      * @param array  $data
+     * @param string $taskConfigurationSlug
      *
      * @return Task
      */
-    public static function createFromAction($source, $processKey, $actionServiceName, $data)
-    {
+    public static function createFromAction(
+        $source,
+        $processKey,
+        $actionServiceName,
+        array $data = array(),
+        $taskConfigurationSlug = null
+    ) {
         $taskData = new TaskData();
         $taskData
             ->setExtractedData($data)
@@ -208,6 +214,7 @@ class Task
             ->setProcessKey($processKey)
             ->addAction($action)
             ->setData($taskData)
+            ->setTaskConfigurationSlug($taskConfigurationSlug)
         ;
 
         return $task;

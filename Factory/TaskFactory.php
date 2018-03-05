@@ -38,7 +38,9 @@ class TaskFactory
      * @return Task
      */
     public function create($options) {
-        if (array_key_exists('task_configuration', $options)) {
+        $taskConfiguration = isset($options['task_configuration']) ? $options['task_configuration'] : null;
+
+        if (null !== $taskConfiguration) {
           $extractedData = array();
           $actionData = array();
 
@@ -53,7 +55,7 @@ class TaskFactory
           return Task::createFromTaskConfiguration(
               $this->applicationName,
               $options['process_key'],
-              $options['task_configuration'],
+              $taskConfiguration,
               $extractedData,
               $actionData
           );
@@ -64,10 +66,11 @@ class TaskFactory
               $this->applicationName,
               $options['process_key'],
               $options['action_service'],
-              $options['data']
+              $options['data'],
+              $taskConfiguration
           );
         }
 
-        throw new \Exception('The task factory could not create a task with these options');
+        throw new \InvalidArgumentException('The task factory could not create a task with these options');
     }
 }
