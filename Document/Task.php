@@ -19,12 +19,15 @@ use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
  * @ODM\Indexes({
  *     @ODM\Index(keys={"task_configuration_id"="asc"}, name="task_configuration_id"),
  *     @ODM\Index(keys={"created_at"="desc"}, name="created_at"),
- *     @ODM\Index(keys={"status"="asc"}, name="status")
+ *     @ODM\Index(keys={"ended_at"="asc"}, name="ended_at"),
+ *     @ODM\Index(keys={"status"="asc"}, name="status"),
+ *     @ODM\Index(keys={"process_key"="asc"}, name="process_key")
  * })
  */
 class Task
 {
-    const CREATED = 'created';
+    const CREATED = 'task.created';
+    const ENDED = 'task.ended';
 
     /**
      * @var \MongoId
@@ -90,6 +93,20 @@ class Task
     private $updatedAt;
 
     /**
+     * @var \Datetime
+     *
+     * @ODM\Field(type="date", name="ended_at")
+     */
+    private $endedAt;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="process_key")
+     */
+    private $processKey;
+
+    /**
      * Constructor
      *
      * @param string $source
@@ -108,6 +125,7 @@ class Task
      * Create a task from a task configuration
      *
      * @param string                    $source
+     * @param string                    $processKey
      * @param AbstractTaskConfiguration $taskConfiguration
      * @param mixed                     $extractedData
      * @param array                     $actionData
@@ -118,6 +136,7 @@ class Task
      */
     public static function createFromTaskConfiguration(
         $source,
+        $processKey,
         AbstractTaskConfiguration $taskConfiguration,
         $extractedData = array(),
         array $actionData = array()
@@ -151,6 +170,7 @@ class Task
 
         $task = new Task($source);
         $task
+            ->setProcessKey($processKey)
             ->addAction($action)
             ->setData($taskData)
             ->setConfiguration($configuration)
@@ -164,13 +184,20 @@ class Task
      * Create a task from a single action
      *
      * @param string $source
+     * @param string $processKey
      * @param string $actionServiceName
      * @param array  $data
+     * @param string $taskConfigurationSlug
      *
      * @return Task
      */
-    public static function createFromAction($source, $actionServiceName, $data)
-    {
+    public static function createFromAction(
+        $source,
+        $processKey,
+        $actionServiceName,
+        array $data = array(),
+        $taskConfigurationSlug = null
+    ) {
         $taskData = new TaskData();
         $taskData
             ->setExtractedData($data)
@@ -184,8 +211,10 @@ class Task
 
         $task = new Task($source);
         $task
+            ->setProcessKey($processKey)
             ->addAction($action)
             ->setData($taskData)
+            ->setTaskConfigurationSlug($taskConfigurationSlug)
         ;
 
         return $task;
@@ -399,5 +428,57 @@ class Task
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set endedAt
+     *
+     * @param \Datetime $endedAt
+     *
+     * return $this
+     */
+    public function setEndedAt(\Datetime $endedAt)
+    {
+        $this->endedAt = $endedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get endedAt
+     *
+     * @return \Datetime
+     */
+    public function getEndedAt()
+    {
+        return $this->endedAt;
+    }
+
+    /**
+     * Set processKey
+     *
+     * @param string $processKey
+     *
+     * return $this
+     */
+    public function setProcessKey($processKey)
+    {
+        if (null !== $this->processKey) {
+            throw new \InvalidArgumentException('A process key is already defined.');
+        }
+
+        $this->processKey = $processKey;
+
+        return $this;
+    }
+
+    /**
+     * Get processKey
+     *
+     * @return string
+     */
+    public function getProcessKey()
+    {
+        return $this->processKey;
     }
 }

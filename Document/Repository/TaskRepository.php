@@ -23,9 +23,8 @@ class TaskRepository extends DocumentRepository
 
         $qb = $this
             ->createQueryBuilder()
-            ->field("status")
-            ->equals($status)
-        ;
+            ->field('status')
+            ->equals($status);
 
         return $qb;
     }
@@ -41,7 +40,7 @@ class TaskRepository extends DocumentRepository
     {
         $q = $this->findByStatusQueryBuilder($status)->getQuery();
 
-        return is_null($q)? array() : $q->execute();
+        return is_null($q) ? array() : $q->execute();
     }
 
     /**
@@ -53,9 +52,8 @@ class TaskRepository extends DocumentRepository
     {
         $qb = $this
             ->createQueryBuilder()
-            ->field("configuration")
-            ->equals(null)
-        ;
+            ->field('configuration')
+            ->equals(null);
 
         return $qb;
     }
@@ -63,12 +61,43 @@ class TaskRepository extends DocumentRepository
     /**
      * Find unconfigured tasks status
      *
-     * @return QueryBuilder
+     * @return array
      */
     public function findUnconfiguredTasks()
     {
         $q = $this->findUnconfiguredTasksQueryBuilder()->getQuery();
 
-        return is_null($q)? array() : $q->execute();
+        return is_null($q) ? array() : $q->execute();
+    }
+
+    /**
+     * Find not ended tasks by process key query builder.
+     *
+     * @param string $processKey
+     *
+     * @return QueryBuilder
+     */
+    public function findNotEndedTaskByProcessKeyQueryBuilder($processKey)
+    {
+        $qb = $this
+            ->createQueryBuilder()
+            ->field('endedAt')->exists(false)
+            ->field('processKey')->equals($processKey);
+
+        return $qb;
+    }
+
+    /**
+     * Find not ended tasks by process.
+     *
+     * @param string $processKey
+     *
+     * @return array
+     */
+    public function findNotEndedTaskByProcessKey($processKey)
+    {
+        $q = $this->findNotEndedTaskByProcessKeyQueryBuilder($processKey)->getQuery();
+
+        return is_null($q) ? array() : $q->execute();
     }
 }

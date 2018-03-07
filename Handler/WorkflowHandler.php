@@ -2,6 +2,7 @@
 
 namespace IDCI\Bundle\TaskBundle\Handler;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Document\Action;
 
@@ -13,13 +14,20 @@ class WorkflowHandler
     protected $merger;
 
     /**
+     * @var DocumentManager
+     */
+    protected $documentManager;
+
+    /**
      * Workflow constructor.
      *
      * @param \Twig_Environment $merger
+     * @param DocumentManager   $documentManager
      */
-    public function __construct(\Twig_Environment $merger)
+    public function __construct(\Twig_Environment $merger, DocumentManager $documentManager)
     {
         $this->merger = $merger;
+        $this->documentManager = $documentManager;
     }
 
     /**
@@ -76,5 +84,19 @@ class WorkflowHandler
         $currentActionName = $task->getCurrentAction()->getName();
 
         return !isset($workflow['flows'][$currentActionName]);
+    }
+
+    /**
+     * Is process finished.
+     *
+     * @param string $processKey
+     *
+     * @return boolean
+     */
+    public function isProcessFinished($processKey)
+    {
+        $tasks = $this->documentManager->getRepository(Task::class)->findNotEndedTaskByProcessKey($processKey);
+
+        return 0 === sizeof($tasks);
     }
 }

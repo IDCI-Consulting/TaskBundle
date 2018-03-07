@@ -88,6 +88,16 @@ class Configuration
     }
 
     /**
+     * Return the post action list.
+     *
+     * @return array
+     */
+    public function getPostActions()
+    {
+        return $this->workflow['post.process'];
+    }
+
+    /**
      * Return the action by name
      *
      * @param string $name

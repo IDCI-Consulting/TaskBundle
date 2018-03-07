@@ -12,6 +12,8 @@ use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Psr\Log\LoggerInterface;
 use IDCI\Bundle\TaskBundle\Action\ActionRegistry;
 use IDCI\Bundle\TaskBundle\Document\Task;
+use IDCI\Bundle\TaskBundle\Event\ProcessEvents;
+use IDCI\Bundle\TaskBundle\Event\ProcessEvent;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
@@ -106,12 +108,21 @@ class ActionHandler
                 $currentAction['parameters'] = array();
             }
 
-            // Merge the data with action configuration
-            $currentAction['parameters'] = $this->merge(
-                $currentAction['parameters'],
-                $task->getData()->getExtractedData(),
-                $task->getData()->getActionData()
-            );
+            try {
+                // Merge the data with action configuration
+                $currentAction['parameters'] = $this->merge(
+                    $currentAction['parameters'],
+                    $task->getData()->getExtractedData(),
+                    $task->getData()->getActionData()
+                );
+            } catch (\Exception $e) {
+                $this->setErroredTask($task, sprintf(
+                    "There is a problem in your configuration with the following message:\n %s",
+                    $e->getMessage()
+                ));
+
+                return;
+            }
         }
 
         // Task running event.
@@ -124,16 +135,9 @@ class ActionHandler
             $currentActionData = $this
                 ->registry
                 ->getAction($currentAction['service'])
-                ->execute($task, $currentAction['parameters'])
-            ;
+                ->execute($task, $currentAction['parameters']);
         } catch(\Exception $e) {
-            $this->taskLogProcessor->setTask($task);
-            $this->logger->error($e->getMessage());
-
-            $this->dispatcher->dispatch(
-                ActionStatus::ERROR,
-                new TaskEvent($task)
-            );
+            $this->setErroredTask($task, $e->getMessage());
 
             return;
         }
@@ -163,7 +167,40 @@ class ActionHandler
                 serialize(array('task_id' => $task->getId())),
                 $task->getSource()
             );
+
+            return;
         }
+
+        $this->dispatcher->dispatch(
+            Task::ENDED,
+            new TaskEvent($task)
+        );
+
+        echo "Check process finish\n";
+        if ($this->workflowHandler->isProcessFinished($task->getProcessKey())) {
+            echo 'yes the process is finished.'."\n";
+            $this->dispatcher->dispatch(
+                ProcessEvents::POST,
+                new ProcessEvent($task->getConfiguration(), $task->getProcessKey())
+            );
+        }
+    }
+
+    /**
+     * Set an errored task.
+     *
+     * @param Task   $task
+     * @param string $errorMessage
+     */
+    private function setErroredTask(Task $task, $errorMessage = '')
+    {
+        $this->taskLogProcessor->setTask($task);
+        $this->logger->error($errorMessage);
+
+        $this->dispatcher->dispatch(
+            ActionStatus::ERROR,
+            new TaskEvent($task)
+        );
     }
 
     /**

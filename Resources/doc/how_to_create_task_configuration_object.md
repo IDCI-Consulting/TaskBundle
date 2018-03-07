@@ -50,7 +50,7 @@ In case you use a service multiple times in a workflow, you can specify a name.
 * `name`: The access data name & action name.
 In the next actions, you can access the data computed by the previous actions like this `{{ action_name.key }}`.
 
-You also can access to the data computed by the extract rule like this `{{ extracted_data.key_name }}`.
+You also can access to the data computed by the extract rule like this `{{ extracted_data.key_name }}`.
 
 See the [action configuration rule](../../Action/ActionConfigurationRule.php)
 to understand the configuration structure.
@@ -64,7 +64,10 @@ The workflow configuration must be a json object.
 This json object has three keys :
 * `name` : The workflow name
 * `first_action_name`: The first action name (equals to `name` in the action configuration).
-* `actions`: The actions workflow. This parameter is an object.
+* `flows`: The actions workflow. This parameter is an object. You can define the path that a task will follow. You also
+can add actions that follow a condition (if none of conditions aren't respected, the `default_next` will be used).
+* `post.process`: The post process workflow. This section allows you to run some actions after all tasks are ended.
+*IMPORTANT*: `action_data` & `extracted_data` variables are not available for actions that are executed in `post.process`
 
 Which gives use:
 
@@ -96,9 +99,23 @@ $taskConfiguration->setWorkflow(
             "first_action_name": "action_name_1",
             "flows": {
                 "action_name_1": {
+                    "next": [
+                        {
+                            "condition": "{{ your_condition }}",
+                            "name": "action_name_3"
+                        },
+                        {
+                            "condition": "{{ your_condition }}",
+                            "name": "action_name_4"
+                        }
+                    ],
                     "default_next": "action_name_2"
                 }
             }
+            "post.process": [
+                "action_name_5",
+                "action_name_6",
+            ]
         }
     }'
 );
@@ -107,7 +124,7 @@ $taskConfiguration->setWorkflow(
 See the [workflow configuration rule](../../Workflow/WorkflowConfigurationRule.php)
 to understand the configuration structure.
 
-// TODO: add information on conditions in flows, and enable and cron expression
+// TODO: add information on enable and cron expression
 
 Summary
 -------

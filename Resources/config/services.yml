@@ -41,6 +41,13 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    idci_task.process_event_subscriber:
+        class: IDCI\Bundle\TaskBundle\Event\Subscriber\ProcessEventSubscriber
+        arguments:
+            - "@idci_task.processor.rabbitmq"
+        tags:
+            - { name: kernel.event_subscriber }
+
     ## RabbitMQ consumers
     idci_task.service.consumer.action:
         class: IDCI\Bundle\TaskBundle\RabbitMq\Consumer\ActionConsumer
@@ -92,6 +99,7 @@ services:
         class: IDCI\Bundle\TaskBundle\Handler\WorkflowHandler
         arguments:
             - "@idci_task.merger"
+            - "@doctrine.odm.mongodb.document_manager"
 
     idci_task.handler.task:
         class: IDCI\Bundle\TaskBundle\Handler\TaskHandler
