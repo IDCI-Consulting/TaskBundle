@@ -41,6 +41,13 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    idci_task.process_event_subscriber:
+        class: IDCI\Bundle\TaskBundle\Event\Subscriber\ProcessEventSubscriber
+        arguments:
+            - "@idci_task.processor.rabbitmq"
+        tags:
+            - { name: kernel.event_subscriber }
+
     ## RabbitMQ consumers
     idci_task.service.consumer.action:
         class: IDCI\Bundle\TaskBundle\RabbitMq\Consumer\ActionConsumer
