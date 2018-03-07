@@ -2,6 +2,7 @@
 
 namespace IDCI\Bundle\TaskBundle\Handler;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Document\Action;
 
@@ -94,7 +95,7 @@ class WorkflowHandler
      */
     public function isProcessFinished($processKey)
     {
-        $tasks = $this->documentManager->findNotEndedTaskByProcessKey($processKey);
+        $tasks = $this->documentManager->getRepository(Task::class)->findNotEndedTaskByProcessKey($processKey);
 
         return 0 === sizeof($tasks);
     }

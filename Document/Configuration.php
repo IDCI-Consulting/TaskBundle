@@ -92,7 +92,7 @@ class Configuration
      *
      * @return array
      */
-    public function getPostAction()
+    public function getPostActions()
     {
         return $this->workflow['post.process'];
     }

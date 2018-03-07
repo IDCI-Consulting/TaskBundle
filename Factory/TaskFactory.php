@@ -39,6 +39,7 @@ class TaskFactory
      */
     public function create($options) {
         $taskConfiguration = isset($options['task_configuration']) ? $options['task_configuration'] : null;
+        $processKey = isset($options['process_key']) ? $options['process_key'] : null;
 
         if (null !== $taskConfiguration) {
           $extractedData = array();
@@ -54,7 +55,7 @@ class TaskFactory
 
           return Task::createFromTaskConfiguration(
               $this->applicationName,
-              $options['process_key'],
+              $processKey,
               $taskConfiguration,
               $extractedData,
               $actionData
@@ -64,7 +65,7 @@ class TaskFactory
         if (array_key_exists('action_service', $options)) {
           return Task::createFromAction(
               $this->applicationName,
-              $options['process_key'],
+              $processKey,
               $options['action_service'],
               $options['data'],
               $taskConfiguration

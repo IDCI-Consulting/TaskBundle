@@ -78,9 +78,9 @@ class TaskEventSubscriber implements EventSubscriberInterface
      *
      * @param Task $task
      */
-    public function finishTask(Task $task)
+    public function finishTask(TaskEvent $event)
     {
-        $task->setEndedAt(new \Datetime('now'));
+        $event->getTask()->setEndedAt(new \Datetime('now'));
         $this->documentManager->flush();
     }
 

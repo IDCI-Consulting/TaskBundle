@@ -13,6 +13,7 @@ use Psr\Log\LoggerInterface;
 use IDCI\Bundle\TaskBundle\Action\ActionRegistry;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Event\ProcessEvents;
+use IDCI\Bundle\TaskBundle\Event\ProcessEvent;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 
@@ -175,7 +176,9 @@ class ActionHandler
             new TaskEvent($task)
         );
 
+        echo "Check process finish\n";
         if ($this->workflowHandler->isProcessFinished($task->getProcessKey())) {
+            echo 'yes the process is finished.'."\n";
             $this->dispatcher->dispatch(
                 ProcessEvents::POST,
                 new ProcessEvent($task->getConfiguration(), $task->getProcessKey())

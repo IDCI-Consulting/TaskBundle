@@ -71,7 +71,7 @@ class TaskRepository extends DocumentRepository
     }
 
     /**
-     * Find unconfigured tasks status query builder
+     * Find not ended tasks by process key query builder.
      *
      * @param string $processKey
      *
@@ -81,14 +81,14 @@ class TaskRepository extends DocumentRepository
     {
         $qb = $this
             ->createQueryBuilder()
-            ->field('endedAt')->equals(null)
+            ->field('endedAt')->exists(false)
             ->field('processKey')->equals($processKey);
 
         return $qb;
     }
 
     /**
-     * Find unconfigured tasks status
+     * Find not ended tasks by process.
      *
      * @param string $processKey
      *
@@ -96,7 +96,7 @@ class TaskRepository extends DocumentRepository
      */
     public function findNotEndedTaskByProcessKey($processKey)
     {
-        $q = $this->findUnconfiguredTasksQueryBuilder()->getQuery();
+        $q = $this->findNotEndedTaskByProcessKeyQueryBuilder($processKey)->getQuery();
 
         return is_null($q) ? array() : $q->execute();
     }

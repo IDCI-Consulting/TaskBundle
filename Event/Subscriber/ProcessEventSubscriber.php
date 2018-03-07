@@ -4,13 +4,13 @@ namespace IDCI\Bundle\TaskBundle\Event\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
-use IDCI\Bundle\TaskBundle\Event\PostEvents;
+use IDCI\Bundle\TaskBundle\Event\ProcessEvents;
+use IDCI\Bundle\TaskBundle\Event\ProcessEvent;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use IDCI\Bundle\TaskBundle\Processor\ProcessorInterface;
 
-class PostEventSubscriber implements EventSubscriberInterface
+class ProcessEventSubscriber implements EventSubscriberInterface
 {
     /**
      * @var ProcessorInterface
@@ -22,9 +22,8 @@ class PostEventSubscriber implements EventSubscriberInterface
      *
      * @param ProcessorInterface $processor
      */
-    public function __construct(
-        ProducerInterface $processor
-    ) {
+    public function __construct(ProcessorInterface $processor)
+    {
         $this->processor = $processor;
     }
 
@@ -45,7 +44,7 @@ class PostEventSubscriber implements EventSubscriberInterface
      *
      * @param PostEvent $event
      */
-    public function onPostProcessEvent(PostEvent $event)
+    public function onPostProcessEvent(ProcessEvent $event)
     {
         $processKey = $event->getProcessKey();
         $configuration = $event->getConfiguration();
@@ -55,7 +54,7 @@ class PostEventSubscriber implements EventSubscriberInterface
 
             $this->processor->startTask($action['service'], array_merge(
                 $action['parameters'],
-                array('process_key' => $event->getProcessKey()),
+                array('process_key' => $event->getProcessKey())
             ));
         }
     }

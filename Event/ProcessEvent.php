@@ -3,6 +3,7 @@
 namespace IDCI\Bundle\TaskBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
+use IDCI\Bundle\TaskBundle\Document\Configuration;
 
 class ProcessEvent extends Event
 {
