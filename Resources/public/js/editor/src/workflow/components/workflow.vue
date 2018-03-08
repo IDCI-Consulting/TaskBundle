@@ -5,7 +5,7 @@
             <label>first action name</label>
             <configured-action-name-list @changed="updateFirstActionName" :value="workflowFirstActionName"></configured-action-name-list>
         </div>
-        <div class="form-group">
+        <div class="form-group workflow">
             <label>flow</label>
 
             <new-flow></new-flow>

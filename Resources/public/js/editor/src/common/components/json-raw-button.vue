@@ -3,7 +3,9 @@
     <div>
         <i class="fa fa-file-code-o json-raw-button" aria-hidden="true" @click="openModal()"></i>
         <modal v-if="showModal">
-            <button type="button" class="close" slot="header" @click="closeModal()">×</button>
+            <button type="button" class="btn" slot="header" @click="closeModal()">
+                <i class="icofont icofont-close"></i>
+            </button>
             <h3 slot="header">{{ header }}</h3>
             <textarea readonly slot="body" class="raw-json">{{ body }}</textarea>
             <p slot="footer">{{ footer }}</p>

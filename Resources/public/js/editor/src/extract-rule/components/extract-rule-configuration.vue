@@ -10,26 +10,22 @@
                 :required-star="true"
                 @change="updateParameterValue"
             ></parameter>
-            <div class="collapsed-block" v-if="hasOptionalParameters()">
-                <a role="button" data-toggle="collapse" :href="'#'+ id" class="collapsed">
+            <v-collapse-wrapper v-if="hasOptionalParameters()">
+                <button type="button" style="display: block" class="btn btn-primary collapsed" v-collapse-toggle>
                     Optional parameters
-                    <span class="toggle">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                    </span>
-                </a>
-                <div :id="id" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" :aria-controls="id">
-                    <parameter
-                        v-for="(option, name) in optionalParameters"
-                        :key="name"
-                        :name="name"
-                        :option="option"
-                        :value="usedParameters[name]"
-                        :required-star="true"
-                        @change="updateParameterValue"
-                    ></parameter>
+                </button>
+                <div class="parameters" v-collapse-content>
+                  <parameter
+                    v-for="(option, name) in optionalParameters"
+                    :key="name"
+                    :name="name"
+                    :option="option"
+                    :value="usedParameters[name]"
+                    :required-star="true"
+                    @change="updateParameterValue"
+                  ></parameter>
                 </div>
-            </div>
+            </v-collapse-wrapper>
         </div>
     </div>
 
@@ -86,3 +82,14 @@ export default {
 };
 
 </script>
+
+<style>
+.editor .collapsed {
+    float: none;
+    margin-bottom: 10px;
+}
+
+.parameters.v-collapse-content {
+    overflow: auto;
+}
+</style>

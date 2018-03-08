@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import Multiselect from 'vue-multiselect';
 import VueResource from 'vue-resource';
+import Collapse from 'vue2-collapse';
 import extractRuleEditor from './components/editor.vue';
 import extractRuleEditorGetters from './store/getters.js';
 import extractRuleEditorMutations from './store/mutations.js';
@@ -23,6 +24,7 @@ function triggerVueEditor(element, configuration, formProperties) {
 
   Vue.use(Vuex);
   Vue.use(VueResource);
+  Vue.use(Collapse);
   Vue.component('extract-rule-editor', extractRuleEditor);
 
   /**

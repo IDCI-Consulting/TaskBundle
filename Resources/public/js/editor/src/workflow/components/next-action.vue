@@ -1,8 +1,8 @@
 <template>
 
     <div>
-        <button @click.prevent="remove" aria-label="Close" class="close">
-            <span aria-hidden="true">×</span>
+        <button @click.prevent="remove" aria-label="Close" class="btn delete">
+            <i class="icofont icofont-close"></i>
         </button>
         <h5>Next action: <strong>{{ nextAction.name }}</strong></h5>
         <div class="form-group">

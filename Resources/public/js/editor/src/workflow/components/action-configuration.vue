@@ -1,8 +1,8 @@
 <template>
 
     <div class="configuration-box parameters">
-        <button @click.prevent="remove" aria-label="Close" class="close">
-            <span aria-hidden="true">×</span>
+        <button @click.prevent="remove" aria-label="Close" class="btn delete">
+            <i class="icofont icofont-close"></i>
         </button>
         <h5>Chosen service: <strong>{{ action.service }}</strong></h5>
         <div class="description">{{ description }}</div>
@@ -24,24 +24,22 @@
               :required-star="true"
               @change="updateParameter"
               ></parameter>
-            <a role="button" data-toggle="collapse" :href="'#'+ id" class="collapsed" v-if="hasOptionalParameters()">
-                Optional parameters
-                <span class="toggle">
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                </span>
-            </a>
-            <div :id="id" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" :aria-controls="id" v-if="hasOptionalParameters()">
-                <parameter
-                  v-for="(parameterOption, parameterName) in optionalParameters"
-                  :key="parameterName"
-                  :name="parameterName"
-                  :option="parameterOption"
-                  :value="action.parameters[parameterName]"
-                  :required-star="true"
-                  @change="updateParameter"
-                ></parameter>
-            </div>
+            <v-collapse-wrapper v-if="hasOptionalParameters()">
+              <button type="button" style="display: block" class="btn btn-primary collapsed" v-collapse-toggle>
+                  Optional parameters
+              </button>
+              <div class="panel-collapse collapse" v-collapse-content>
+                  <parameter
+                    v-for="(parameterOption, parameterName) in optionalParameters"
+                    :key="parameterName"
+                    :name="parameterName"
+                    :option="parameterOption"
+                    :value="action.parameters[parameterName]"
+                    :required-star="true"
+                    @change="updateParameter"
+                  ></parameter>
+              </div>
+            </v-collapse-wrapper>
         </div>
     </div>
 

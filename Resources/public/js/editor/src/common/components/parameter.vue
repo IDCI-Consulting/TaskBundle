@@ -48,10 +48,9 @@ export default {
 
 <style>
 
-.parameter .form-group > .form-control-wrapper > span {
+.parameter .form-group > span {
     font-style: italic;
     font-size: 0.9em;
-    color: slategrey;
 }
 
 </style>

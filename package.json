@@ -43,9 +43,10 @@
         "karma-jasmine": "^1.1.0",
         "karma-webpack": "^2.0.3",
         "style-loader": "^0.18.2",
-        "vue-editor-commons": "^1.0.10",
+        "vue-editor-commons": "^1.0.11",
         "vue-loader": "^13.0.0",
         "vue-template-compiler": "^2.3.4",
+        "vue2-collapse": "^1.0.11",
         "webpack": "^3.5.5"
     },
     "scripts": {

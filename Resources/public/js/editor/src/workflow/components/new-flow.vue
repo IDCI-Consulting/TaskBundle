@@ -1,12 +1,10 @@
 <template>
 
     <div class="row">
-        <configured-action-name-list class="col-md-10" @changed="updateSelectedName"></configured-action-name-list>
-        <div class="col-md-2">
-            <button @click.prevent="createFlow" type="button" class="btn btn-default" aria-label="Create">
-                Add
-            </button>
-        </div>
+        <configured-action-name-list @changed="updateSelectedName"></configured-action-name-list>
+        <button @click.prevent="createFlow" type="button" class="btn" aria-label="Create">
+            <i class="icofont icofont-plus"></i>
+        </button>
     </div>
 
 </template>

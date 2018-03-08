@@ -1,26 +1,21 @@
 <template>
 
   <div class="row new-action">
-    <div class="col-md-12 error" v-if="errorMessage !== ''">
+      <div class="error" v-if="errorMessage !== ''">
         {{ errorMessage }}
         <i class="fa fa-exclamation-circle"></i>
-    </div>
-    <div class="col-md-10">
-        <multiselect
-          v-model="selectedActionService"
-          :options="actionList"
-          label="name"
-          key="name"
-          selectLabel=""
-          placeholder="Select an action service"
-        >
-        </multiselect>
-    </div>
-    <div class="col-md-2">
-        <button @click.prevent="createAction" type="button" class="btn btn-default" aria-label="Create">
-            Add
-        </button>
-    </div>
+      </div>
+      <multiselect
+         v-model="selectedActionService"
+         :options="actionList"
+         label="name"
+         key="name"
+         selectLabel=""
+         placeholder="Select an action service">
+      </multiselect>
+      <button @click.prevent="createFlow" type="button" class="btn" aria-label="Create">
+        <i class="icofont icofont-plus"></i>
+      </button>
   </div>
 
 </template>

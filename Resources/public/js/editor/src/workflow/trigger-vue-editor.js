@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import VueResource from 'vue-resource';
 import MultiSelect from 'vue-multiselect';
+import VueResource from 'vue-resource';
+import Collapse from 'vue2-collapse';
 import {actions as commonActions, mutations as commonMutations, getters as commonGetters} from 'vue-editor-commons';
 import workflowEditor from './components/editor.vue';
 import workflowGetters from './store/getters.js';
@@ -19,6 +20,7 @@ function triggerVueEditor(element, configuration) {
   Vue.component('workflow-editor', workflowEditor);
   Vue.use(Vuex);
   Vue.use(VueResource);
+  Vue.use(Collapse);
   Vue.use(MultiSelect);
 
   var store = new Vuex.Store({

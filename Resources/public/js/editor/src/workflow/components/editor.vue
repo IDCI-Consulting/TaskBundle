@@ -34,4 +34,21 @@ export default {
         }
     }
 }
+
 </script>
+
+<style>
+
+.form-group .multiselect__tags {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.editor .form-group {
+    flex-direction: column;
+}
+
+.editor .btn {
+  float: right;
+}
+</style>

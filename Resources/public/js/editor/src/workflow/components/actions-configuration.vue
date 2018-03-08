@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="actions-configuration">
         <div v-for="(action, index) in actionsConfiguration" :key="index">
             <action-configuration
               :key="index"
@@ -58,3 +58,9 @@ export default {
 };
 
 </script>
+
+<style>
+.actions-configuration {
+    clear: both;
+}
+</style>
