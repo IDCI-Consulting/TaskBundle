@@ -32,7 +32,8 @@ function triggerVueEditor(element, configuration) {
         actions: [],
         workflow: {
           first_action_name: "",
-          flows: {}
+          flows: {},
+          post_process: []
         }
       }
     },
