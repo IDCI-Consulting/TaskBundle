@@ -192,6 +192,31 @@ export default {
 
     this.commit('updateRawField');
   },
+
+  /**
+   * Remove an action to the post process part.
+   *
+   * @param {Object} state - The state.
+   * @param {string} actionName - The action name.
+   */
+  removePostProcessAction: function (state, actionName) {
+    state.data.workflow.post_process.splice(state.data.workflow.post_process.indexOf(actionName), 1);
+
+    this.commit('updateRawField');
+  },
+
+  /**
+   * Remove an action to the post process part.
+   *
+   * @param {Object} state - The state.
+   * @param {string} actionName - The action name.
+   */
+  addPostProcessAction: function (state, actionName) {
+    state.data.workflow.post_process.push(actionName);
+
+    this.commit('updateRawField');
+  },
+
   /**
    * Add a next action to selected action in the flow.
    *

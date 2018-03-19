@@ -52,6 +52,10 @@ export default {
     };
   },
 
+  getPostProcessActions: function (state) {
+    return state.data.workflow.post_process;
+  },
+
   /**
    * Return the JSON string of workflow data
    *

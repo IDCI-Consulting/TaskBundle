@@ -17,6 +17,11 @@
               :key="previousAction"
             ></flow>
         </div>
+        <div class="form-group">
+            <label>Post process</label>
+            <post-process
+                class="configuration-box"></post-process>
+        </div>
     </div>
 
 </template>
@@ -28,6 +33,7 @@ import newNextAction from './new-next-action.vue';
 import nextAction from './next-action.vue';
 import newFlow from './new-flow.vue';
 import flow from './flow.vue';
+import postProcess from './post-process.vue';
 
 export default {
 
@@ -70,7 +76,8 @@ export default {
         'new-next-action': newNextAction,
         'next-action': nextAction,
         'new-flow': newFlow,
-        'flow': flow
+        'flow': flow,
+        'post-process': postProcess,
     },
 
     methods: {
@@ -103,7 +110,11 @@ export default {
          */
         updateWorkflowName: function(event) {
             this.$store.commit('updateWorkflowName', event.target.value);
-        }
+        },
+
+        removeActionToPostProcess: function (actionName) {
+            this.$store.commit('removeActionToPostProcess', actionName);
+        },
     },
 
     watch: {
