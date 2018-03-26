@@ -13,7 +13,7 @@
          selectLabel=""
          placeholder="Select an action service">
       </multiselect>
-      <button @click.prevent="createFlow" type="button" class="btn" aria-label="Create">
+      <button @click.prevent="createAction" type="button" class="btn" aria-label="Create">
         <i class="icofont icofont-plus"></i>
       </button>
   </div>
