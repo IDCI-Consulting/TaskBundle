@@ -15,15 +15,6 @@ use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 abstract class PostAction extends AbstractAction
 {
     /**
-     * Do execute using parameters.
-     *
-     * @param array $options
-     *
-     * @return array
-     */
-    abstract public function doExecute(array $options);
-
-    /**
      * Configure Options.
      *
      * @param OptionsResolver $resolver

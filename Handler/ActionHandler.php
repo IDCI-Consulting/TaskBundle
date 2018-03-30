@@ -176,9 +176,7 @@ class ActionHandler
             new TaskEvent($task)
         );
 
-        echo "Check process finish\n";
         if ($this->workflowHandler->isProcessFinished($task->getProcessKey())) {
-            echo 'yes the process is finished.'."\n";
             $this->dispatcher->dispatch(
                 ProcessEvents::POST,
                 new ProcessEvent($task->getConfiguration(), $task->getProcessKey())
