@@ -48,14 +48,15 @@ class ProcessEventSubscriber implements EventSubscriberInterface
     {
         $processKey = $event->getProcessKey();
         $configuration = $event->getConfiguration();
+        $slug = $event->getTaskConfigurationSlug();
 
         foreach ($configuration->getPostActions() as $actionName) {
             $action = $configuration->getAction($actionName);
 
             $this->processor->startTask($action['service'], array_merge(
                 $action['parameters'],
-                array('process_key' => $event->getProcessKey())
-            ));
+                array('process_key' => $event->getProcessKey(), 'task_configuration_slug'=> $slug)
+            ), $event->getProcessKey());
         }
     }
 }

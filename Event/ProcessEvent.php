@@ -18,15 +18,21 @@ class ProcessEvent extends Event
     protected $processKey;
 
     /**
+     * @var string
+     */
+    protected $taskConfigurationSlug;
+
+    /**
      * Constructor.
      *
      * @param Configuration $configuration
      * @param string        $processKey
      */
-    public function __construct(Configuration $configuration, $processKey)
+    public function __construct(Configuration $configuration, $processKey, $taskConfigurationSlug)
     {
         $this->configuration = $configuration;
         $this->processKey = $processKey;
+        $this->taskConfigurationSlug = $taskConfigurationSlug;
     }
 
     /**
@@ -47,5 +53,15 @@ class ProcessEvent extends Event
     public function getProcessKey()
     {
         return $this->processKey;
+    }
+
+    /**
+     * Get task configuration slug.
+     *
+     * @return string
+     */
+    public function getTaskConfigurationSlug()
+    {
+        return $this->taskConfigurationSlug;
     }
 }

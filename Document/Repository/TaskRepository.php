@@ -75,16 +75,22 @@ class TaskRepository extends DocumentRepository
      *
      * @param string $processKey
      *
-     * @return QueryBuilder
+     * @return AggregationBuilder
      */
-    public function findNotEndedTaskByProcessKeyQueryBuilder($processKey)
+    public function getEndedTaskCountByProcessKeyAggregationBuilder($processKey)
     {
-        $qb = $this
-            ->createQueryBuilder()
-            ->field('endedAt')->exists(false)
-            ->field('processKey')->equals($processKey);
+        $builder = $this->createAggregationBuilder();
+        $builder
+            ->match()
+                ->field('endedAt')->exists(true)
+                ->field('processKey')->equals($processKey)
+            ->group()
+                ->field('id')
+                ->expression(null)
+                ->field('task_count')
+                ->sum(1);
 
-        return $qb;
+        return $builder;
     }
 
     /**
@@ -94,10 +100,10 @@ class TaskRepository extends DocumentRepository
      *
      * @return array
      */
-    public function findNotEndedTaskByProcessKey($processKey)
+    public function getEndedTaskCountByProcessKey($processKey)
     {
-        $q = $this->findNotEndedTaskByProcessKeyQueryBuilder($processKey)->getQuery();
+        $cursor = $this->getEndedTaskCountByProcessKeyAggregationBuilder($processKey)->execute();
 
-        return is_null($q) ? array() : $q->execute();
+        return $cursor->toArray();
     }
 }

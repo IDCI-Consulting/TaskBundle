@@ -176,10 +176,13 @@ class ActionHandler
             new TaskEvent($task)
         );
 
-        if ($this->workflowHandler->isProcessFinished($task->getProcessKey())) {
+        if (
+            !$this->workflowHandler->isPostAction($task) &&
+            $this->workflowHandler->isProcessFinished($task->getProcessKey(), $task->getTaskCount())
+        ) {
             $this->dispatcher->dispatch(
                 ProcessEvents::POST,
-                new ProcessEvent($task->getConfiguration(), $task->getProcessKey())
+                new ProcessEvent($task->getConfiguration(), $task->getProcessKey(), $task->getTaskConfigurationSlug())
             );
         }
     }

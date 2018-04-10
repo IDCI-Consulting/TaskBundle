@@ -90,13 +90,30 @@ class WorkflowHandler
      * Is process finished.
      *
      * @param string $processKey
+     * @param string $taskCount
      *
      * @return boolean
      */
-    public function isProcessFinished($processKey)
+    public function isProcessFinished($processKey, $taskCount)
     {
-        $tasks = $this->documentManager->getRepository(Task::class)->findNotEndedTaskByProcessKey($processKey);
+        $result = $this->documentManager->getRepository(Task::class)->getEndedTaskCountByProcessKey($processKey);
 
-        return 0 === sizeof($tasks);
+        return intval($taskCount) === $result[0]['task_count'];
+    }
+
+    /**
+     * Is post action.
+     *
+     * @param Task $task
+     *
+     * @return bool
+     */
+    public function isPostAction(Task $task)
+    {
+        if (null === $task->getConfiguration()) {
+            return true;
+        }
+
+        return in_array($task->getCurrentAction()->getName(), $task->getConfiguration()->getPostActions());
     }
 }

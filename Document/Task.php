@@ -8,6 +8,7 @@ namespace IDCI\Bundle\TaskBundle\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Ramsey\Uuid\Uuid;
 use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
 
 /**
@@ -107,6 +108,13 @@ class Task
     private $processKey;
 
     /**
+     * @var int
+     *
+     * @ODM\Field(type="int", name="task_count")
+     */
+    private $taskCount;
+
+    /**
      * Constructor
      *
      * @param string $source
@@ -126,6 +134,7 @@ class Task
      *
      * @param string                    $source
      * @param string                    $processKey
+     * @param string                    $taskCount
      * @param AbstractTaskConfiguration $taskConfiguration
      * @param mixed                     $extractedData
      * @param array                     $actionData
@@ -137,6 +146,7 @@ class Task
     public static function createFromTaskConfiguration(
         $source,
         $processKey,
+        $taskCount,
         AbstractTaskConfiguration $taskConfiguration,
         $extractedData = array(),
         array $actionData = array()
@@ -171,11 +181,11 @@ class Task
         $task = new Task($source);
         $task
             ->setProcessKey($processKey)
+            ->setTaskCount($taskCount)
             ->addAction($action)
             ->setData($taskData)
             ->setConfiguration($configuration)
-            ->setTaskConfigurationSlug($taskConfiguration->getSlug())
-        ;
+            ->setTaskConfigurationSlug($taskConfiguration->getSlug());
 
         return $task;
     }
@@ -200,22 +210,19 @@ class Task
     ) {
         $taskData = new TaskData();
         $taskData
-            ->setExtractedData($data)
-        ;
+            ->setExtractedData($data);
 
         $action = new Action();
         $action
             ->setName($actionServiceName)
-            ->addStatus(ActionStatus::PENDING)
-        ;
+            ->addStatus(ActionStatus::PENDING);
 
         $task = new Task($source);
         $task
             ->setProcessKey($processKey)
             ->addAction($action)
             ->setData($taskData)
-            ->setTaskConfigurationSlug($taskConfigurationSlug)
-        ;
+            ->setTaskConfigurationSlug($taskConfigurationSlug);
 
         return $task;
     }
@@ -480,5 +487,29 @@ class Task
     public function getProcessKey()
     {
         return $this->processKey;
+    }
+
+    /**
+     * Set taskCount
+     *
+     * @param string $taskCount
+     *
+     * return $this
+     */
+    public function setTaskCount($taskCount)
+    {
+        $this->taskCount = $taskCount;
+
+        return $this;
+    }
+
+    /**
+     * Get taskCount
+     *
+     * @return string
+     */
+    public function getTaskCount()
+    {
+        return $this->taskCount;
     }
 }

@@ -23,6 +23,6 @@ abstract class PostAction extends AbstractAction
     {
         $resolver
             ->setRequired('process_key')
-            ->setAllowedType('process_key', array('string'));
+            ->setAllowedTypes('process_key', array('string'));
     }
 }
