@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <button @click.prevent="removeActionToFlow(previousAction)" aria-label="Close" class="btn delete">
+        <button @click.prevent="removeActionToFlow(previousAction)" type="button" aria-label="Close" class="btn delete">
           <i class="icofont icofont-close"></i>
         </button>
         <h4>Flow configuration for {{ previousAction }}:</h4>

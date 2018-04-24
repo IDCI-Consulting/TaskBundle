@@ -16,7 +16,7 @@
                     :index="index"
                     class="post-action">
                     {{ action }}
-                    <button @click.prevent="removePostProcessAction(action)" aria-label="Close" class="btn delete">
+                    <button @click.prevent="removePostProcessAction(action)" type="button" aria-label="Close" class="btn delete">
                         <i class="icofont icofont-close"></i>
                     </button>
                 </li>

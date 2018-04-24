@@ -1,7 +1,7 @@
 <template>
 
     <div class="configuration-box parameters">
-        <button @click.prevent="remove" aria-label="Close" class="btn delete">
+        <button type="button" @click.prevent="remove" aria-label="Close" class="btn delete">
             <i class="icofont icofont-close"></i>
         </button>
         <h5>Chosen service: <strong>{{ action.service }}</strong></h5>

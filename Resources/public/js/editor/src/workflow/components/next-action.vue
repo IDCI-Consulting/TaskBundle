@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <button @click.prevent="remove" aria-label="Close" class="btn delete">
+        <button @click.prevent="remove" type="button" aria-label="Close" class="btn delete">
             <i class="icofont icofont-close"></i>
         </button>
         <h5>Next action: <strong>{{ nextAction.name }}</strong></h5>

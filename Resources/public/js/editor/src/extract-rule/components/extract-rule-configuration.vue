@@ -89,7 +89,7 @@ export default {
     margin-bottom: 10px;
 }
 
-.parameters.v-collapse-content {
+.v-collapse-content.v-collapse-content-end {
     overflow: auto;
 }
 </style>
