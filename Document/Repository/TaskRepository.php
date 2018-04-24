@@ -102,8 +102,9 @@ class TaskRepository extends DocumentRepository
      */
     public function getEndedTaskCountByProcessKey($processKey)
     {
-        $cursor = $this->getEndedTaskCountByProcessKeyAggregationBuilder($processKey)->execute();
-
-        return $cursor->toArray();
+        return $this
+            ->getDocumentManager()
+            ->getDocumentCollection($this->getClassName())
+            ->aggregate($this->getEndedTaskCountByProcessKeyAggregationBuilder($processKey)->getPipeline());
     }
 }
