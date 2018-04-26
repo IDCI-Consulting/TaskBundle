@@ -3570,7 +3570,7 @@ Object.defineProperty(exports,"__esModule",{value:true});var _vue=__webpack_requ
    *
    * @param state
    * @param {Object[]} extractRules
-   */cleanUsedParameters:function cleanUsedParameters(state,parameter){var usedParameters=state.usedExtractRule.parameters;var allParameters=state.extractRuleList.find(function(element){return element.name===state.usedExtractRule.service;});if(typeof allParameters!=='undefined'){for(var usedParameterName in usedParameters){if(typeof allParameters.parameters[usedParameterName]==='undefined'){_vue2.default.delete(state.usedExtractRule.parameters,usedParameterName);}}}this.commit('updateInitialTextareaValue');},/**
+   */cleanUsedParameters:function cleanUsedParameters(state,parameter){var usedParameters=state.usedExtractRule.parameters;var usedExtractRule=state.extractRuleList.find(function(element){return element.name===state.usedExtractRule.service;});if(typeof usedExtractRule.parameters!=='undefined'){for(var usedParameterName in usedParameters){if(typeof usedExtractRule.parameters[usedParameterName]==='undefined'){_vue2.default.delete(state.usedExtractRule.parameters,usedParameterName);}}}this.commit('updateInitialTextareaValue');},/**
    * Initialize the extract rule used in the form
    *
    * @param state

@@ -80,13 +80,13 @@ export default {
   cleanUsedParameters: function (state, parameter) {
     let usedParameters = state.usedExtractRule.parameters;
 
-    let allParameters = state.extractRuleList.find(function (element) {
+    let usedExtractRule = state.extractRuleList.find(function (element) {
       return element.name === state.usedExtractRule.service;
     });
 
-    if (typeof allParameters !== 'undefined') {
+    if (typeof usedExtractRule.parameters !== 'undefined') {
       for (let usedParameterName in usedParameters) {
-        if (typeof allParameters.parameters[usedParameterName] === 'undefined') {
+        if (typeof usedExtractRule.parameters[usedParameterName] === 'undefined') {
           Vue.delete(state.usedExtractRule.parameters, usedParameterName);
         }
       }
