@@ -9,7 +9,7 @@ class TaskLogProcessor
     /**
      * @var Task
      */
-    private $task;
+    protected  $task;
 
     /**
      * Set task.
@@ -38,7 +38,6 @@ class TaskLogProcessor
         if (null !== $this->task) {
             $record['context']['task_id'] = $this->getTask()->getId();
             $record['context']['action_name'] = $this->getTask()->getCurrentAction()->getName();
-
         }
 
         return $record;
