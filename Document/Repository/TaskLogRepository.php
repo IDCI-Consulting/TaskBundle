@@ -19,6 +19,7 @@ class TaskLogRepository extends DocumentRepository
             ->createQueryBuilder()
             ->field("context.task_id")
             ->equals($taskId)
+            ->sort('_id', 'asc')
         ;
 
         return $qb;
