@@ -36,8 +36,9 @@ class TaskLogProcessor
     public function processRecord(array $record)
     {
         if (null !== $this->task) {
-            $record['context']['task_id'] = $this->getTask()->getId();
             $record['context']['action_name'] = $this->getTask()->getCurrentAction()->getName();
+            $record['context']['task_process_key'] = $this->getTask()->getProcessKey();
+            $record['context']['task_id'] = $this->getTask()->getId();
         }
 
         return $record;
