@@ -10,7 +10,9 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  *     repositoryClass="IDCI\Bundle\TaskBundle\Document\Repository\TaskLogRepository"
  * )
  * @ODM\Indexes({
- *     @ODM\Index(keys={"context.task_id"="asc"}, name="task_id")
+ *     @ODM\Index(keys={"context.action_name"="asc"}, name="action_name"),
+ *     @ODM\Index(keys={"context.task_id"="asc"}, name="task_id"),
+ *     @ODM\Index(keys={"context.task_process_key"="asc"}, name="task_process_key")
  * })
  */
 class TaskLog
@@ -159,5 +161,15 @@ class TaskLog
     public function getTaskId()
     {
         return $this->context['task_id'];
+    }
+
+    /**
+     * Get the task process key
+     *
+     * @return string
+     */
+    public function getTaskProcessKey()
+    {
+        return $this->context['task_process_key'];
     }
 }
