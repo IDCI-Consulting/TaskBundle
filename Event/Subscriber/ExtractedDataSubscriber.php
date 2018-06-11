@@ -57,7 +57,6 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
             : array(json_decode(json_encode($dataExtractedEvent->getData()), true));
 
         $processKey = Uuid::uuid1()->toString();
-        $taskCount = sizeof($extractedData);
 
         foreach ($extractedData as $data) {
             $this->taskProducer->publish(
@@ -65,7 +64,7 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
                     'data' => array('extracted_data' => $data),
                     'task_configuration' => $dataExtractedEvent->getTaskConfiguration(),
                     'process_key' => $processKey,
-                    'task_count' => $taskCount,
+                    'task_count' => $dataExtractedEvent->getTotalCount(),
                 )),
                 $this->applicationName
             );

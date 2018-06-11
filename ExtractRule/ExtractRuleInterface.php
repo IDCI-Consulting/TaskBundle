@@ -9,11 +9,11 @@ namespace IDCI\Bundle\TaskBundle\ExtractRule;
 interface ExtractRuleInterface
 {
     /**
-     * Extract data according to Task extract rule.
+     * Extract data according to extract rule logic.
      *
-     * @param array $parameters
+     * @param int $offset
      *
      * @return array
      */
-    public function extract(array $parameters);
+    public function extract($offset);
 }

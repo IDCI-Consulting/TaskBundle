@@ -20,15 +20,22 @@ class DataExtractedEvent extends Event
     protected $data;
 
     /**
+     * @var int
+     */
+    protected $totalCount;
+
+    /**
      * Constructor.
      *
      * @param AbstractTaskConfiguration $taskConfiguration
-     * @param $data
+     * @param array                     $data
+     * @param int                       $totalCount
      */
-    public function __construct(AbstractTaskConfiguration $taskConfiguration, $data)
+    public function __construct(AbstractTaskConfiguration $taskConfiguration, $data, $totalCount)
     {
         $this->taskConfiguration = $taskConfiguration;
         $this->data = $data;
+        $this->totalCount = $totalCount;
     }
 
     /**
@@ -49,5 +56,15 @@ class DataExtractedEvent extends Event
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Get the datai count.
+     *
+     * @return array
+     */
+    public function getTotalCount()
+    {
+        return $this->totalCount;
     }
 }
