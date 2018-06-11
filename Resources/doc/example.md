@@ -111,7 +111,7 @@ class MysqlUserExtractRule extends AbstractExtractRule
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -134,14 +134,14 @@ class MysqlUserExtractRule extends AbstractExtractRule
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function doExtract(array $parameters)
+    public function doExtract(array $parameters, $offset)
     {
         $users = $this
             ->em
             ->getRepository('Test:User')
-            ->findByName($parameters['names'])
+            ->findByName($parameters['names'], array(), null, $offset)
         ;
 
         if (count($users) < 1) {
@@ -152,6 +152,22 @@ class MysqlUserExtractRule extends AbstractExtractRule
         }
 
         return $users;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTotalCount()
+    {
+        $parameters = $this->getParameters();
+
+        return = $this
+            ->em
+            ->getRepository('Test:User')
+            ->count(array(
+                'name' => array('names' => $parameters),
+            ))
+        ;
     }
 }
 ```

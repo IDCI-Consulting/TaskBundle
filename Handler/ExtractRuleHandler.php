@@ -46,6 +46,7 @@ class ExtractRuleHandler
         $extractRule->setParameters($extractRuleConfiguration['parameters']);
 
         $offset = 0;
+        $totalCount = $extractRule->getTotalCount();
         do {
             $extractedData = $extractRule->extract($offset);
 
@@ -62,6 +63,6 @@ class ExtractRuleHandler
                 // Let GC do the memory job
                 time_nanosleep(0, 10000000);
             }
-        } while ($offset < $extractRule->getTotalCount());
+        } while ($offset < $totalCount);
     }
 }

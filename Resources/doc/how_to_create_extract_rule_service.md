@@ -7,7 +7,7 @@ Create the ExtractRule class
 ------------------------------
 
 First you need to create an ExtractRule class that extend [AbstractExtractRule](../../ExtractRule/AbstractExtractRule.php).
-You need to implement 2 methods: `configureOptions()` and `doExtract()`:
+You need to implement 3 methods: `configureOptions()`, `getTotalCount()` and `doExtract()`:
 
 ```php
 <?php
@@ -18,7 +18,7 @@ use IDCI\Bundle\TaskBundle\ExtractRule\AbstractExtractRule;
 class MyExtractRule extends AbstractExtractRule
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -32,7 +32,18 @@ class MyExtractRule extends AbstractExtractRule
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     */
+    public function getTotalCount()
+    {
+        // Business logic to get the total count of data to extract.
+        $count = ...
+
+        return $count;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function doExtract(array $parameters)
     {
@@ -48,6 +59,9 @@ class MyExtractRule extends AbstractExtractRule
 
 Inside `configureOptions`, you can use the [Symfony OptionResolver component](http://symfony.com/doc/current/components/options_resolver.html)
 and define the ExtractRule parameters.
+
+Inside `getTotalCount`, you can set your own business logic to retrieve the total count of data to extract.
+The `getParameters()` method can be used if you need parameters to get the total count.
 
 Inside `doExtract`, fetch your data any way you want with the parameters.
 In case the returned data is an array, a task for each item will be created.
