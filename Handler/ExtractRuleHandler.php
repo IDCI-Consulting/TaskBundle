@@ -42,16 +42,27 @@ class ExtractRuleHandler
     {
         $extractRuleConfiguration = json_decode($taskConfiguration->getExtractRule(), true);
 
-        // Extract data
-        $extractedData = $this->registry
-            ->getRule($extractRuleConfiguration['service'])
-            ->extract($extractRuleConfiguration['parameters'])
-        ;
+        $extractRule = $this->registry->getRule($extractRuleConfiguration['service']);
+        $extractRule->setParameters($extractRuleConfiguration['parameters']);
 
-        // Dispatch event with extractData and taskConfiguration
-        $this->dispatcher->dispatch(
-            DataExtractedEvent::NAME,
-            new DataExtractedEvent($taskConfiguration, $extractedData)
-        );
+        $offset = 0;
+        $totalCount = $extractRule->getTotalCount();
+        do {
+            $extractedData = $extractRule->extract($offset);
+
+            $offset += sizeof($extractedData);
+
+            // Dispatch event with extractedData and taskConfiguration
+            $this->dispatcher->dispatch(
+                DataExtractedEvent::NAME,
+                new DataExtractedEvent($taskConfiguration, $extractedData, $extractRule->getTotalCount())
+            );
+
+            $extractedData = null;
+            if (0 === ($offset % $extractRule->getBatchSize())) {
+                // Let GC do the memory job
+                time_nanosleep(0, 10000000);
+            }
+        } while ($offset < $totalCount);
     }
 }
