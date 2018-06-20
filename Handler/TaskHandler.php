@@ -2,11 +2,11 @@
 
 namespace IDCI\Bundle\TaskBundle\Handler;
 
-use IDCI\Bundle\TaskBundle\Document\Task;
-use IDCI\Bundle\TaskBundle\Factory\TaskFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
+use IDCI\Bundle\TaskBundle\Factory\TaskFactory;
 
 class TaskHandler
 {
@@ -14,6 +14,11 @@ class TaskHandler
      * @var TaskFactory
      */
     protected $taskFactory;
+
+    /**
+     * @var Task
+     */
+    protected $task;
 
     /**
      * @var DocumentManager
@@ -48,15 +53,37 @@ class TaskHandler
      * @param array $options
      */
     public function execute($options) {
-        $task = $this->taskFactory->create($options);
+        $this->task = $this->taskFactory->create($options);
 
-        $this->documentManager->persist($task);
-        $this->documentManager->flush();
+        $this->saveTask();
 
+        $this->dispatchCreatedTaskEvent();
+    }
+
+    private function dispatchCreatedTaskEvent()
+    {
         // Dispatch event with created task.
         $this->dispatcher->dispatch(
             Task::CREATED,
-            new TaskEvent($task)
+            new TaskEvent($this->task)
         );
+    }
+
+    /**
+     * @return void
+     */
+    private function saveTask()
+    {
+        $this->documentManager->persist($this->task);
+        $this->flushAndClearDocumentManager();
+    }
+
+    /**
+     * @return void
+     */
+    private function flushAndClearDocumentManager()
+    {
+        $this->documentManager->flush();
+        $this->documentManager->clear(Task::class);
     }
 }

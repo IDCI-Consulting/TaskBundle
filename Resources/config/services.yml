@@ -83,6 +83,8 @@ services:
         arguments:
             - "@idci_task.extract_rule_registry"
             - "@event_dispatcher"
+            - "@old_sound_rabbit_mq.extract_rule_producer"
+            - "%application_name%"
 
     idci_task.handler.action:
         class: IDCI\Bundle\TaskBundle\Handler\ActionHandler

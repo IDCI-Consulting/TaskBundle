@@ -81,6 +81,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
     public function finishTask(TaskEvent $event)
     {
         $event->getTask()->setEndedAt(new \Datetime('now'));
+
         $this->documentManager->flush();
     }
 
@@ -134,6 +135,7 @@ class TaskEventSubscriber implements EventSubscriberInterface
     {
         $currentAction = $task->getCurrentAction();
         $currentAction->addStatus($status);
+
         $this->documentManager->flush();
     }
 }

@@ -6,7 +6,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
-use Ramsey\Uuid\Uuid;
 use IDCI\Bundle\TaskBundle\Event\DataExtractedEvent;
 
 class ExtractedDataSubscriber implements EventSubscriberInterface
@@ -56,14 +55,13 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
             ? $dataExtractedEvent->getData()
             : array(json_decode(json_encode($dataExtractedEvent->getData()), true));
 
-        $processKey = Uuid::uuid1()->toString();
 
         foreach ($extractedData as $data) {
             $this->taskProducer->publish(
                 serialize(array(
                     'data' => array('extracted_data' => $data),
                     'task_configuration' => $dataExtractedEvent->getTaskConfiguration(),
-                    'process_key' => $processKey,
+                    'process_key' => $dataExtractedEvent->getProcessKey(),
                     'task_count' => $dataExtractedEvent->getTotalCount(),
                 )),
                 $this->applicationName

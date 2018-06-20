@@ -37,9 +37,9 @@ class ActionConsumer implements ConsumerInterface
         try {
             $options = unserialize($msg->getBody());
 
-            $this->documentManager->clear('IDCI\Bundle\TaskBundle\Document\Task');
+            $this->documentManager->clear(Task::class);
 
-            $task = $this->documentManager->getRepository('IDCITaskBundle:Task')->find($options['task_id']);
+            $task = $this->documentManager->getRepository(Task::class)->find($options['task_id']);
 
             $this->actionHandler->execute($task);
 

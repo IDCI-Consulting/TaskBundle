@@ -8,9 +8,7 @@ use IDCI\Bundle\TaskBundle\Handler\ExtractRuleHandler;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
 use Doctrine\ORM\EntityManager;
 
-class ExtractRuleConsumer implements ConsumerInterface
-{
-    /**
+class ExtractRuleConsumer implements ConsumerInterface { /**
      * @var ExtractRuleRegistry
      */
     protected $extractRuleRegistry;
@@ -49,8 +47,17 @@ class ExtractRuleConsumer implements ConsumerInterface
     {
         $options = unserialize($msg->getBody());
 
+        $args = array($options['task_configuration']);
+
         try {
-            $this->extractRuleHandler->execute($options['task_configuration']);
+            if (isset($options['process_key'], $options['offset'])) {
+                $args = array_merge($args, array(
+                    $options['offset'],
+                    $options['process_key']
+                ));
+            }
+
+            call_user_func_array(array($this->extractRuleHandler, 'execute'), $args);
 
             return ConsumerInterface::MSG_ACK;
         } catch (\Exception $e) {
