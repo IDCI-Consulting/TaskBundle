@@ -22,7 +22,7 @@ abstract class PostAction extends AbstractAction
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setRequired('process_key')
+            ->setDefined('process_key')
             ->setAllowedTypes('process_key', array('string'));
     }
 }
