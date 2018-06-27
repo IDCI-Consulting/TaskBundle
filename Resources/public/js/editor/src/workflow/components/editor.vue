@@ -39,16 +39,12 @@ export default {
 
 <style>
 
-.form-group .multiselect__tags {
-    background-color: transparent;
-    border-color: transparent;
-}
-
 .editor .form-group {
     flex-direction: column;
 }
 
-.editor .btn {
+.editor .btn, .editor .configuration-box.parameters .btn {
   float: right;
 }
+
 </style>

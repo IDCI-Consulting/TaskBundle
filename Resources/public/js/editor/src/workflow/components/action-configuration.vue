@@ -24,22 +24,21 @@
               :required-star="true"
               @change="updateParameter"
               ></parameter>
-            <v-collapse-wrapper v-if="hasOptionalParameters()">
-              <button type="button" style="display: block" class="btn btn-primary collapsed" v-collapse-toggle>
-                  Optional parameters
-              </button>
-              <div class="panel-collapse collapse" v-collapse-content>
-                  <parameter
-                    v-for="(parameterOption, parameterName) in optionalParameters"
-                    :key="parameterName"
-                    :name="parameterName"
-                    :option="parameterOption"
-                    :value="action.parameters[parameterName]"
-                    :required-star="true"
-                    @change="updateParameter"
-                  ></parameter>
-              </div>
-            </v-collapse-wrapper>
+            <button type="button" style="display: block; float: none;" class="btn btn-primary collapsed" v-b-toggle="this.id" v-if="hasOptionalParameters()">
+                Optional parameters
+            </button>
+            <div class="clear"></div>
+            <b-collapse :id="this.id">
+                <parameter
+                  v-for="(parameterOption, parameterName) in optionalParameters"
+                  :key="parameterName"
+                  :name="parameterName"
+                  :option="parameterOption"
+                  :value="action.parameters[parameterName]"
+                  :required-star="true"
+                  @change="updateParameter"
+                ></parameter>
+            </b-collapse>
         </div>
     </div>
 
@@ -65,7 +64,7 @@ export default {
 
     computed: {
         id: function () {
-            return 'action_parameters' + utils.generateUniqueId();
+            return 'action_parameters_' + utils.generateUniqueId();
         },
 
         action: function () {
@@ -178,8 +177,14 @@ export default {
 </script>
 
 <style>
+
     .configuration-box .form-group .error {
         color: #c9302c;
         padding: 5px;
     }
+
+    .editor .clear {
+        clear: both;
+    }
+
 </style>

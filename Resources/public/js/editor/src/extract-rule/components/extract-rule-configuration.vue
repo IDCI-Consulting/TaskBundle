@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <div class="parameters">
             <parameter
@@ -10,11 +11,11 @@
                 :required-star="true"
                 @change="updateParameterValue"
             ></parameter>
-            <v-collapse-wrapper v-if="hasOptionalParameters()">
-                <button type="button" style="display: block" class="btn btn-primary collapsed" v-collapse-toggle>
-                    Optional parameters
-                </button>
-                <div class="parameters" v-collapse-content>
+            <button type="button" style="display: block" class="btn btn-primary collapsed" v-b-toggle="this.id" v-if="hasOptionalParameters()">
+                Optional parameters
+            </button>
+            <b-collapse :id="this.id">
+                <div class="parameters">
                   <parameter
                     v-for="(option, name) in optionalParameters"
                     :key="name"
@@ -25,7 +26,7 @@
                     @change="updateParameterValue"
                   ></parameter>
                 </div>
-            </v-collapse-wrapper>
+            </b-collapse>
         </div>
     </div>
 
@@ -43,7 +44,7 @@ export default {
 
   computed: {
     id: function () {
-      return 'extract_rule_parameters' + utils.generateUniqueId();
+      return 'extract_rule_parameters_' + utils.generateUniqueId();
     },
     requiredParameters: function () {
       return utils.filterObject(this.getParameters(), function(element){
@@ -84,12 +85,15 @@ export default {
 </script>
 
 <style>
-.editor .collapsed {
+
+.editor .parameters .btn {
     float: none;
     margin-bottom: 10px;
 }
 
-.v-collapse-content.v-collapse-content-end {
+.collapse.show {
+    max-height: 500px;
     overflow: auto;
 }
+
 </style>

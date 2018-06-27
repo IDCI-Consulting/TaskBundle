@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import MultiSelect from 'vue-multiselect';
 import VueResource from 'vue-resource';
-import Collapse from 'vue2-collapse';
+import { Collapse } from 'bootstrap-vue/es/components';
 import {actions as commonActions, mutations as commonMutations, getters as commonGetters} from 'vue-editor-commons';
 import workflowEditor from './components/editor.vue';
 import workflowGetters from './store/getters.js';
