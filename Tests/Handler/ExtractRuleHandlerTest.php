@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use IDCI\Bundle\TaskBundle\Handler\ExtractRuleHandler;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleInterface;
+use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use IDCI\Bundle\TaskBundle\Model\TaskConfiguration;
 
 class ExtractRuleHandlerTest extends TestCase
@@ -25,6 +26,12 @@ class ExtractRuleHandlerTest extends TestCase
 
         $this->extractRule = $this
             ->getMockBuilder(ExtractRuleInterface::class)
+            ->setMethods(array('setParameters', 'extract', 'getTotalCount'))
+            ->getMock()
+        ;
+
+        $this->producer = $this
+            ->getMockBuilder(ProducerInterface::class)
             ->getMock()
         ;
 
@@ -126,7 +133,9 @@ class ExtractRuleHandlerTest extends TestCase
 
         $extractRuleHandler = new ExtractRuleHandler(
             $this->extractRuleRegistry,
-            $this->eventDispatcher
+            $this->eventDispatcher,
+            $this->producer,
+            'dummy application name'
         );
 
         $extractRuleHandler->execute($this->taskConfiguration);
