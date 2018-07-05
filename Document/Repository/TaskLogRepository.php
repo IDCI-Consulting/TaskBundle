@@ -7,7 +7,7 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class TaskLogRepository extends DocumentRepository
 {
     /**
-     * Find logs by the given task id
+     * Find logs by the given task id.
      *
      * @param string $taskId
      *
@@ -17,7 +17,7 @@ class TaskLogRepository extends DocumentRepository
     {
         $qb = $this
             ->createQueryBuilder()
-            ->field("context.task_id")
+            ->field('context.task_id')
             ->equals($taskId)
             ->sort('_id', 'asc')
         ;
@@ -26,7 +26,7 @@ class TaskLogRepository extends DocumentRepository
     }
 
     /**
-     * Find logs by the given task id
+     * Find logs by the given task id.
      *
      * @param string $taskId
      *
@@ -40,7 +40,7 @@ class TaskLogRepository extends DocumentRepository
     }
 
     /**
-     * Find logs by the given task id
+     * Find logs by the given task id.
      *
      * @param string $taskId
      *
@@ -50,6 +50,6 @@ class TaskLogRepository extends DocumentRepository
     {
         $q = $this->findByTaskIdQuery($taskId);
 
-        return is_null($q)? array() : $q->execute();
+        return is_null($q) ? array() : $q->execute();
     }
 }

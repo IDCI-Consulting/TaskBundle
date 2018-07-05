@@ -63,7 +63,7 @@ class ExtractRuleHandler
     }
 
     /**
-     * Execute all extract rules and log for each
+     * Execute all extract rules and log for each.
      *
      * @param AbstractTaskConfiguration $taskConfiguration
      * @param int                       $offset
@@ -93,12 +93,12 @@ class ExtractRuleHandler
     }
 
     /**
-     * Process data extraction
+     * Process data extraction.
      *
      * @param ExtractRuleInterface $extractRule
      * @param int                  $offset
      *
-     * @return int                 Count of extracted data.
+     * @return int count of extracted data
      */
     public function processExtraction(ExtractRuleInterface $extractRule, $offset)
     {

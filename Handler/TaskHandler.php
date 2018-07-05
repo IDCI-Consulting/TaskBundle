@@ -42,17 +42,18 @@ class TaskHandler
         DocumentManager          $documentManager,
         EventDispatcherInterface $dispatcher
     ) {
-        $this->taskFactory     = $taskFactory;
+        $this->taskFactory = $taskFactory;
         $this->documentManager = $documentManager;
-        $this->dispatcher      = $dispatcher;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
-     * Handle a task
+     * Handle a task.
      *
      * @param array $options
      */
-    public function execute($options) {
+    public function execute($options)
+    {
         $this->task = $this->taskFactory->create($options);
 
         $this->saveTask();
@@ -69,18 +70,12 @@ class TaskHandler
         );
     }
 
-    /**
-     * @return void
-     */
     private function saveTask()
     {
         $this->documentManager->persist($this->task);
         $this->flushAndClearDocumentManager();
     }
 
-    /**
-     * @return void
-     */
     private function flushAndClearDocumentManager()
     {
         $this->documentManager->flush();

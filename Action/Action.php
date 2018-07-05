@@ -6,10 +6,6 @@
 
 namespace IDCI\Bundle\TaskBundle\Action;
 
-use IDCI\Bundle\TaskBundle\Exception\InvalidActionDataException;
-use IDCI\Bundle\TaskBundle\Document\Task;
-use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
-
 class Action
 {
     /**
@@ -38,17 +34,17 @@ class Action
     protected $parameters;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $configuration
      */
     public function __construct(array $configuration)
     {
-        $this->name        = $configuration['name'];
-        $this->parent      = $configuration['parent'];
+        $this->name = $configuration['name'];
+        $this->parent = $configuration['parent'];
         $this->description = $configuration['description'];
-        $this->abstract    = $configuration['abstract'];
-        $this->parameters  = $configuration['parameters'];
+        $this->abstract = $configuration['abstract'];
+        $this->parameters = $configuration['parameters'];
     }
 
     /**

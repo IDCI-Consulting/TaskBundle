@@ -9,7 +9,7 @@ use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 class TaskRepository extends DocumentRepository
 {
     /**
-     * Find tasks by status query builder
+     * Find tasks by status query builder.
      *
      * @param string $status
      *
@@ -30,7 +30,7 @@ class TaskRepository extends DocumentRepository
     }
 
     /**
-     * Find tasks by status
+     * Find tasks by status.
      *
      * @param string $status
      *
@@ -44,7 +44,7 @@ class TaskRepository extends DocumentRepository
     }
 
     /**
-     * Find unconfigured tasks status query builder
+     * Find unconfigured tasks status query builder.
      *
      * @return QueryBuilder
      */
@@ -59,7 +59,7 @@ class TaskRepository extends DocumentRepository
     }
 
     /**
-     * Find unconfigured tasks status
+     * Find unconfigured tasks status.
      *
      * @return array
      */

@@ -28,11 +28,12 @@ class Action
     {
         $this->statuses = new ArrayCollection();
     }
-    
+
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return $this
      */
     public function setName($name)
@@ -43,7 +44,7 @@ class Action
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -72,7 +73,7 @@ class Action
     }
 
     /**
-     * Remove status
+     * Remove status.
      *
      * @param ActionStatus $status
      *
@@ -86,7 +87,7 @@ class Action
     }
 
     /**
-     * Get statuses
+     * Get statuses.
      *
      * @return ArrayCollection $statuses
      */
@@ -96,7 +97,7 @@ class Action
     }
 
     /**
-     * Get current status
+     * Get current status.
      *
      * @return ActionStatus
      */

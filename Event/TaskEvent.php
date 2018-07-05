@@ -8,7 +8,7 @@ use IDCI\Bundle\TaskBundle\Document\Task;
 class TaskEvent extends Event
 {
     /**
-     * @var Task $task
+     * @var Task
      */
     protected $task;
 

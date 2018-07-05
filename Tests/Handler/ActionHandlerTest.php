@@ -134,9 +134,9 @@ class ActionHandlerTest extends TestCase
         $task = self::createTask();
 
         $task->getConfiguration()->setWorkflow(array(
-            "name" => "workflow_1",
-            "first_action_name" => "generated_document",
-            "flows" => array()
+            'name' => 'workflow_1',
+            'first_action_name' => 'generated_document',
+            'flows' => array(),
         ));
 
         $actionData = 'Dummy value returned by action execute method';
@@ -251,19 +251,19 @@ class ActionHandlerTest extends TestCase
         $configuration = new Configuration();
         $configuration
             ->setWorkflow(array(
-                "name" => "workflow_1",
-                "first_action_name" => "generated_document",
-                "flows" => array(
-                    "generated_document" => array(
-                        "next" => array(
+                'name' => 'workflow_1',
+                'first_action_name' => 'generated_document',
+                'flows' => array(
+                    'generated_document' => array(
+                        'next' => array(
                             array(
-                                "name" => "participation_notification",
-                                "condition" => "{{ extracted_data.id|default(false) ? 1 : 0 }}"
+                                'name' => 'participation_notification',
+                                'condition' => '{{ extracted_data.id|default(false) ? 1 : 0 }}',
                             ),
                         ),
-                        "default_next" => "participation_notification_2"
-                    )
-                )
+                        'default_next' => 'participation_notification_2',
+                    ),
+                ),
             ))
             ->setActions(array(
                 array(
@@ -272,9 +272,9 @@ class ActionHandlerTest extends TestCase
                     'parameters' => array(
                         'document_id' => 'test-task',
                         'data' => array(
-                            'firstname' => 'Dummy'
-                        )
-                    )
+                            'firstname' => 'Dummy',
+                        ),
+                    ),
                 ),
                 array(
                     'name' => 'participation_notification',
@@ -284,7 +284,7 @@ class ActionHandlerTest extends TestCase
                         'subject' => 'participation {{ extracted_data.id }}',
                         'htmlMessage' => 'Blabla',
                         'to' => 'dummy@dummy.com',
-                    )
+                    ),
                 ),
                 array(
                     'name' => 'participation_notification_2',
@@ -294,7 +294,7 @@ class ActionHandlerTest extends TestCase
                         'subject' => 'participation {{ extracted_data.id }}',
                         'htmlMessage' => '{{ action_data.generated_document }}',
                         'to' => 'dummy@dummy.com',
-                    )
+                    ),
                 ),
             ))
         ;
@@ -305,7 +305,7 @@ class ActionHandlerTest extends TestCase
                 'id' => 'dummy_id',
             ))
             ->setActionData(array(
-                'generated_document' => 'dummy_content'
+                'generated_document' => 'dummy_content',
             ))
         ;
 

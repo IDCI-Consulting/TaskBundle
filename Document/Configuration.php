@@ -32,9 +32,10 @@ class Configuration
     private $task;
 
     /**
-     * Set workflow
+     * Set workflow.
      *
      * @param array $workflow
+     *
      * @return $this
      */
     public function setWorkflow($workflow)
@@ -45,7 +46,7 @@ class Configuration
     }
 
     /**
-     * Get workflow
+     * Get workflow.
      *
      * @return array $workflow
      */
@@ -55,9 +56,10 @@ class Configuration
     }
 
     /**
-     * Set actions
+     * Set actions.
      *
      * @param array $actions
+     *
      * @return $this
      */
     public function setActions($actions)
@@ -68,7 +70,7 @@ class Configuration
     }
 
     /**
-     * Get actions
+     * Get actions.
      *
      * @return array $actions
      */
@@ -78,7 +80,7 @@ class Configuration
     }
 
     /**
-     * Get first action from workflow
+     * Get first action from workflow.
      *
      * @return string
      */
@@ -98,11 +100,12 @@ class Configuration
     }
 
     /**
-     * Return the action by name
+     * Return the action by name.
      *
      * @param string $name
      *
      * @return array
+     *
      * @throws ActionNotFoundException
      */
     public function getAction($name)

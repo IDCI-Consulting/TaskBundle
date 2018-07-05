@@ -3,8 +3,6 @@
 namespace IDCI\Bundle\TaskBundle\Event\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use IDCI\Bundle\TaskBundle\Event\DataExtractedEvent;
 
@@ -24,7 +22,7 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
      * Constructor.
      *
      * @param ProducerInterface $taskProducer
-     * @param string $applicationName
+     * @param string            $applicationName
      */
     public function __construct(ProducerInterface $taskProducer, $applicationName)
     {
@@ -40,7 +38,7 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
         return array(
             DataExtractedEvent::NAME => array(
                 array('startTasks'),
-            )
+            ),
         );
     }
 
@@ -54,7 +52,6 @@ class ExtractedDataSubscriber implements EventSubscriberInterface
         $extractedData = is_array($dataExtractedEvent->getData())
             ? $dataExtractedEvent->getData()
             : array(json_decode(json_encode($dataExtractedEvent->getData()), true));
-
 
         foreach ($extractedData as $data) {
             $this->taskProducer->publish(
