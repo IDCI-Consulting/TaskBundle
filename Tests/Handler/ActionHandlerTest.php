@@ -144,7 +144,7 @@ class ActionHandlerTest extends TestCase
         $action = $task->getConfiguration()->getAction($task->getActions()->first()->getName());
 
         $this->eventDispatcher
-            ->expects($this->exactly(2))
+            ->expects($this->any())
             ->method('dispatch')
             ->withConsecutive(
                 array($this->equalTo(ActionStatus::RUNNING), $this->equalTo(new TaskEvent($task))),
