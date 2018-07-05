@@ -21,6 +21,7 @@ use IDCI\Bundle\TaskBundle\Document\Action;
 use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 class ActionHandlerTest extends TestCase
 {
@@ -29,6 +30,7 @@ class ActionHandlerTest extends TestCase
     private $actionHandler;
     private $action;
     private $merger;
+    private $documentManager;
     private $logger;
     private $taskLogProcessor;
     private $eventDispatcher;
@@ -70,8 +72,14 @@ class ActionHandlerTest extends TestCase
             ->getMock()
         ;
 
+        $this->documentManager = $this
+            ->getMockBuilder(DocumentManager::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
         $this->merger = new \Twig_Environment(new \Twig_Loader_Array());
-        $this->workflowHandler = new WorkflowHandler($this->merger);
+        $this->workflowHandler = new WorkflowHandler($this->merger, $this->documentManager);
 
         $this->actionHandler = new ActionHandler(
             $this->actionRegistry,
