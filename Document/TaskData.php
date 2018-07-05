@@ -24,9 +24,10 @@ class TaskData
     private $actionData = array();
 
     /**
-     * Set extractedData
+     * Set extractedData.
      *
      * @param array $extractedData
+     *
      * @return $this
      */
     public function setExtractedData($extractedData)
@@ -40,7 +41,7 @@ class TaskData
     }
 
     /**
-     * Get extractedData
+     * Get extractedData.
      *
      * @return array $extractedData
      */
@@ -50,9 +51,10 @@ class TaskData
     }
 
     /**
-     * Set actionData
+     * Set actionData.
      *
      * @param array $actionData
+     *
      * @return $this
      */
     public function setActionData($actionData)
@@ -66,7 +68,7 @@ class TaskData
     }
 
     /**
-     * Get actionData
+     * Get actionData.
      *
      * @return array $actionData
      */

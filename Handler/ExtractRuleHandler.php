@@ -34,7 +34,7 @@ class ExtractRuleHandler
     }
 
     /**
-     * Execute all extract rules and log for each
+     * Execute all extract rules and log for each.
      *
      * @param AbstractTaskConfiguration $taskConfiguration
      */

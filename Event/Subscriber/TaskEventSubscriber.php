@@ -22,10 +22,10 @@ class TaskEventSubscriber implements EventSubscriberInterface
     protected $documentManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ProducerInterface $actionProducer
-     * @param DocumentManager $documentManager
+     * @param DocumentManager   $documentManager
      */
     public function __construct(ProducerInterface $actionProducer, DocumentManager $documentManager)
     {
@@ -46,16 +46,16 @@ class TaskEventSubscriber implements EventSubscriberInterface
                 array('finishTask'),
             ),
             ActionStatus::PENDING => array(
-                array('onPendingEvent')
+                array('onPendingEvent'),
             ),
             ActionStatus::RUNNING => array(
-                array('onRunningEvent')
+                array('onRunningEvent'),
             ),
             ActionStatus::PASSED => array(
-                array('onPassedEvent')
+                array('onPassedEvent'),
             ),
             ActionStatus::ERROR => array(
-                array('onErrorEvent')
+                array('onErrorEvent'),
             ),
         );
     }

@@ -6,7 +6,6 @@ use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use IDCI\Bundle\TaskBundle\Handler\ExtractRuleHandler;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
-use Doctrine\ORM\EntityManager;
 
 class ExtractRuleConsumer implements ConsumerInterface
 {
@@ -37,8 +36,8 @@ class ExtractRuleConsumer implements ConsumerInterface
         ExtractRuleHandler  $extractRuleHandler,
         $taskConfigurationClass
     ) {
-        $this->extractRuleRegistry    = $extractRuleRegistry;
-        $this->extractRuleHandler     = $extractRuleHandler;
+        $this->extractRuleRegistry = $extractRuleRegistry;
+        $this->extractRuleHandler = $extractRuleHandler;
         $this->taskConfigurationClass = $taskConfigurationClass;
     }
 

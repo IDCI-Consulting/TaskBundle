@@ -6,8 +6,6 @@
 
 namespace IDCI\Bundle\TaskBundle\ExtractRule;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 class ExtractRule
 {
     /**
@@ -31,16 +29,16 @@ class ExtractRule
     protected $parameters;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $configuration
      */
     public function __construct(array $configuration)
     {
-        $this->name        = $configuration['name'];
-        $this->parent      = $configuration['parent'];
+        $this->name = $configuration['name'];
+        $this->parent = $configuration['parent'];
         $this->description = $configuration['description'];
-        $this->parameters  = $configuration['parameters'];
+        $this->parameters = $configuration['parameters'];
     }
 
     /**

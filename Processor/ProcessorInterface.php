@@ -14,7 +14,7 @@ interface ProcessorInterface
 
     /**
      * @param string $actionService
-     * @param array $data
+     * @param array  $data
      */
     public function startTask($actionService, $data = array());
 

@@ -37,13 +37,13 @@ class TaskHandler
         DocumentManager          $documentManager,
         EventDispatcherInterface $dispatcher
     ) {
-        $this->taskFactory     = $taskFactory;
+        $this->taskFactory = $taskFactory;
         $this->documentManager = $documentManager;
-        $this->dispatcher      = $dispatcher;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
-     * Handle a task
+     * Handle a task.
      *
      * @param array $options
      */

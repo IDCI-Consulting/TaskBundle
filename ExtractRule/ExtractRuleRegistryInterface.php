@@ -33,7 +33,7 @@ interface ExtractRuleRegistryInterface
      * @return ExtractRuleInterface
      *
      * @throws \IDCI\Bundle\TaskBundle\Exception\UnexpectedTypeException if the passed alias is not a string
-     * @throws \InvalidArgumentException                                if the type can not be retrieved
+     * @throws \InvalidArgumentException                                 if the type can not be retrieved
      */
     public function getRule($alias);
 

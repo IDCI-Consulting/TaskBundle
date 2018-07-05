@@ -8,10 +8,7 @@ use IDCI\Bundle\AssetLoaderBundle\Model\AssetCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use IDCI\Bundle\ConfigurationValidatorBundle\Validator\Constraints\CheckConfiguration;
-use IDCI\Bundle\TaskBundle\Validator\Constraints as IDCITaskConstraint;
 
 class ExtractRuleEditorType extends AbstractType implements AssetProviderInterface
 {
@@ -29,7 +26,7 @@ class ExtractRuleEditorType extends AbstractType implements AssetProviderInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAssetCollection()
     {
@@ -41,20 +38,20 @@ class ExtractRuleEditorType extends AbstractType implements AssetProviderInterfa
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-       $this->assetCollection->add(new Asset('IDCITaskBundle:Form:extract_rule_editor_assets.html.twig', array(), 0));
-       $this->assetCollection->add(new Asset('IDCITaskBundle:Form:extract_rule_editor_configuration.html.twig', array(
+        $this->assetCollection->add(new Asset('IDCITaskBundle:Form:extract_rule_editor_assets.html.twig', array(), 0));
+        $this->assetCollection->add(new Asset('IDCITaskBundle:Form:extract_rule_editor_configuration.html.twig', array(
            'options' => $options,
-           'form'    => $view
+           'form' => $view,
        ), 1));
 
         $attrClass = 'extract-rule-editor';
 
         if (isset($options['attr']) && isset($options['attr']['class'])) {
-            $attrClass .= ' ' . $options['attr']['class'];
+            $attrClass .= ' '.$options['attr']['class'];
         }
 
         $view->vars['attr']['class'] = $attrClass;
-        $view->vars['attr']['data-configuration-variable']  = $view->vars['id'] . '_configuration';
+        $view->vars['attr']['data-configuration-variable'] = $view->vars['id'].'_configuration';
 
         return $view->vars;
     }

@@ -23,6 +23,7 @@ class WorkflowHandlerTest extends TestCase
             ->getMock()
         ;
     }
+
     public function testGetNextActions()
     {
         $task = ActionHandlerTest::createTask();

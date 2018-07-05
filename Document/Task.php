@@ -8,7 +8,6 @@ namespace IDCI\Bundle\TaskBundle\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Ramsey\Uuid\Uuid;
 use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
 
 /**
@@ -115,7 +114,7 @@ class Task
     private $taskCount;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $source
      */
@@ -130,7 +129,7 @@ class Task
     }
 
     /**
-     * Create a task from a task configuration
+     * Create a task from a task configuration.
      *
      * @param string                    $source
      * @param string                    $processKey
@@ -178,7 +177,7 @@ class Task
             ->addStatus(ActionStatus::PENDING)
         ;
 
-        $task = new Task($source);
+        $task = new self($source);
         $task
             ->setProcessKey($processKey)
             ->setTaskCount($taskCount)
@@ -191,7 +190,7 @@ class Task
     }
 
     /**
-     * Create a task from a single action
+     * Create a task from a single action.
      *
      * @param string $source
      * @param string $processKey
@@ -217,7 +216,7 @@ class Task
             ->setName($actionServiceName)
             ->addStatus(ActionStatus::PENDING);
 
-        $task = new Task($source);
+        $task = new self($source);
         $task
             ->setProcessKey($processKey)
             ->addAction($action)
@@ -228,7 +227,7 @@ class Task
     }
 
     /**
-     * To string
+     * To string.
      *
      * @return string
      */
@@ -238,7 +237,7 @@ class Task
     }
 
     /**
-     * On pre update
+     * On pre update.
      *
      * @ODM\PreUpdate()
      */
@@ -252,7 +251,7 @@ class Task
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return string $id
      */
@@ -262,7 +261,7 @@ class Task
     }
 
     /**
-     * Get source
+     * Get source.
      *
      * @return string $source
      */
@@ -272,9 +271,10 @@ class Task
     }
 
     /**
-     * Set configuration
+     * Set configuration.
      *
      * @param array $configuration
+     *
      * @return $this
      */
     public function setConfiguration($configuration)
@@ -285,7 +285,7 @@ class Task
     }
 
     /**
-     * Get configuration
+     * Get configuration.
      *
      * @return array $configuration
      */
@@ -295,9 +295,10 @@ class Task
     }
 
     /**
-     * Set data
+     * Set data.
      *
      * @param TaskData $data
+     *
      * @return $this
      */
     public function setData(TaskData $data)
@@ -308,7 +309,7 @@ class Task
     }
 
     /**
-     * Get data
+     * Get data.
      *
      * @return TaskData $data
      */
@@ -346,6 +347,7 @@ class Task
      * Insert the action in first position to build the mongo query more easily.
      *
      * @param Action $action
+     *
      * @return $this
      */
     public function addAction(Action $action)
@@ -359,9 +361,10 @@ class Task
     }
 
     /**
-     * Remove action
+     * Remove action.
      *
      * @param Action $action
+     *
      * @return $this
      */
     public function removeAction(Action $action)
@@ -372,7 +375,7 @@ class Task
     }
 
     /**
-     * Get actions
+     * Get actions.
      *
      * @return ArrayCollection $actions
      */
@@ -382,7 +385,7 @@ class Task
     }
 
     /**
-     * Get current action
+     * Get current action.
      *
      * @return Action
      */
@@ -392,7 +395,7 @@ class Task
     }
 
     /**
-     * Get the status of the task
+     * Get the status of the task.
      *
      * The status of a task is equivalent to the last status of the last action
      *
@@ -404,7 +407,7 @@ class Task
     }
 
     /**
-     * Set the status of the task
+     * Set the status of the task.
      *
      * @param string $status
      *
@@ -418,7 +421,7 @@ class Task
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \Datetime $createdAt
      */
@@ -428,7 +431,7 @@ class Task
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \Datetime $updatedAt
      */
@@ -438,7 +441,7 @@ class Task
     }
 
     /**
-     * Set endedAt
+     * Set endedAt.
      *
      * @param \Datetime $endedAt
      *
@@ -452,7 +455,7 @@ class Task
     }
 
     /**
-     * Get endedAt
+     * Get endedAt.
      *
      * @return \Datetime
      */
@@ -462,7 +465,7 @@ class Task
     }
 
     /**
-     * Set processKey
+     * Set processKey.
      *
      * @param string $processKey
      *
@@ -480,7 +483,7 @@ class Task
     }
 
     /**
-     * Get processKey
+     * Get processKey.
      *
      * @return string
      */
@@ -490,7 +493,7 @@ class Task
     }
 
     /**
-     * Set taskCount
+     * Set taskCount.
      *
      * @param string $taskCount
      *
@@ -504,7 +507,7 @@ class Task
     }
 
     /**
-     * Get taskCount
+     * Get taskCount.
      *
      * @return string
      */
