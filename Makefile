@@ -62,11 +62,15 @@ phpdcd:
 	docker run --rm -i -v `pwd`:/project jolicode/phaudit bash -c "phpdcd $(php_sources); exit $$?"
 
 .PHONY: phpcs-fix
-phpcs-fix:
-	docker run --rm -i -v `pwd`:`pwd` -w `pwd` grachev/php-cs-fixer --rules=@Symfony --verbose fix $(sources)
+phpcs-fix:	
+	docker run --rm -i -v `pwd`:`pwd` -w `pwd` grachev/php-cs-fixer --rules=@Symfony --verbose fix $(php_sources)
 
 # Symfony bundle commands
 
 .PHONY: phpunit
 phpunit: ./vendor/bin/phpunit
 	docker-compose run --rm php ./vendor/bin/phpunit --coverage-text
+
+.PHONY: phpunit-html
+phpunit-html: ./vendor/bin/phpunit
+	docker-compose run --rm php ./vendor/bin/phpunit --coverage-html="vendor/coverage-html"

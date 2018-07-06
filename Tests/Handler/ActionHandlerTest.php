@@ -21,6 +21,7 @@ use IDCI\Bundle\TaskBundle\Document\Action;
 use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 class ActionHandlerTest extends TestCase
 {
@@ -29,6 +30,7 @@ class ActionHandlerTest extends TestCase
     private $actionHandler;
     private $action;
     private $merger;
+    private $documentManager;
     private $logger;
     private $taskLogProcessor;
     private $eventDispatcher;
@@ -70,8 +72,14 @@ class ActionHandlerTest extends TestCase
             ->getMock()
         ;
 
+        $this->documentManager = $this
+            ->getMockBuilder(DocumentManager::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
         $this->merger = new \Twig_Environment(new \Twig_Loader_Array());
-        $this->workflowHandler = new WorkflowHandler($this->merger);
+        $this->workflowHandler = new WorkflowHandler($this->merger, $this->documentManager);
 
         $this->actionHandler = new ActionHandler(
             $this->actionRegistry,
@@ -126,9 +134,9 @@ class ActionHandlerTest extends TestCase
         $task = self::createTask();
 
         $task->getConfiguration()->setWorkflow(array(
-            "name" => "workflow_1",
-            "first_action_name" => "generated_document",
-            "flows" => array()
+            'name' => 'workflow_1',
+            'first_action_name' => 'generated_document',
+            'flows' => array(),
         ));
 
         $actionData = 'Dummy value returned by action execute method';
@@ -136,7 +144,7 @@ class ActionHandlerTest extends TestCase
         $action = $task->getConfiguration()->getAction($task->getActions()->first()->getName());
 
         $this->eventDispatcher
-            ->expects($this->exactly(2))
+            ->expects($this->any())
             ->method('dispatch')
             ->withConsecutive(
                 array($this->equalTo(ActionStatus::RUNNING), $this->equalTo(new TaskEvent($task))),
@@ -243,19 +251,19 @@ class ActionHandlerTest extends TestCase
         $configuration = new Configuration();
         $configuration
             ->setWorkflow(array(
-                "name" => "workflow_1",
-                "first_action_name" => "generated_document",
-                "flows" => array(
-                    "generated_document" => array(
-                        "next" => array(
+                'name' => 'workflow_1',
+                'first_action_name' => 'generated_document',
+                'flows' => array(
+                    'generated_document' => array(
+                        'next' => array(
                             array(
-                                "name" => "participation_notification",
-                                "condition" => "{{ extracted_data.id|default(false) ? 1 : 0 }}"
+                                'name' => 'participation_notification',
+                                'condition' => '{{ extracted_data.id|default(false) ? 1 : 0 }}',
                             ),
                         ),
-                        "default_next" => "participation_notification_2"
-                    )
-                )
+                        'default_next' => 'participation_notification_2',
+                    ),
+                ),
             ))
             ->setActions(array(
                 array(
@@ -264,9 +272,9 @@ class ActionHandlerTest extends TestCase
                     'parameters' => array(
                         'document_id' => 'test-task',
                         'data' => array(
-                            'firstname' => 'Dummy'
-                        )
-                    )
+                            'firstname' => 'Dummy',
+                        ),
+                    ),
                 ),
                 array(
                     'name' => 'participation_notification',
@@ -276,7 +284,7 @@ class ActionHandlerTest extends TestCase
                         'subject' => 'participation {{ extracted_data.id }}',
                         'htmlMessage' => 'Blabla',
                         'to' => 'dummy@dummy.com',
-                    )
+                    ),
                 ),
                 array(
                     'name' => 'participation_notification_2',
@@ -286,7 +294,7 @@ class ActionHandlerTest extends TestCase
                         'subject' => 'participation {{ extracted_data.id }}',
                         'htmlMessage' => '{{ action_data.generated_document }}',
                         'to' => 'dummy@dummy.com',
-                    )
+                    ),
                 ),
             ))
         ;
@@ -297,7 +305,7 @@ class ActionHandlerTest extends TestCase
                 'id' => 'dummy_id',
             ))
             ->setActionData(array(
-                'generated_document' => 'dummy_content'
+                'generated_document' => 'dummy_content',
             ))
         ;
 

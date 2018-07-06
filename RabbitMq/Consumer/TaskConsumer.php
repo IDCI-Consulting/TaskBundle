@@ -2,7 +2,6 @@
 
 namespace IDCI\Bundle\TaskBundle\RabbitMq\Consumer;
 
-use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\TaskBundle\Handler\TaskHandler;
 use PhpAmqpLib\Message\AMQPMessage;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;

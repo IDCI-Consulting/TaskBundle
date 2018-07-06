@@ -13,12 +13,12 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use FOS\RestBundle\Controller\Annotations\Post;
 
 /**
- * TaskConfiguration API REST controller
+ * TaskConfiguration API REST controller.
  */
 class ApiStartTasksController extends Controller
 {
     /**
-     * [POST] /start-tasks/{taskConfigurationId}
+     * [POST] /start-tasks/{taskConfigurationId}.
      *
      * Start tasks from a configuration
      * The HTTP method used here might be controversial, as we are not treating resources, but starting process

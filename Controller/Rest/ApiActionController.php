@@ -6,22 +6,14 @@
 
 namespace IDCI\Bundle\TaskBundle\Controller\Rest;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Controller\Annotations\Route;
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
-use JMS\Serializer\SerializationContext;
-use Doctrine\Common\Inflector\Inflector;
-use IDCI\Bundle\RestBundle\Formatter\AbstractHypermediaFormatter;
 
 /**
- * Action API REST controller
+ * Action API REST controller.
  */
 class ApiActionController extends FOSRestController
 {

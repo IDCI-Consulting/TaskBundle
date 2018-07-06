@@ -37,7 +37,7 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * addActionsNode
+     * addActionsNode.
      *
      * @return ArrayNodeDefinition|NodeDefinition
      */
@@ -74,7 +74,7 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * addExtraRulesNode
+     * addExtraRulesNode.
      *
      * @return ArrayNodeDefinition|NodeDefinition
      */

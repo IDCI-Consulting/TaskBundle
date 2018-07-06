@@ -60,7 +60,7 @@ class ActionHandler
     protected $taskLogProcessor;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ActionRegistry           $registry
      * @param EventDispatcherInterface $dispatcher
@@ -97,8 +97,8 @@ class ActionHandler
     {
         if ($task->getConfiguration() === null) {
             $currentAction = array(
-                'service'    => $task->getCurrentAction()->getName(),
-                'name'       => $task->getCurrentAction()->getName(),
+                'service' => $task->getCurrentAction()->getName(),
+                'name' => $task->getCurrentAction()->getName(),
                 'parameters' => $task->getData()->getExtractedData(),
             );
         } else {
@@ -136,7 +136,7 @@ class ActionHandler
                 ->registry
                 ->getAction($currentAction['service'])
                 ->execute($task, $currentAction['parameters']);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->setErroredTask($task, $e->getMessage());
 
             return;
