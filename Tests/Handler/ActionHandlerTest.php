@@ -22,6 +22,7 @@ use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use IDCI\Bundle\TaskBundle\Event\TaskEvent;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use IDCI\Bundle\TaskBundle\Document\Repository\TaskRepository;
 
 class ActionHandlerTest extends TestCase
 {
@@ -74,6 +75,12 @@ class ActionHandlerTest extends TestCase
 
         $this->documentManager = $this
             ->getMockBuilder(DocumentManager::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->repository = $this
+            ->getMockBuilder(TaskRepository::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
@@ -137,11 +144,24 @@ class ActionHandlerTest extends TestCase
             'name' => 'workflow_1',
             'first_action_name' => 'generated_document',
             'flows' => array(),
+            'post_process' => array(),
         ));
 
         $actionData = 'Dummy value returned by action execute method';
 
         $action = $task->getConfiguration()->getAction($task->getActions()->first()->getName());
+
+        $this->documentManager
+            ->expects($this->any())
+            ->method('getRepository')
+            ->will($this->returnValue($this->repository))
+        ;
+
+        $this->repository
+            ->expects($this->any())
+            ->method('getEndedTaskCountByProcessKey')
+            ->will($this->returnValue(array(array('task_count' => 5))))
+        ;
 
         $this->eventDispatcher
             ->expects($this->any())
