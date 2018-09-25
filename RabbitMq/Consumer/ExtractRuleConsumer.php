@@ -45,9 +45,11 @@ class ExtractRuleConsumer implements ConsumerInterface { /**
      */
     public function execute(AMQPMessage $msg)
     {
+        $totalCount = 0;
         $options = unserialize($msg->getBody());
 
-        $reEnqueue = $options['re_enqueue'] ? true : false;
+        $reEnqueue = isset($options['re_enqueue']) ? true : false;
+
         $args = array(
             $options['task_configuration'],
             $reEnqueue,
@@ -58,6 +60,12 @@ class ExtractRuleConsumer implements ConsumerInterface { /**
                 $args = array_merge($args, array(
                     $options['offset'],
                     $options['process_key']
+                ));
+            }
+
+            if (isset($options['total_count'])) {
+                $args = array_merge($args, array(
+                    $options['total_count'],
                 ));
             }
 

@@ -71,24 +71,33 @@ class ExtractRuleHandler
      * @param int                       $offset
      * @param string                    $processKey
      */
-    public function execute(AbstractTaskConfiguration $taskConfiguration, $reEnqueue, $offset = 0, $processKey = null)
-    {
+    public function execute(
+        AbstractTaskConfiguration $taskConfiguration,
+        $reEnqueue,
+        $offset = 0,
+        $processKey = null,
+        $totalCount = 0
+    ) {
         $this->extractRuleConfiguration = json_decode($taskConfiguration->getExtractRule(), true);
 
         $extractRule = $this->registry->getRule($this->extractRuleConfiguration['service']);
 
         $resolver = new OptionsResolver();
         $extractRule->configureParameters($resolver);
-        $resolvedParameters = $resolver->resolve($this->extractRuleConfiguration['parameters']);
+        $parameters = $resolver->resolve($this->extractRuleConfiguration['parameters']);
 
         if (null === $processKey) {
             $processKey = Uuid::uuid1()->toString();
         }
 
         if (!$extractRule->isSynchronous() && !$reEnqueue) {
-            $this->processBatch($extractRule, $resolvedParameters, $processKey);
+            $this->processBatch($taskConfiguration, $extractRule, $parameters, $processKey);
 
             return;
+        }
+
+        if (0 === $totalCount) {
+            $totalCount = $extractRule->getTotalCount($parameters);
         }
 
         $this->extractedData = $extractRule->extract($parameters, $offset);
@@ -140,16 +149,16 @@ class ExtractRuleHandler
         }
     }
 
-    private function processBatch($extractRule, $parameters, $processKey)
+    private function processBatch($taskConfiguration, $extractRule, $parameters, $processKey)
     {
         $offset = 0;
         $totalCount = $extractRule->getTotalCount($parameters);
         $batchSize = $extractRule->getBatchSize();
 
-        $iterations = ceil($totalCount / $batchSize);
+        $batchCount = ceil($totalCount / $batchSize);
 
-        foreach ($i = 0; $i < $iterations; $i++) {
-            $this->reEnqueue($taskConfiguration, $offset, $processKey);
+        for ($i = 0; $i < $batchCount; $i++) {
+            $this->reEnqueue($taskConfiguration, $offset, $processKey, $totalCount);
 
             $offset += $batchSize;
         }
@@ -162,7 +171,7 @@ class ExtractRuleHandler
      * @param int                       $offset
      * @param string                    $processKey
      */
-    private function reEnqueue(AbstractTaskConfiguration $taskConfiguration, $offset, $processKey)
+    private function reEnqueue(AbstractTaskConfiguration $taskConfiguration, $offset, $processKey, $totalCount)
     {
         $this->extractRuleProducer->publish(
             serialize(array(
@@ -170,6 +179,7 @@ class ExtractRuleHandler
                 'offset' => $offset,
                 'process_key' => $processKey,
                 're_enqueue' => true,
+                'total_count' => $totalCount,
             )),
             $this->applicationName
         );
