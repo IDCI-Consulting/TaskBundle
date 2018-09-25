@@ -6,14 +6,22 @@
 
 namespace IDCI\Bundle\TaskBundle\Controller\Rest;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations\Route;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
+use JMS\Serializer\SerializationContext;
+use Doctrine\Common\Inflector\Inflector;
+use IDCI\Bundle\RestBundle\Formatter\AbstractHypermediaFormatter;
 
 /**
- * ExtractRule API REST controller.
+ * ExtractRule API REST controller
  */
 class ApiExtractRuleController extends FOSRestController
 {
@@ -38,7 +46,7 @@ class ApiExtractRuleController extends FOSRestController
 
     /**
      * [GET] /extract-rules/{name}/options.{_format}
-     * Retrieve extra rule options.
+     * Retrieve extra rule options
      *
      * @Get("/extract-rules/{name}/parameters")
      *

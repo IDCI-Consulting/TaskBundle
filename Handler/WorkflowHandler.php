@@ -72,7 +72,7 @@ class WorkflowHandler
      *
      * @param Task $task
      *
-     * @return bool
+     * @return boolean
      */
     public function isTaskFinished(Task $task)
     {
@@ -92,7 +92,7 @@ class WorkflowHandler
      * @param string $processKey
      * @param string $taskCount
      *
-     * @return bool
+     * @return boolean
      */
     public function isProcessFinished($processKey, $taskCount)
     {

@@ -2,6 +2,8 @@
 
 namespace IDCI\Bundle\TaskBundle\Factory;
 
+use Doctrine\ORM\EntityManager;
+use Ramsey\Uuid\Uuid;
 use IDCI\Bundle\TaskBundle\Document\Task;
 
 class TaskFactory
@@ -19,17 +21,16 @@ class TaskFactory
     /**
      * Constructor.
      *
-     * @param string $applicationName
-     * @param string $taskConfigurationClass
+     * @param string        $applicationName
+     * @param string        $taskConfigurationClass
      */
-    public function __construct($applicationName, $taskConfigurationClass)
-    {
-        $this->applicationName = $applicationName;
+    public function __construct($applicationName, $taskConfigurationClass) {
+        $this->applicationName        = $applicationName;
         $this->taskConfigurationClass = $taskConfigurationClass;
     }
 
     /**
-     * Create a task.
+     * Create a task
      *
      * @param array $options
      *
@@ -37,8 +38,7 @@ class TaskFactory
      *
      * @return Task
      */
-    public function create($options)
-    {
+    public function create($options) {
         $taskConfiguration = isset($options['task_configuration']) ? $options['task_configuration'] : null;
         $processKey = isset($options['process_key']) ? $options['process_key'] : null;
         $taskCount = isset($options['task_count']) ? $options['task_count'] : null;

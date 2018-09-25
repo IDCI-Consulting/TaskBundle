@@ -30,9 +30,9 @@ class IDCITaskExtension extends Extension implements PrependExtensionInterface
                     'mappings' => array(
                         'IDCITaskBundle' => array(
                             'prefix' => 'IDCI\Bundle\TaskBundle\Model',
-                        ),
-                    ),
-                ),
+                        )
+                    )
+                )
             );
             $container->prependExtensionConfig('doctrine', $config);
         }
@@ -42,9 +42,9 @@ class IDCITaskExtension extends Extension implements PrependExtensionInterface
                 'providers' => array(
                     'load_only' => array(
                         'extract_rule_editor',
-                        'workflow_editor',
-                    ),
-                ),
+                        'workflow_editor'
+                    )
+                )
             );
             $container->prependExtensionConfig('idci_asset_loader', $config);
         }

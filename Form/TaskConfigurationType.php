@@ -16,7 +16,7 @@ class TaskConfigurationType extends AbstractType
     private $taskConfigurationClass;
 
     /**
-     * Constructor.
+     * Constructor
      *
      * @param string $taskConfigurationClass
      */

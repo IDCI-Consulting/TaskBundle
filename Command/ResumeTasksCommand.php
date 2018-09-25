@@ -56,12 +56,12 @@ EOT
 
         /** @var Task $task */
         foreach ($tasks as $task) {
-            $this->addRow(
+             $this->addRow(
                  $table,
                  $task
              );
 
-            $processor->resume($task);
+             $processor->resume($task);
         }
 
         $table->render();
@@ -70,8 +70,8 @@ EOT
     /**
      * Add a row.
      *
-     * @param Table $table
-     * @param Task  $task
+     * @param Table     $table
+     * @param Task      $task
      *
      * @return Table
      */

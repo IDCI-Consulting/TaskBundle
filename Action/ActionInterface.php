@@ -7,6 +7,7 @@
 namespace IDCI\Bundle\TaskBundle\Action;
 
 use Psr\Log\LoggerInterface;
+use IDCI\Bundle\TaskBundle\Exception\InvalidActionDataException;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
 

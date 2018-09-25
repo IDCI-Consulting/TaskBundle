@@ -3,8 +3,11 @@
 namespace IDCI\Bundle\TaskBundle\Event\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use IDCI\Bundle\TaskBundle\Event\ProcessEvents;
 use IDCI\Bundle\TaskBundle\Event\ProcessEvent;
+use IDCI\Bundle\TaskBundle\Document\Task;
+use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use IDCI\Bundle\TaskBundle\Processor\ProcessorInterface;
 
 class ProcessEventSubscriber implements EventSubscriberInterface
@@ -15,7 +18,7 @@ class ProcessEventSubscriber implements EventSubscriberInterface
     protected $processor;
 
     /**
-     * Constructor.
+     * Constructor
      *
      * @param ProcessorInterface $processor
      */
@@ -52,7 +55,7 @@ class ProcessEventSubscriber implements EventSubscriberInterface
 
             $this->processor->startTask($action['service'], array_merge(
                 $action['parameters'],
-                array('process_key' => $event->getProcessKey(), 'task_configuration_slug' => $slug)
+                array('process_key' => $event->getProcessKey(), 'task_configuration_slug'=> $slug)
             ), $event->getProcessKey());
         }
     }

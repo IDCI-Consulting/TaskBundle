@@ -14,8 +14,8 @@ class ActionStatus
      */
     const PENDING = 'pending';
     const RUNNING = 'running';
-    const ERROR = 'error';
-    const PASSED = 'passed';
+    const ERROR   = 'error';
+    const PASSED  = 'passed';
 
     /**
      * @var \DateTime
@@ -32,10 +32,9 @@ class ActionStatus
     private $status;
 
     /**
-     * Constructor.
+     * Constructor
      *
      * @param string $status
-     *
      * @throws \InvalidArgumentException
      */
     public function __construct($status)
@@ -49,7 +48,7 @@ class ActionStatus
     }
 
     /**
-     * Get the list of statuses.
+     * Get the list of statuses
      *
      * @return array
      */
@@ -59,16 +58,15 @@ class ActionStatus
             self::PENDING,
             self::RUNNING,
             self::ERROR,
-            self::PASSED,
+            self::PASSED
         );
     }
 
     /**
-     * Check whether or not a given status is valid.
+     * Check whether or not a given status is valid
      *
      * @param string $status
-     *
-     * @return bool
+     * @return boolean
      */
     public static function isValid($status)
     {
@@ -76,7 +74,7 @@ class ActionStatus
     }
 
     /**
-     * Get date.
+     * Get date
      *
      * @return \Datetime $date
      */
@@ -86,7 +84,7 @@ class ActionStatus
     }
 
     /**
-     * Get status.
+     * Get status
      *
      * @return string $status
      */

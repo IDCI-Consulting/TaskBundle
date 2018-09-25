@@ -15,5 +15,5 @@ interface ExtractRuleInterface
      *
      * @return array
      */
-    public function extract($offset);
+    public function extract(array $parameters, $offset);
 }
