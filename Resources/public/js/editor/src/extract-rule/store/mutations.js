@@ -86,7 +86,7 @@ export default {
 
     if (typeof usedExtractRule.parameters !== 'undefined') {
       for (let usedParameterName in usedParameters) {
-        if (typeof usedExtractRule.parameters[usedParameterName] === 'undefined') {
+        if (typeof usedExtractRule.parameters[usedParameterName] == 'undefined') {
           Vue.delete(state.usedExtractRule.parameters, usedParameterName);
         }
       }

@@ -10,56 +10,41 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractExtractRule implements ExtractRuleInterface
 {
-    protected $parameters = array();
-
     /**
      * Do extract using extract rules parameters.
      *
      * @param array $parameters
      * @param int   $offset
+     * @param int   $limit
      *
      * @return array
      */
-    abstract public function doExtract(array $parameters, $offset);
+    abstract public function doExtract(array $parameters, $offset, $limit);
 
     /**
      * Get total count of data to extract.
      *
+     * @param array $parameters
+     *
      * @return int
      */
-    abstract public function getTotalCount();
+    abstract public function getTotalCount(array $parameters);
 
     /**
      * Configure Options.
      *
      * @param OptionsResolver $resolver
      */
-    abstract protected function configureParameters(OptionsResolver $resolver);
+    abstract public function configureParameters(OptionsResolver $resolver);
 
     /**
-     * Set extract rule parameters.
+     * Is synchronous.
      *
-     * @param array $parameters
-     *
-     * @return $this
+     * @return bool
      */
-    public function setParameters(array $parameters)
+    public function isSynchronous()
     {
-        $resolver = new OptionsResolver();
-        $this->configureParameters($resolver);
-        $this->parameters = $resolver->resolve($parameters);
-
-        return $this;
-    }
-
-    /**
-     * Get extract rule parameters.
-     *
-     * @return array
-     */
-    public function getParameters()
-    {
-        return $this->parameters;
+        return false;
     }
 
     /**
@@ -69,14 +54,14 @@ abstract class AbstractExtractRule implements ExtractRuleInterface
      */
     public function getBatchSize()
     {
-        return 200;
+        return 100;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function extract($offset)
+    public function extract(array $parameters, $offset)
     {
-        return $this->doExtract($this->getParameters(), $offset);
+        return $this->doExtract($parameters, $offset, $this->getBatchSize());
     }
 }

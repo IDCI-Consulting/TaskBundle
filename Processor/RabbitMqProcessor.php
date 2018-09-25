@@ -2,6 +2,7 @@
 
 namespace IDCI\Bundle\TaskBundle\Processor;
 
+use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\TaskBundle\Document\ActionStatus;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -36,14 +37,14 @@ class RabbitMqProcessor implements ProcessorInterface
     private $taskConfigurationClass;
 
     /**
-     * Constructor.
+     * Constructor
      *
      * @param ProducerInterface $extractRuleProducer
      * @param ProducerInterface $taskProducer
      * @param ProducerInterface $actionProducer
-     * @param DocumentManager   $documentManager
-     * @param string            $applicationName
-     * @param string            $taskConfigurationClass
+     * @param DocumentManager $documentManager
+     * @param string $applicationName
+     * @param string $taskConfigurationClass
      */
     public function __construct(
         ProducerInterface $extractRuleProducer,
@@ -53,11 +54,11 @@ class RabbitMqProcessor implements ProcessorInterface
         $applicationName,
         $taskConfigurationClass
     ) {
-        $this->extractRuleProducer = $extractRuleProducer;
-        $this->taskProducer = $taskProducer;
-        $this->actionProducer = $actionProducer;
-        $this->documentManager = $documentManager;
-        $this->applicationName = $applicationName;
+        $this->extractRuleProducer    = $extractRuleProducer;
+        $this->taskProducer           = $taskProducer;
+        $this->actionProducer         = $actionProducer;
+        $this->documentManager        = $documentManager;
+        $this->applicationName        = $applicationName;
         $this->taskConfigurationClass = $taskConfigurationClass;
     }
 
@@ -80,14 +81,14 @@ class RabbitMqProcessor implements ProcessorInterface
         $this->taskProducer->publish(
             serialize(array(
                 'action_service' => $actionService,
-                'data' => $data,
+                'data' => $data
             )),
             $this->applicationName
         );
     }
 
     /**
-     * Resume task.
+     * Resume task
      *
      * @throws
      *

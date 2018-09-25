@@ -12,7 +12,7 @@ class ActionNotFoundException extends \Exception
      * The constructor.
      *
      * @param string $name
-     * @param int    $taskConfigurationSlug
+     * @param int $taskConfigurationSlug
      */
     public function __construct($name, $taskConfigurationSlug)
     {

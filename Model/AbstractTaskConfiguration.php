@@ -76,20 +76,19 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
     }
 
     /**
-     * Serialize a task configuration in json.
+     * Serialize a task configuration in json
      *
      * @return array
      */
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return array(
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'extractRule' => $this->extractRule,
-            'workflow' => $this->workflow,
-            'enable' => $this->enable,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
+            'name'           => $this->name,
+            'slug'           => $this->slug,
+            'extractRule'    => $this->extractRule,
+            'workflow'       => $this->workflow,
+            'enable'         => $this->enable,
+            'createdAt'      => $this->createdAt,
+            'updatedAt'      => $this->updatedAt,
             'cronExpression' => $this->cronExpression,
         );
     }
@@ -175,7 +174,7 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
     }
 
     /**
-     * Set slug.
+     * Set slug
      *
      * @param string $slug
      *
@@ -189,7 +188,7 @@ abstract class AbstractTaskConfiguration implements \JsonSerializable
     }
 
     /**
-     * Get slug.
+     * Get slug
      *
      * @return string
      */

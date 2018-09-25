@@ -9,7 +9,7 @@ class TaskLogProcessor
     /**
      * @var Task
      */
-    protected $task;
+    protected  $task;
 
     /**
      * Set task.

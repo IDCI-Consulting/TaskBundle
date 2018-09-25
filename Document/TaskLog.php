@@ -74,7 +74,7 @@ class TaskLog
     private $extra;
 
     /**
-     * Get id.
+     * Get id
      *
      * @return string $id
      */
@@ -84,7 +84,7 @@ class TaskLog
     }
 
     /**
-     * Get datetime.
+     * Get datetime
      *
      * @return \Datetime $datetime
      */
@@ -94,7 +94,7 @@ class TaskLog
     }
 
     /**
-     * Get message.
+     * Get message
      *
      * @return string $message
      */
@@ -104,7 +104,7 @@ class TaskLog
     }
 
     /**
-     * Get level.
+     * Get level
      *
      * @return int $level
      */
@@ -114,7 +114,7 @@ class TaskLog
     }
 
     /**
-     * Get level name.
+     * Get level name
      *
      * @return int $levelName
      */
@@ -124,7 +124,7 @@ class TaskLog
     }
 
     /**
-     * Get channel.
+     * Get channel
      *
      * @return string $channel
      */
@@ -134,7 +134,7 @@ class TaskLog
     }
 
     /**
-     * Get extra.
+     * Get extra
      *
      * @return array $extra
      */
@@ -144,7 +144,7 @@ class TaskLog
     }
 
     /**
-     * Get action name.
+     * Get action name
      *
      * @return string
      */
@@ -154,7 +154,7 @@ class TaskLog
     }
 
     /**
-     * Get the task identifier.
+     * Get the task identifier
      *
      * @return string
      */
@@ -164,7 +164,7 @@ class TaskLog
     }
 
     /**
-     * Get the task process key.
+     * Get the task process key
      *
      * @return string
      */

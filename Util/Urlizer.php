@@ -4,7 +4,7 @@ namespace IDCI\Bundle\TaskBundle\Util;
 
 /**
  * This is the part taken from Doctrine 1.2.3
- * Doctrine inflector has static methods for inflecting text.
+ * Doctrine inflector has static methods for inflecting text
  *
  * The methods in these classes are from several different sources collected
  * across several different php projects and several different authors. The
@@ -14,11 +14,8 @@ namespace IDCI\Bundle\TaskBundle\Util;
  *         http://sourceforge.net/projects/phputf8
  *
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
- *
  * @since       1.0
- *
  * @version     $Revision: 3189 $
- *
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Jonathan H. Wage <jonwage@gmail.com>
  * @author         <hsivonen@iki.fi>
@@ -26,42 +23,26 @@ namespace IDCI\Bundle\TaskBundle\Util;
 class Urlizer
 {
     /**
-     * Check if a string has utf7 characters in it.
+     * Check if a string has utf7 characters in it
      *
      * By bmorel at ssi dot fr
      *
-     * @param string $string
-     *
-     * @return bool $bool
+     * @param  string $string
+     * @return boolean $bool
      */
     public static function seemsUtf8($string)
     {
-        for ($i = 0; $i < strlen($string); ++$i) {
-            if (ord($string[$i]) < 0x80) {
-                continue;
-            } // 0bbbbbbb
-            elseif ((ord($string[$i]) & 0xE0) == 0xC0) {
-                $n = 1;
-            } // 110bbbbb
-            elseif ((ord($string[$i]) & 0xF0) == 0xE0) {
-                $n = 2;
-            } // 1110bbbb
-            elseif ((ord($string[$i]) & 0xF8) == 0xF0) {
-                $n = 3;
-            } // 11110bbb
-            elseif ((ord($string[$i]) & 0xFC) == 0xF8) {
-                $n = 4;
-            } // 111110bb
-            elseif ((ord($string[$i]) & 0xFE) == 0xFC) {
-                $n = 5;
-            } // 1111110b
-            else {
-                return false;
-            } // Does not match any model
-            for ($j = 0; $j < $n; ++$j) { // n bytes matching 10bbbbbb follow ?
-                if ((++$i == strlen($string)) || ((ord($string[$i]) & 0xC0) != 0x80)) {
+        for ($i = 0; $i < strlen($string); $i++) {
+            if (ord($string[$i]) < 0x80) continue; # 0bbbbbbb
+            elseif ((ord($string[$i]) & 0xE0) == 0xC0) $n=1; # 110bbbbb
+            elseif ((ord($string[$i]) & 0xF0) == 0xE0) $n=2; # 1110bbbb
+            elseif ((ord($string[$i]) & 0xF8) == 0xF0) $n=3; # 11110bbb
+            elseif ((ord($string[$i]) & 0xFC) == 0xF8) $n=4; # 111110bb
+            elseif ((ord($string[$i]) & 0xFE) == 0xFC) $n=5; # 1111110b
+            else return false; # Does not match any model
+            for ($j=0; $j<$n; $j++) { # n bytes matching 10bbbbbb follow ?
+                if ((++$i == strlen($string)) || ((ord($string[$i]) & 0xC0) != 0x80))
                     return false;
-                }
             }
         }
 
@@ -71,8 +52,7 @@ class Urlizer
     /**
      * Remove any illegal characters, accents, etc.
      *
-     * @param string $string String to unaccent
-     *
+     * @param  string $string  String to unaccent
      * @return string $string  Unaccented string
      */
     public static function unaccent($string)
@@ -138,7 +118,7 @@ class Urlizer
                 chr(196).chr(172) => 'I', chr(196).chr(173) => 'i',
                 chr(196).chr(174) => 'I', chr(196).chr(175) => 'i',
                 chr(196).chr(176) => 'I', chr(196).chr(177) => 'i',
-                chr(196).chr(178) => 'IJ', chr(196).chr(179) => 'ij',
+                chr(196).chr(178) => 'IJ',chr(196).chr(179) => 'ij',
                 chr(196).chr(180) => 'J', chr(196).chr(181) => 'j',
                 chr(196).chr(182) => 'K', chr(196).chr(183) => 'k',
                 chr(196).chr(184) => 'k', chr(196).chr(185) => 'L',
@@ -154,7 +134,7 @@ class Urlizer
                 chr(197).chr(140) => 'O', chr(197).chr(141) => 'o',
                 chr(197).chr(142) => 'O', chr(197).chr(143) => 'o',
                 chr(197).chr(144) => 'O', chr(197).chr(145) => 'o',
-                chr(197).chr(146) => 'OE', chr(197).chr(147) => 'oe',
+                chr(197).chr(146) => 'OE',chr(197).chr(147) => 'oe',
                 chr(197).chr(148) => 'R', chr(197).chr(149) => 'r',
                 chr(197).chr(150) => 'R', chr(197).chr(151) => 'r',
                 chr(197).chr(152) => 'R', chr(197).chr(153) => 'r',
@@ -184,7 +164,7 @@ class Urlizer
                 'Ä' => 'Ae', 'ä' => 'ae', 'Ü' => 'Ue', 'ü' => 'ue',
                 'Ö' => 'Oe', 'ö' => 'oe', 'ß' => 'ss',
                 // Norwegian characters
-                'Å' => 'Aa', 'Æ' => 'Ae', 'Ø' => 'O', 'æ' => 'a', 'ø' => 'o', 'å' => 'aa',
+                'Å'=>'Aa','Æ'=>'Ae','Ø'=>'O','æ'=>'a','ø'=>'o','å'=>'aa'
             );
 
             $string = strtr($string, $chars);
@@ -201,7 +181,7 @@ class Urlizer
                 .chr(244).chr(245).chr(246).chr(248).chr(249).chr(250).chr(251)
                 .chr(252).chr(253).chr(255);
 
-            $chars['out'] = 'EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy';
+            $chars['out'] = "EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy";
 
             $string = strtr($string, $chars['in'], $chars['out']);
             $doubleChars['in'] = array(chr(140), chr(156), chr(198), chr(208), chr(222), chr(223), chr(230), chr(240), chr(254));
@@ -218,16 +198,12 @@ class Urlizer
      * Warning: you should only pass this well formed UTF-8!
      * Be aware it works by making a copy of the input string which it appends transliterated
      * characters to - it uses a PHP output buffer to do this - it means, memory use will increase,
-     * requiring up to the same amount again as the input string.
+     * requiring up to the same amount again as the input string
      *
      * @see http://search.cpan.org/~sburke/Text-Unidecode-0.04/lib/Text/Unidecode.pm
-     *
      * @param string UTF-8 string to convert
-     *
      * @author <hsivonen@iki.fi>
-     *
      * @param string (default = ?) Character use if character unknown
-     *
      * @return string US-ASCII string
      */
     public static function utf8ToAscii($str, $unknown = '?')
@@ -243,33 +219,18 @@ class Urlizer
 
         foreach ($chars as $i => $c) {
             $ud = 0;
-            if (ord($c[0]) >= 0 && ord($c[0]) <= 127) {
-                continue;
-            } // ASCII - next please
-            if (ord($c[0]) >= 192 && ord($c[0]) <= 223) {
-                $ord = (ord($c[0]) - 192) * 64 + (ord($c[1]) - 128);
-            }
-            if (ord($c[0]) >= 224 && ord($c[0]) <= 239) {
-                $ord = (ord($c[0]) - 224) * 4096 + (ord($c[1]) - 128) * 64 + (ord($c[2]) - 128);
-            }
-            if (ord($c[0]) >= 240 && ord($c[0]) <= 247) {
-                $ord = (ord($c[0]) - 240) * 262144 + (ord($c[1]) - 128) * 4096 + (ord($c[2]) - 128) * 64 + (ord($c[3]) - 128);
-            }
-            if (ord($c[0]) >= 248 && ord($c[0]) <= 251) {
-                $ord = (ord($c[0]) - 248) * 16777216 + (ord($c[1]) - 128) * 262144 + (ord($c[2]) - 128) * 4096 + (ord($c[3]) - 128) * 64 + (ord($c[4]) - 128);
-            }
-            if (ord($c[0]) >= 252 && ord($c[0]) <= 253) {
-                $ord = (ord($c[0]) - 252) * 1073741824 + (ord($c[1]) - 128) * 16777216 + (ord($c[2]) - 128) * 262144 + (ord($c[3]) - 128) * 4096 + (ord($c[4]) - 128) * 64 + (ord($c[5]) - 128);
-            }
-            if (ord($c[0]) >= 254 && ord($c[0]) <= 255) {
-                $chars[$i] = $unknown;
-                continue;
-            } //error
+            if (ord($c{0})>=0 && ord($c{0})<=127) { continue; } // ASCII - next please
+            if (ord($c{0})>=192 && ord($c{0})<=223) { $ord = (ord($c{0})-192)*64 + (ord($c{1})-128); }
+            if (ord($c{0})>=224 && ord($c{0})<=239) { $ord = (ord($c{0})-224)*4096 + (ord($c{1})-128)*64 + (ord($c{2})-128); }
+            if (ord($c{0})>=240 && ord($c{0})<=247) { $ord = (ord($c{0})-240)*262144 + (ord($c{1})-128)*4096 + (ord($c{2})-128)*64 + (ord($c{3})-128); }
+            if (ord($c{0})>=248 && ord($c{0})<=251) { $ord = (ord($c{0})-248)*16777216 + (ord($c{1})-128)*262144 + (ord($c{2})-128)*4096 + (ord($c{3})-128)*64 + (ord($c{4})-128); }
+            if (ord($c{0})>=252 && ord($c{0})<=253) { $ord = (ord($c{0})-252)*1073741824 + (ord($c{1})-128)*16777216 + (ord($c{2})-128)*262144 + (ord($c{3})-128)*4096 + (ord($c{4})-128)*64 + (ord($c{5})-128); }
+            if (ord($c{0})>=254 && ord($c{0})<=255) { $chars{$i} = $unknown; continue; } //error
 
             $bank = $ord >> 8;
 
-            if (!array_key_exists($bank, (array) $UTF8_TO_ASCII)) {
-                $bankfile = __DIR__.'/data/'.sprintf('x%02x', $bank).'.php';
+            if (!array_key_exists($bank, (array)$UTF8_TO_ASCII)) {
+                $bankfile = __DIR__. '/data/'. sprintf("x%02x",$bank).'.php';
                 if (file_exists($bankfile)) {
                     include $bankfile;
                 } else {
@@ -279,9 +240,9 @@ class Urlizer
 
             $newchar = $ord & 255;
             if (array_key_exists($newchar, $UTF8_TO_ASCII[$bank])) {
-                $chars[$i] = $UTF8_TO_ASCII[$bank][$newchar];
+                $chars{$i} = $UTF8_TO_ASCII[$bank][$newchar];
             } else {
-                $chars[$i] = $unknown;
+                $chars{$i} = $unknown;
             }
         }
 
@@ -289,11 +250,10 @@ class Urlizer
     }
 
     /**
-     * Does not transliterate correctly eastern languages.
+     * Does not transliterate correctly eastern languages
      *
      * @param string $text
      * @param string $separator
-     *
      * @return string
      */
     public static function urlize($text, $separator = '-')
@@ -304,11 +264,10 @@ class Urlizer
     }
 
     /**
-     * Uses transliteration tables to convert any kind of utf8 character.
+     * Uses transliteration tables to convert any kind of utf8 character
      *
      * @param string $text
      * @param string $separator
-     *
      * @return string $text
      */
     public static function transliterate($text, $separator = '-')
@@ -323,26 +282,22 @@ class Urlizer
     /**
      * Tests a string as to whether it's valid UTF-8 and supported by the
      * Unicode standard
-     * Note: this function has been modified to simple return true or false.
-     *
+     * Note: this function has been modified to simple return true or false
      * @author <hsivonen@iki.fi>
-     *
      * @param string UTF-8 encoded string
-     *
-     * @return bool true if valid
-     *
+     * @return boolean true if valid
      * @see http://hsivonen.iki.fi/php-utf8/
      */
     public static function validUtf8($str)
     {
         $mState = 0;     // cached expected number of octets after the current octet
         // until the beginning of the next UTF8 character sequence
-        $mUcs4 = 0;     // cached Unicode character
+        $mUcs4  = 0;     // cached Unicode character
         $mBytes = 1;     // cached expected number of octets in the current sequence
 
         $len = strlen($str);
-        for ($i = 0; $i < $len; ++$i) {
-            $in = ord($str[$i]);
+        for ($i = 0; $i < $len; $i++) {
+            $in = ord($str{$i});
             if ($mState == 0) {
                 // When mState is zero we expect either a US-ASCII character or a
                 // multi-octet sequence.
@@ -401,7 +356,7 @@ class Urlizer
                     $tmp = $in;
                     $tmp = ($tmp & 0x0000003F) << $shift;
                     $mUcs4 |= $tmp;
-                    /*
+                    /**
                      * End of the multi-octet sequence. mUcs4 now contains the final
                      * Unicode codepoint to be output
                      */
@@ -423,11 +378,11 @@ class Urlizer
                         }
                         //initialize UTF8 cache
                         $mState = 0;
-                        $mUcs4 = 0;
+                        $mUcs4  = 0;
                         $mBytes = 1;
                     }
                 } else {
-                    /*
+                    /**
                      *((0xC0 & (*in) != 0x80) && (mState != 0))
                      * Incomplete multi-octet sequence.
                      */
@@ -440,11 +395,10 @@ class Urlizer
     }
 
     /**
-     * Cleans up the text and adds separator.
+     * Cleans up the text and adds separator
      *
      * @param string $text
      * @param string $separator
-     *
      * @return string
      */
     private static function postProcessText($text, $separator)
@@ -467,3 +421,4 @@ class Urlizer
         return trim($text, $separator);
     }
 }
+

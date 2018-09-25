@@ -2,13 +2,14 @@
 
 namespace IDCI\Bundle\TaskBundle\Handler;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use IDCI\Bundle\TaskBundle\Event\DataExtractedEvent;
+use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleInterface;
+use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
+use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Ramsey\Uuid\Uuid;
-use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
-use IDCI\Bundle\TaskBundle\Event\DataExtractedEvent;
-use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
-use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ExtractRuleHandler
 {
@@ -63,48 +64,49 @@ class ExtractRuleHandler
     }
 
     /**
-     * Execute all extract rules and log for each.
+     * Execute all extract rules and log for each
      *
      * @param AbstractTaskConfiguration $taskConfiguration
+     * @param bool                      $reQueue
      * @param int                       $offset
      * @param string                    $processKey
      */
-    public function execute(AbstractTaskConfiguration $taskConfiguration, $offset = 0, $processKey = null)
+    public function execute(AbstractTaskConfiguration $taskConfiguration, $reEnqueue, $offset = 0, $processKey = null)
     {
         $this->extractRuleConfiguration = json_decode($taskConfiguration->getExtractRule(), true);
 
         $extractRule = $this->registry->getRule($this->extractRuleConfiguration['service']);
-        $extractRule->setParameters($this->extractRuleConfiguration['parameters']);
 
-        $totalCount = $extractRule->getTotalCount();
+        $resolver = new OptionsResolver();
+        $extractRule->configureParameters($resolver);
+        $resolvedParameters = $resolver->resolve($this->extractRuleConfiguration['parameters']);
 
         if (null === $processKey) {
             $processKey = Uuid::uuid1()->toString();
         }
 
-        $offset += $this->processExtraction($extractRule, $offset);
-        $this->dispatchDataExtractedEvent($taskConfiguration, $totalCount, $processKey);
+        if (!$extractRule->isSynchronous() && !$reEnqueue) {
+            $this->processBatch($extractRule, $resolvedParameters, $processKey);
 
-        $this->garbageCollect();
-
-        if ($offset < $totalCount) {
-            $this->reEnqueue($taskConfiguration, $offset, $processKey);
+            return;
         }
+
+        $this->extractedData = $extractRule->extract($parameters, $offset);
+        $this->dispatchDataExtractedEvent($taskConfiguration, $totalCount, $processKey);
+        $this->garbageCollect();
     }
 
     /**
-     * Process data extraction.
+     * Process data extraction
      *
      * @param ExtractRuleInterface $extractRule
      * @param int                  $offset
      *
-     * @return int count of extracted data
+     * @return int                 Count of extracted data.
      */
-    public function processExtraction(ExtractRuleInterface $extractRule, $offset)
+    public function processExtraction(ExtractRuleInterface $extractRule, array $parameters, $offset = 0)
     {
-        $this->extractedData = $extractRule->extract($offset);
-
-        return sizeof($this->extractedData);
+        $this->extractedData = $extractRule->extract($parameters, $offset);
     }
 
     /**
@@ -130,12 +132,27 @@ class ExtractRuleHandler
         unset($this->extractedData);
         unset($this->extractRuleConfiguration);
 
+        // @see <https://stackoverflow.com/a/13461577/4042587>
+        time_nanosleep(0, 10000000);
+
         if (gc_enabled()) {
             gc_collect_cycles();
         }
+    }
 
-        // @see <https://stackoverflow.com/a/13461577/4042587>
-        time_nanosleep(0, 10000000);
+    private function processBatch($extractRule, $parameters, $processKey)
+    {
+        $offset = 0;
+        $totalCount = $extractRule->getTotalCount($parameters);
+        $batchSize = $extractRule->getBatchSize();
+
+        $iterations = ceil($totalCount / $batchSize);
+
+        foreach ($i = 0; $i < $iterations; $i++) {
+            $this->reEnqueue($taskConfiguration, $offset, $processKey);
+
+            $offset += $batchSize;
+        }
     }
 
     /**
@@ -152,6 +169,7 @@ class ExtractRuleHandler
                 'task_configuration' => $taskConfiguration,
                 'offset' => $offset,
                 'process_key' => $processKey,
+                're_enqueue' => true,
             )),
             $this->applicationName
         );

@@ -6,9 +6,9 @@ use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use IDCI\Bundle\TaskBundle\Handler\ExtractRuleHandler;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
+use Doctrine\ORM\EntityManager;
 
-class ExtractRuleConsumer implements ConsumerInterface
-{ /**
+class ExtractRuleConsumer implements ConsumerInterface { /**
      * @var ExtractRuleRegistry
      */
     protected $extractRuleRegistry;
@@ -35,8 +35,8 @@ class ExtractRuleConsumer implements ConsumerInterface
         ExtractRuleHandler  $extractRuleHandler,
         $taskConfigurationClass
     ) {
-        $this->extractRuleRegistry = $extractRuleRegistry;
-        $this->extractRuleHandler = $extractRuleHandler;
+        $this->extractRuleRegistry    = $extractRuleRegistry;
+        $this->extractRuleHandler     = $extractRuleHandler;
         $this->taskConfigurationClass = $taskConfigurationClass;
     }
 
@@ -47,13 +47,17 @@ class ExtractRuleConsumer implements ConsumerInterface
     {
         $options = unserialize($msg->getBody());
 
-        $args = array($options['task_configuration']);
+        $reEnqueue = $options['re_enqueue'] ? true : false;
+        $args = array(
+            $options['task_configuration'],
+            $reEnqueue,
+        );
 
         try {
             if (isset($options['process_key'], $options['offset'])) {
                 $args = array_merge($args, array(
                     $options['offset'],
-                    $options['process_key'],
+                    $options['process_key']
                 ));
             }
 
