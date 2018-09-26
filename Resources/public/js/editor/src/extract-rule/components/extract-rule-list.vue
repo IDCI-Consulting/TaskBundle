@@ -8,6 +8,7 @@
         :allow-empty="false"
         deselect-label="Selected"
         select-label=""
+        @input="onChange"
         placeholder="Select an extract rule service">
       </multiselect>
       <hr>
@@ -55,7 +56,14 @@ export default {
         .$store
         .getters
         .getExtractRuleDescription(usedExtractRule.service)
-     ;
+      ;
+    }
+  },
+
+  methods: {
+    onChange: function (extractRuleName) {
+        this.$store.commit('updateUsedExtractRuleService', extractRuleName);
+        this.$store.commit('cleanUsedParameters');
     }
   }
 
