@@ -91,7 +91,7 @@ services:
         arguments:
             - "@idci_task.action_registry"
             - "@event_dispatcher"
-            - "@idci_task.merger"
+            - "@twig"
             - "@old_sound_rabbit_mq.action_producer"
             - "@idci_task.handler.workflow"
             - '@monolog.logger.idci_task.action'
@@ -100,7 +100,7 @@ services:
     idci_task.handler.workflow:
         class: IDCI\Bundle\TaskBundle\Handler\WorkflowHandler
         arguments:
-            - "@idci_task.merger"
+            - "@twig"
             - "@doctrine.odm.mongodb.document_manager"
 
     idci_task.handler.task:
@@ -144,14 +144,6 @@ services:
         class: IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor
         tags:
             - { name: monolog.processor, method: processRecord, handler: mongo }
-
-    ## Twig ##
-    idci_task.twig_array_loader:
-        class:        "Twig_Loader_Array"
-
-    idci_task.merger:
-        class:        "%twig.class%"
-        arguments:    ["@idci_task.twig_array_loader"]
 
     ## FormType ##
     form.type.idci_task.extract_rule.editor:
