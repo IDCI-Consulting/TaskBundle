@@ -18,7 +18,7 @@ use IDCI\Bundle\TaskBundle\Model\AbstractTaskConfiguration;
  * )
  * @ODM\HasLifecycleCallbacks
  * @ODM\Indexes({
- *     @ODM\Index(keys={"task_configuration_id"="asc"}, name="task_configuration_id"),
+ *     @ODM\Index(keys={"task_configuration_slug"="asc"}, name="task_configuration_slug"),
  *     @ODM\Index(keys={"created_at"="desc"}, name="created_at"),
  *     @ODM\Index(keys={"ended_at"="asc"}, name="ended_at"),
  *     @ODM\Index(keys={"status"="asc"}, name="status"),
