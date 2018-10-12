@@ -82,9 +82,10 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new IDCI\Bundle\TaskBundle\IDCITaskBundle(),
+        new Symfony\Bundle\TwigBundle\TwigBundle(),
         new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
         new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+        new IDCI\Bundle\TaskBundle\IDCITaskBundle(),
     );
 }
 ```
