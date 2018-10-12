@@ -33,7 +33,7 @@
         "mtdowling/cron-expression":    "~1.2",
         "ramsey/uuid":                  "~3.0",
         "idci/asset-loader-bundle":     "~1.0",
-        "symfony/twig-bundle": "3.0.*"
+        "symfony/twig-bundle":          "~2.8"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.7",
