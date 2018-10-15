@@ -16,13 +16,13 @@ class CronExpressionToPartsTransformer implements DataTransformerInterface
     public function transform($cronExpression)
     {
         if (null === $cronExpression) {
-            return [
-                'minutes' => ['*'],
-                'hours' => ['*'],
-                'days' => ['*'],
-                'months' => ['*'],
-                'weekdays' => ['*'],
-            ];
+            return array(
+                'minutes' => array('*'),
+                'hours' => array('*'),
+                'days' => array('*'),
+                'months' => array('*'),
+                'weekdays' => array('*'),
+            );
         }
 
         if (is_string($cronExpression)) {
@@ -33,13 +33,13 @@ class CronExpressionToPartsTransformer implements DataTransformerInterface
             throw new TransformationFailedException('Expected an instance of '.CronExpression::class);
         }
 
-        return [
+        return array(
             'minutes' => $this->convertCronString($cronExpression->getExpression((string) CronExpression::MINUTE)),
             'hours' => $this->convertCronString($cronExpression->getExpression((string) CronExpression::HOUR)),
             'days' => $this->convertCronString($cronExpression->getExpression((string) CronExpression::DAY)),
             'months' => $this->convertCronString($cronExpression->getExpression((string) CronExpression::MONTH)),
             'weekdays' => $this->convertCronString($cronExpression->getExpression((string) CronExpression::WEEKDAY)),
-        ];
+        );
     }
 
     /**
@@ -76,7 +76,7 @@ class CronExpressionToPartsTransformer implements DataTransformerInterface
     private function convertCronString($cronString)
     {
         if ('*' === $cronString) {
-            return [];
+            return array();
         }
 
         return explode(',', $cronString);
