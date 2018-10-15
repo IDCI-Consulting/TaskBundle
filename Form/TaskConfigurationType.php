@@ -48,7 +48,7 @@ class TaskConfigurationType extends AbstractType
                     )),
                 ),
             ))
-            ->add('cronExpression', 'text')
+            ->add('cronExpression', CronExpressionType::class)
             ->add('enable')
         ;
     }
