@@ -55,7 +55,7 @@ class WorkflowHandler
                 'action_data' => $task->getData()->getActionData(),
             ));
 
-            if (boolval($isNextAction)) {
+            if ($this->isTrue($isNextAction)) {
                 $nextAction->setName($nextDestination['name']);
 
                 return $nextAction;
@@ -115,5 +115,22 @@ class WorkflowHandler
         }
 
         return in_array($task->getCurrentAction()->getName(), $task->getConfiguration()->getPostActions());
+    }
+
+    /**
+     * Check if the given condition is true
+     *
+     * @mixed $condition
+     * @mixed $returnNull
+     *
+     * @return bool
+     */
+    public function isTrue($condition, $returnNull = false){
+        $boolval = is_string($condition)
+            ? filter_var($condition, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
+            : (bool)$condition
+        ;
+
+        return null === $boolval && !$returnNull ? false : $boolval;
     }
 }

@@ -70,8 +70,13 @@ class ActionHandlerTest extends TestCase
             ->getMock()
         ;
 
+        $dm = $this->getMockBuilder(DocumentManager::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
         $this->merger = new \Twig_Environment(new \Twig_Loader_Array());
-        $this->workflowHandler = new WorkflowHandler($this->merger);
+        $this->workflowHandler = new WorkflowHandler($this->merger, $dm);
 
         $this->actionHandler = new ActionHandler(
             $this->actionRegistry,
