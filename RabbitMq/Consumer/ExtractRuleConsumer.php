@@ -8,7 +8,8 @@ use IDCI\Bundle\TaskBundle\Handler\ExtractRuleHandler;
 use IDCI\Bundle\TaskBundle\ExtractRule\ExtractRuleRegistry;
 use Doctrine\ORM\EntityManager;
 
-class ExtractRuleConsumer implements ConsumerInterface { /**
+class ExtractRuleConsumer implements ConsumerInterface {
+    /**
      * @var ExtractRuleRegistry
      */
     protected $extractRuleRegistry;
