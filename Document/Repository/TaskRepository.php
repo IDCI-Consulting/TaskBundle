@@ -110,28 +110,22 @@ class TaskRepository extends DocumentRepository
 
     public function countTaskWithConfigurationSlugAndStatus($taskConfigurationSlug, $status)
     {
-        if (is_array($status)) {
-            $qb = $this
-                ->createQueryBuilder()
-                ->field('taskConfigurationSlug')->equals($taskConfigurationSlug)
-                ->field('status')->in($status)
-                ->getQuery()
-                ->execute()
-                ->count()
-            ;
-
-            return $qb;
-        }
-
         $qb = $this
             ->createQueryBuilder()
             ->field('taskConfigurationSlug')->equals($taskConfigurationSlug)
-            ->field('status')->equals($status)
+            ->field('status')
+        ;
+
+        if (is_array($status)) {
+           $qb->in($status);
+        } else {
+           $qb->equals($status);
+        }
+
+        return $qb
             ->getQuery()
             ->execute()
             ->count()
         ;
-
-        return $qb;
     }
 }
