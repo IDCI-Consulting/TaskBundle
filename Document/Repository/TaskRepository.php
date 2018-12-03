@@ -107,4 +107,25 @@ class TaskRepository extends DocumentRepository
             ->getDocumentCollection($this->getClassName())
             ->aggregate($this->getEndedTaskCountByProcessKeyAggregationBuilder($processKey)->getPipeline());
     }
+
+    public function countTaskWithConfigurationSlugAndStatus($taskConfigurationSlug, $status)
+    {
+        $qb = $this
+            ->createQueryBuilder()
+            ->field('taskConfigurationSlug')->equals($taskConfigurationSlug)
+            ->field('status')
+        ;
+
+        if (is_array($status)) {
+           $qb->in($status);
+        } else {
+           $qb->equals($status);
+        }
+
+        return $qb
+            ->getQuery()
+            ->execute()
+            ->count()
+        ;
+    }
 }

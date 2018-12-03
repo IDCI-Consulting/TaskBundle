@@ -94,7 +94,7 @@ class Configuration
      */
     public function getPostActions()
     {
-        return $this->workflow['post_process'];
+        return isset($this->workflow['post_process']) ? $this->workflow['post_process'] : array();
     }
 
     /**
