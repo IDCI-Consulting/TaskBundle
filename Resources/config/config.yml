@@ -10,18 +10,18 @@ old_sound_rabbit_mq:
     producers:
         action:
             connection:       "default"
-            exchange_options: {name: "action_exchange", type: "direct"}
+            exchange_options: {name: "action_exchange", type: "fanout"}
         extract_rule:
             connection:       "default"
-            exchange_options: {name: "extract_rule_exchange", type: "direct"}
+            exchange_options: {name: "extract_rule_exchange", type: "fanout"}
         task:
             connection:       "default"
-            exchange_options: {name: "task_exchange", type: "direct"}
+            exchange_options: {name: "task_exchange", type: "fanout"}
 
     consumers:
         action:
             connection:       "default"
-            exchange_options: {name: "action_exchange", type: "direct"}
+            exchange_options: {name: "action_exchange", type: "fanout"}
             queue_options:
                 name: "%application_name%-action_queue"
                 routing_keys:
@@ -30,7 +30,7 @@ old_sound_rabbit_mq:
             qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
         extract_rule:
             connection:       "default"
-            exchange_options: {name: "extract_rule_exchange", type: "direct"}
+            exchange_options: {name: "extract_rule_exchange", type: "fanout"}
             queue_options:
                 name: "%application_name%-extract_rule_queue"
                 routing_keys:
@@ -39,7 +39,7 @@ old_sound_rabbit_mq:
             qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
         task:
             connection:       "default"
-            exchange_options: {name: "task_exchange", type: "direct"}
+            exchange_options: {name: "task_exchange", type: "fanout"}
             queue_options:
                 name: "%application_name%-task_queue"
                 routing_keys:
