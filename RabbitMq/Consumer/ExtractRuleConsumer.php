@@ -45,11 +45,10 @@ class ExtractRuleConsumer implements ConsumerInterface { /**
      */
     public function execute(AMQPMessage $msg)
     {
-        $options = unserialize($msg->getBody());
-
-        $args = array($options['task_configuration']);
-
         try {
+            $options = unserialize($msg->getBody());
+            $args = array($options['task_configuration']);
+
             if (isset($options['process_key'], $options['offset'])) {
                 $args = array_merge($args, array(
                     $options['offset'],
