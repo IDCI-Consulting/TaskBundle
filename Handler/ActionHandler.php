@@ -240,7 +240,11 @@ class ActionHandler
         // Handle array case.
         if (is_array($value)) {
             foreach ($value as $k => $v) {
-                $value[$k] = $this->mergeValue($v, $vars);
+                $key = $this->mergeValue($k, $vars);
+                $v = $this->mergeValue($v, $vars);
+
+                unset($value[$k]);
+                $value[$key] = $v;
             }
 
             // Handle object case.
