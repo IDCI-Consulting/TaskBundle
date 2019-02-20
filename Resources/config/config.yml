@@ -10,42 +10,51 @@ old_sound_rabbit_mq:
     producers:
         action:
             connection:       "default"
-            exchange_options: {name: "action_exchange", type: "fanout"}
+            exchange_options: {name: "action_exchange", type: "direct"}
         extract_rule:
             connection:       "default"
-            exchange_options: {name: "extract_rule_exchange", type: "fanout"}
+            exchange_options: {name: "extract_rule_exchange", type: "direct"}
         task:
             connection:       "default"
-            exchange_options: {name: "task_exchange", type: "fanout"}
+            exchange_options: {name: "task_exchange", type: "direct"}
 
     consumers:
         action:
             connection:       "default"
-            exchange_options: {name: "action_exchange", type: "fanout"}
+            exchange_options: {name: "action_exchange", type: "direct"}
             queue_options:
                 name: "%application_name%-action_queue"
                 routing_keys:
                     - '%application_name%'
             callback:         "idci_task.service.consumer.action"
             qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
+        sequential:
+            connection:       "default"
+            exchange_options: {name: "action_exchange", type: "direct"}
+            queue_options:
+                name: "%application_name%-sequential_queue"
+                routing_keys:
+                    - "%application_name%-sequential"
+            callback:         "idci_task.service.consumer.action"
+            qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
         extract_rule:
             connection:       "default"
-            exchange_options: {name: "extract_rule_exchange", type: "fanout"}
+            exchange_options: {name: "extract_rule_exchange", type: "direct"}
             queue_options:
                 name: "%application_name%-extract_rule_queue"
                 routing_keys:
                     - '%application_name%'
             callback:         "idci_task.service.consumer.extract_rule"
-            qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
+            qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
         task:
             connection:       "default"
-            exchange_options: {name: "task_exchange", type: "fanout"}
+            exchange_options: {name: "task_exchange", type: "direct"}
             queue_options:
                 name: "%application_name%-task_queue"
                 routing_keys:
                     - '%application_name%'
             callback:         "idci_task.service.consumer.task"
-            qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
+            qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
 
 doctrine_mongodb:
     default_database: %task_mongo_database_name%

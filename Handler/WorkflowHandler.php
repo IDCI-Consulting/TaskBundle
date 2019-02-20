@@ -5,6 +5,7 @@ namespace IDCI\Bundle\TaskBundle\Handler;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Document\Action;
+use IDCI\Bundle\TaskBundle\Action\ActionRegistry;
 
 class WorkflowHandler
 {
@@ -19,15 +20,25 @@ class WorkflowHandler
     protected $documentManager;
 
     /**
+     * @var ActionRegistry
+     */
+    protected $registry;
+
+
+    /**
      * Workflow constructor.
      *
      * @param \Twig_Environment $merger
      * @param DocumentManager   $documentManager
      */
-    public function __construct(\Twig_Environment $merger, DocumentManager $documentManager)
-    {
+    public function __construct(
+        \Twig_Environment $merger,
+        DocumentManager   $documentManager,
+        ActionRegistry    $registry
+    ) {
         $this->merger = $merger;
         $this->documentManager = $documentManager;
+        $this->registry = $registry;
     }
 
     /**
@@ -65,6 +76,26 @@ class WorkflowHandler
         $nextAction->setName($workflow['flows'][$currentActionName]['default_next']);
 
         return $nextAction;
+    }
+
+    /**
+     * Check if the configuration has sequential actions.
+     *
+     * @param Task $task
+     *
+     * @return boolean
+     */
+    public function hasSequentialAction(Task $task)
+    {
+        if (!$task->getConfiguration()) {
+            return false;
+        }
+
+        $sequentialActions = array_filter($task->getConfiguration()->getActions(), function ($action) {
+            return $this->registry->getAction($action['service'])->isSequential();
+        });
+
+        return sizeof($sequentialActions) > 0;
     }
 
     /**

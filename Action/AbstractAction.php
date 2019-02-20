@@ -92,6 +92,24 @@ abstract class AbstractAction implements ActionInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getTask()
+    {
+        return $this
+            ->taskLogProcessor
+            ->getTask();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isSequential()
+    {
+        return false;
+    }
+
+    /**
      * Get task configuration slug.
      *
      * @return string
@@ -99,7 +117,6 @@ abstract class AbstractAction implements ActionInterface
     protected function getTaskConfigurationSlug()
     {
         return $this
-            ->taskLogProcessor
             ->getTask()
             ->getTaskConfigurationSlug();
     }
@@ -112,7 +129,6 @@ abstract class AbstractAction implements ActionInterface
     protected function getName()
     {
         return $this
-            ->taskLogProcessor
             ->getTask()
             ->getCurrentAction()
             ->getName();

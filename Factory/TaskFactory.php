@@ -5,6 +5,7 @@ namespace IDCI\Bundle\TaskBundle\Factory;
 use Doctrine\ORM\EntityManager;
 use Ramsey\Uuid\Uuid;
 use IDCI\Bundle\TaskBundle\Document\Task;
+use IDCI\Bundle\TaskBundle\Handler\WorkflowHandler;
 
 class TaskFactory
 {
@@ -19,14 +20,20 @@ class TaskFactory
     private $taskConfigurationClass;
 
     /**
+     * @var WorkflowHandler
+     */
+    protected $workflowHandler;
+
+    /**
      * Constructor.
      *
      * @param string        $applicationName
      * @param string        $taskConfigurationClass
      */
-    public function __construct($applicationName, $taskConfigurationClass) {
+    public function __construct($applicationName, $taskConfigurationClass, WorkflowHandler $workflowHandler) {
         $this->applicationName        = $applicationName;
         $this->taskConfigurationClass = $taskConfigurationClass;
+        $this->workflowHandler        = $workflowHandler;
     }
 
     /**
@@ -42,6 +49,7 @@ class TaskFactory
         $taskConfiguration = isset($options['task_configuration']) ? $options['task_configuration'] : null;
         $processKey = isset($options['process_key']) ? $options['process_key'] : null;
         $taskCount = isset($options['task_count']) ? $options['task_count'] : null;
+        $source = $this->applicationName;
 
         if (null !== $taskConfiguration) {
             $extractedData = array();
@@ -55,14 +63,21 @@ class TaskFactory
                 $actionData = $options['data']['action_data'];
             }
 
-            return Task::createFromTaskConfiguration(
-                $this->applicationName,
+            $task = Task::createFromTaskConfiguration(
+                $source,
                 $processKey,
                 $taskCount,
                 $taskConfiguration,
                 $extractedData,
                 $actionData
             );
+
+            if ($this->workflowHandler->hasSequentialAction($task)) {
+                $source .= "-sequential";
+                $task->setSource($source);
+            }
+
+            return $task;
         }
 
         if (array_key_exists('action_service', $options)) {
@@ -77,7 +92,7 @@ class TaskFactory
             }
 
             return Task::createFromAction(
-                $this->applicationName,
+                $source,
                 $processKey,
                 $options['action_service'],
                 $options['data'],

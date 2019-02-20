@@ -48,6 +48,15 @@ class MyAction extends AbstractAction
 
         return $result;
     }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isSequential()
+    {
+        return true; // False by default
+    }
 }
 ```
 
@@ -55,6 +64,10 @@ Inside `configureOptions`, you can use the [Symfony OptionResolver component](ht
 and define the Action parameters.
 
 Inside `doExecute`, do whatever you want. In our example, we do a multiplication.
+
+Inside `isSequential`, you MUST return a boolean that tells if the action has to be runned sequentially. The business logic will handle automatically the way to run actions.
+By default an action is not sequential. This method was implemented because of TaskBundle allows to run actions concurrently. See https://stackoverflow.com/a/21363518.
+**Important** : If one action is sequential in the configuration. The whole workflow will be run in sequential mode.
 
 Register your class as a tagged service
 ---------------------------------------

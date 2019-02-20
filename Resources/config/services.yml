@@ -16,6 +16,7 @@ services:
         arguments:
             - "%application_name%"
             - "%idci_task.task_configuration_class%"
+            - "@idci_task.handler.workflow"
 
     ## Actions ##
     idci_task.action.abstract:
@@ -102,6 +103,7 @@ services:
         arguments:
             - "@twig"
             - "@doctrine.odm.mongodb.document_manager"
+            - "@idci_task.action_registry"
 
     idci_task.handler.task:
         class: IDCI\Bundle\TaskBundle\Handler\TaskHandler

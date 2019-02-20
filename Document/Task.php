@@ -262,6 +262,19 @@ class Task
     }
 
     /**
+     * Set source
+     *
+     * @param string $source
+     * @return $this
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
+    /**
      * Get source
      *
      * @return string $source

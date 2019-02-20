@@ -6,10 +6,9 @@
 
 namespace IDCI\Bundle\TaskBundle\Action;
 
-use Psr\Log\LoggerInterface;
-use IDCI\Bundle\TaskBundle\Exception\InvalidActionDataException;
 use IDCI\Bundle\TaskBundle\Document\Task;
 use IDCI\Bundle\TaskBundle\Monolog\Processor\TaskLogProcessor;
+use Psr\Log\LoggerInterface;
 
 interface ActionInterface
 {
@@ -50,4 +49,18 @@ interface ActionInterface
      * @return TaskLogProcessor
      */
     public function getTaskLogProcessor();
+
+    /**
+     * Get Task.
+     *
+     * @return Task
+     */
+    public function getTask();
+
+    /**
+     * Tells if the action must be started sequentially or concurrently
+     *
+     * @return bool
+     */
+    public function isSequential();
 }
