@@ -102,13 +102,13 @@ class ActionHandler
                 'parameters' => $task->getData()->getExtractedData(),
             );
         } else {
-            $currentAction = $task->getConfiguration()->getAction($task->getCurrentAction()->getName());
-
-            if (!array_key_exists('parameters', $currentAction)) {
-                $currentAction['parameters'] = array();
-            }
-
             try {
+                $currentAction = $task->getConfiguration()->getAction($task->getCurrentAction()->getName());
+
+                if (!array_key_exists('parameters', $currentAction)) {
+                    $currentAction['parameters'] = array();
+                }
+
                 // Merge the data with action configuration
                 $currentAction['parameters'] = $this->merge(
                     $currentAction['parameters'],
