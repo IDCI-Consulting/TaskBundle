@@ -14,12 +14,11 @@ class ActionNotFoundException extends \Exception
      * @param string $name
      * @param int $taskConfigurationSlug
      */
-    public function __construct($name, $taskConfigurationSlug)
+    public function __construct($name)
     {
         parent::__construct(sprintf(
-            'The action "%s" is not found in the task configuration "%s"',
-            $name,
-            $taskConfigurationSlug
+            'The action "%s" was not found',
+            $name
         ));
     }
 }
