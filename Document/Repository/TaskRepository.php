@@ -128,4 +128,41 @@ class TaskRepository extends DocumentRepository
             ->count()
         ;
     }
+
+    /**
+     * Remove tasks less than given date
+     *
+     * @param \DateTime $from
+     * @return array
+     */
+    public function removeFromDate(\DateTime $from)
+    {
+        return $this
+            ->createQueryBuilder()
+            ->remove()
+            ->field('created_at')
+            ->lte($from)
+            ->getQuery()
+            ->execute()
+        ;
+    }
+
+    /**
+     * Find all tasks that are not in the given configuration slugs
+     *
+     * @param array $slugs
+     * @return array
+     */
+    public function removeExceptBySlug(array $slugs)
+    {
+        return $this
+            ->createQueryBuilder()
+            ->remove()
+            ->field('task_configuration_slug')
+            ->notIn($slugs)
+            ->notEqual(null) // Avoid unconfigured task remove
+            ->getQuery()
+            ->execute()
+        ;
+    }
 }

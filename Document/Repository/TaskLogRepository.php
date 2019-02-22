@@ -52,4 +52,40 @@ class TaskLogRepository extends DocumentRepository
 
         return is_null($q)? array() : $q->execute();
     }
+
+    /**
+     * Find logs by the given task id
+     *
+     * @param string $taskId
+     *
+     * @return array
+     */
+    public function removeByTaskId($taskId)
+    {
+        $qb = $this->findByTaskIdQueryBuilder($taskId);
+
+        return $qb
+            ->remove()
+            ->getQuery()
+            ->execute()
+        ;
+    }
+
+    /**
+     * Remove tasks less than given date
+     *
+     * @param \DateTime $from
+     * @return array
+     */
+    public function removeFromDate(\DateTime $from)
+    {
+        return $this
+            ->createQueryBuilder()
+            ->remove()
+            ->field('datetime')
+            ->lte($from->format('Y-m-d H:i:s'))
+            ->getQuery()
+            ->execute()
+        ;
+    }
 }
