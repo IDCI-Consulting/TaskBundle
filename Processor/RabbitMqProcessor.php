@@ -76,12 +76,13 @@ class RabbitMqProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function startTask($actionService, $data = array())
+    public function startTask($actionService, $data = array(), $source = null)
     {
         $this->taskProducer->publish(
             serialize(array(
                 'action_service' => $actionService,
-                'data' => $data
+                'data' => $data,
+                'source' => $source,
             )),
             $this->applicationName
         );

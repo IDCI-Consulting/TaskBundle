@@ -19,9 +19,8 @@ class TaskConsumer implements ConsumerInterface
      *
      * @param TaskHandler $taskHandler
      */
-    public function __construct(
-        TaskHandler   $taskHandler
-    ) {
+    public function __construct(TaskHandler $taskHandler)
+    {
         $this->taskHandler = $taskHandler;
     }
 

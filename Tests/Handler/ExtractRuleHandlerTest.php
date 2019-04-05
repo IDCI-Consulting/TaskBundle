@@ -126,7 +126,7 @@ class ExtractRuleHandlerTest extends TestCase
 
         $extractRuleHandler = new ExtractRuleHandler(
             $this->extractRuleRegistry,
-            $this->eventDispatcher
+            $this->eventDispatcher,
         );
 
         $extractRuleHandler->execute($this->taskConfiguration);

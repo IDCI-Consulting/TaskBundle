@@ -49,7 +49,7 @@ class TaskFactory
         $taskConfiguration = isset($options['task_configuration']) ? $options['task_configuration'] : null;
         $processKey = isset($options['process_key']) ? $options['process_key'] : null;
         $taskCount = isset($options['task_count']) ? $options['task_count'] : null;
-        $source = $this->applicationName;
+        $source = isset($options['source']) ? $options['source'] : $this->applicationName;
 
         if (null !== $taskConfiguration) {
             $extractedData = array();
@@ -91,13 +91,15 @@ class TaskFactory
                 unset($options['data']['task_configuration_slug']);
             }
 
-            return Task::createFromAction(
+            $task = Task::createFromAction(
                 $source,
                 $processKey,
                 $options['action_service'],
                 $options['data'],
                 $taskConfigurationSlug
             );
+
+            return $task;
         }
 
         throw new \InvalidArgumentException('The task factory could not create a task with these options');

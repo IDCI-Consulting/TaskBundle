@@ -5,6 +5,7 @@ namespace IDCI\Bundle\TaskBundle\Tests\Handler;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use IDCI\Bundle\TaskBundle\Document\Action;
 use IDCI\Bundle\TaskBundle\Handler\WorkflowHandler;
+use IDCI\Bundle\TaskBundle\Action\ActionRegistry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,7 +20,12 @@ class WorkflowHandlerTest extends TestCase
             ->getMock()
         ;
 
-        $this->workflowHandler = new WorkflowHandler(new \Twig_Environment(new \Twig_Loader_Array()), $dm);
+        $registry = $this->getMockBuilder(ActionRegistry::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->workflowHandler = new WorkflowHandler(new \Twig_Environment(new \Twig_Loader_Array()), $dm, $registry);
     }
 
     public function testGetNextActions()
