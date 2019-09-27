@@ -28,6 +28,8 @@ old_sound_rabbit_mq:
                     - '%application_name%'
             callback:         "idci_task.service.consumer.action"
             qos_options:      {prefetch_size: 0; prefetch_count: 1, global: false}
+            graceful_max_execution:
+                timeout: 1800 # 30 minutes
         sequential:
             connection:       "default"
             exchange_options: {name: "action_exchange", type: "direct"}
@@ -37,6 +39,8 @@ old_sound_rabbit_mq:
                     - "%application_name%-sequential"
             callback:         "idci_task.service.consumer.action"
             qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
+            graceful_max_execution:
+                timeout: 1800 # 30 minutes
         extract_rule:
             connection:       "default"
             exchange_options: {name: "extract_rule_exchange", type: "direct"}
@@ -46,6 +50,8 @@ old_sound_rabbit_mq:
                     - '%application_name%'
             callback:         "idci_task.service.consumer.extract_rule"
             qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
+            graceful_max_execution:
+                timeout: 1800 # 30 minutes
         task:
             connection:       "default"
             exchange_options: {name: "task_exchange", type: "direct"}
@@ -55,6 +61,8 @@ old_sound_rabbit_mq:
                     - '%application_name%'
             callback:         "idci_task.service.consumer.task"
             qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
+            graceful_max_execution:
+                timeout: 1800 # 30 minutes
 
 doctrine_mongodb:
     default_database: %task_mongo_database_name%
